@@ -1,0 +1,21 @@
+TRN-416 data room — build notes (build-time only; nothing here is mounted)
+
+CONTENTS
+  data_room/   13 files. This is the mounted room.
+  build/       scripts and digitised source values. Not mounted.
+
+SOURCES (build-time only, never mounted)
+  expression table .xlsx   -> room record 1 after flattening, provenance strip, donor rename
+  main publication PDF     -> companion-document methods; Fig 1C/1D/1E, 2A, 2C, 3A/3B/3C, 7B values
+  supplementary PDF        -> Fig S2 counts, Fig S3 itaconate, data-file legend
+
+DIGITISATION
+  All figure values re-digitised at 400 dpi (pdftoppm) with bottom-anchored bar-top
+  detection and tick-mark axis calibration. build/digit.py carries the extractor,
+  build/anchors.py the extracted values. Error bars are SEM read from the whisker stem.
+
+REBUILD
+  python3 build/build_records.py      # records 1-12
+  python3 build/build_companion.py    # record 13, the companion PDF
+  python3 build/assert_room.py        # mechanical assertions, exits 1 on any failure
+  python3 build/recompute_from_room.py  # golden quantities, read from data_room only
