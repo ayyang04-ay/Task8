@@ -48,5 +48,6 @@ The following are examples of acceptable variations that should not affect the s
 - Which branch of the compartment disjunction is described first, provided neither is presented as resolved.
 - Additional proposed studies beyond those required, and additional readouts within a proposed study.
 - Flagging repeated or implausible values in the summary records as a data-quality observation and proceeding, or not raising them at all. Declining to proceed at all on data-integrity grounds is not neutral and is a failure to deliver what was asked.
-- Bringing in external knowledge about activation-induced FOXP3 in conventional CD4 cells, about IL-2 consumption by Tregs, or about division timing, where it is identified as external rather than attributed to the package.
+- Whether relevant domain knowledge is explicitly labelled as coming from outside the package or simply applied, provided it is not presented as though it were a finding in the mounted files. Applying it is expected; only attributing it to a file that does not contain it is a defect.
+- Bringing in further outside knowledge beyond what the required items call for, such as IL-2 consumption by Tregs or division timing, and whether the attempt does so at all.
 - Length, layout, headings, bullets or prose.

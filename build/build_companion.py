@@ -199,7 +199,8 @@ A(kv([('Arms', f'Each donor preparation was split into two wells. One well recei
       ('Donor material','Nondiabetic blood donors')]))
 A(H2('9.2 Sample handling'))
 A(grid(['Step','Condition'], [
-  ['Harvest time after addition of test article','1 h'],
+  ['Harvest time after addition of test article','10 h'],
+  ['Interval from harvest to RNA stabilisation','1 h'],
   ['Wash','Two washes in calcium- and magnesium-free phosphate-buffered saline, 300 g for 5 min'],
   ['RNA isolation','RNeasy Plus Mini Kit, following the instructions of the manufacturer'],
   ['Quantification','NanoDrop spectrophotometer'],

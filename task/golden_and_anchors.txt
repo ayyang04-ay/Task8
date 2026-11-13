@@ -42,7 +42,7 @@ The molecule is not in question. K_D 1.2 nM by surface plasmon resonance with a 
 
 === GOLDEN, SECTION 3, THE STUDIES: NUMERIC UPDATES ONLY ===
 The studies table a to f is unchanged in substance. Two of the necessitating findings carry corrected numbers.
-Study a, the single concurrent expansion experiment: the finding that necessitates it is the 2.333x spread in the zero-dose condition across records 2, 4, 5 and 6, not 1.504x.
+Study a, the single concurrent expansion experiment: the finding that necessitates it is that the nearest available baseline replicate, records 2 and 6 at 10.622 and 8.660 percent, differ by 1.227x against an effect of 1.3038x, together with the companion document contradicting record 5 on the base IL-2 concentration. It is not a 1.504x spread and it is not a 2.333x spread.
 Study b, the paired mixed and isolated culture arms with a timepoint at or past the expansion endpoint: the findings that necessitate it are the 1.082x composition ceiling at 10 hours and the 10.622% Treg frequency.
 Studies c, d, e and f are unchanged.
 
@@ -69,3 +69,8 @@ The compartment branch figure of 21.8 percent imported a Treg frequency from a s
 Cross-linker independence was a non sequitur. Every well in that record contains the cross-linking reagent and there is no zero-cross-linker arm, so the record cannot establish independence from it. Claim removed.
 IKZF2, encoding Helios, is in the panel at 2.8931-fold in 12 of 12 donors, so "no discriminating marker beyond FOXP3" was too strong. The golden now states that the panel carries one contested discriminator and still cannot settle the question.
 The cross-linking study states that 24, 48 and 72 hours were examined, so "no timepoint beyond 48 hours anywhere" was wrong. The correct statement is that no result beyond 48 hours is tabulated and there is no withdrawal design.
+
+
+=== REVISION 4, 2026-11-13. TWO WRITER DECISIONS APPLIED ===
+The expression harvest time is now unambiguous. The sample-handling table previously carried "Harvest time after addition of test article: 1 h" against a narrative stating 10 hours, which made a 1 hour reading defensible and made three grader items unfair. The table row now reads 10 h, and the 1 h figure survives as a different quantity, the interval from harvest to RNA stabilisation, which does not compete with it. Ten hours is the only defensible reading.
+The grader's neutral list no longer declares the required domain knowledge score-neutral. Applying relevant domain knowledge is expected and is required by the Treg-identification items. What the neutral item now governs is attribution: labelling outside knowledge as outside is optional, presenting it as a finding in a mounted file is a defect. Further optional outside knowledge, IL-2 consumption and division timing, is separately listed as neutral.
