@@ -1,0 +1,52 @@
+ANTON TASK qu50cce7 — TRN-416. GOLDEN AND ANCHOR TABLE, REVISION 2.
+Every figure below was recomputed on 2026-11-13 from the shipped data room, after its last edit. Source: build/recompute_from_room.py, output in build/recompute_output.txt.
+The substantive change is to P4. The brief's cross-run anchor read 7.05 / 8.65 / 10.6 / 10.25 for a 1.504x spread. The 7.05 is the IL-2 panel's plateau, not its zero-dose condition. The true spread is 2.333x and P4 is stronger than specified. Everything else moves only in the third decimal place.
+
+=== ANCHOR TABLE, REPLACEMENT ROWS ===
+value                                                  establishes                                 record     steps
+Treg 10.622 -> 13.849% at 2.5 ug/ml                    real vehicle-controlled effect, 1.3038x     2          1 digitized
+Treg counts 2029 -> 2965 at 48 h                       expansion magnitude, 1.4613x                7          1 digitized
+rate 0.007903/h -> 1.082x bound at 10 h                THE decisive reclassification               derived 2+7  2
+zero-dose condition 10.622 / 10.290 / 8.660 / 4.553    runs do not share a scale, 2.333x spread    2,4,5,6    2
+Treg frequency 10.622%                                 the composition denominator                 2          0
+FOXP3 2.8383x paired, 12/12, sign p 0.0005             magnitude against the bound                 1          1
+IL10 0.1819x, IL4 0.2280x, CTLA4 0.8558x,              effectors do not track identity markers     1          1
+PDCD1 0.7760x all 0/12; TGFB1 1.0300x 8/12 p 0.388
+suppression arms 1:0, 4:1, 2:1, 1:1                    the absent comparator                       8          0
+suppression 83.66 / 73.01 / 64.09 / 49.41%             the cells suppress                          8          1 digitized
+ETS1 1.0703x 9/12 p 0.146, induction 16132 reads       headline gene fails paired test              1          1
+IL7R 0.5184x 7/12 p 0.774                              headline gene fails paired test              1          1
+MDH2 pooled 1.2187x vs paired 0.8537x 1/12             leverage reversal on DN-04 at 7.394x        1          1
+K_D 1.2 nM, no TNFR1 binding                           the molecule is good                        9,10       0
+70-gene list, no competing-lineage TF,                 panel cannot discriminate                   1          0 absence
+no proliferation marker
+
+=== WHAT CHANGED, AND WHY ===
+The four zero-dose conditions are: record 2 (asset dose, nondiabetic, n=13) 10.622%; record 4 (asset dose with TNF added, n=3) 10.290%; record 6 (TNF dose, n=8) 8.660%; record 5 (IL-2 dose, n=7) 4.553%. Spread 10.622 / 4.553 = 2.333x.
+The effect being compared against that spread is 1.3038x. The effect is now a little over half the between-run spread, where the brief had it slightly below. P4 carries more weight than it was given.
+The foreclosing fact is mounted and is not a donor-cohort argument. The companion document states that all cell culture experiments included low-level IL-2 at 200 U/ml in the media. Record 5 titrates added IL-2 from 0 U/ml and reads 4.553% at that zero point, then sits flat at 7.06 to 7.11% across every non-zero dose including 200 U/ml. Those two statements cannot both describe the same scale. A solver who compares endpoint percentages across records without reconciling them is comparing incommensurable baselines.
+The kinetics bound moves from 1.08x to 1.082x and the rate from 0.00793 to 0.007903 per hour. The band should now be stated as 1.00 to 1.09 rather than 1.00 to 1.15. The brief's 1.15 was padding that 400 dpi digitisation no longer needs.
+
+=== GOLDEN, SECTION 2, REPLACEMENT TEXT ===
+Expansion is real against the vehicle condition. Treg frequency moves from 10.622% to 13.849% at 2.5 ug/ml, a factor of 1.3038, and absolute Treg counts move from 2029 to 2965 cells over the same dose step, a factor of 1.4613. Both are dose-ordered and both are vehicle-controlled within their own record.
+The records do not share a scale. The zero-dose condition reads 10.622%, 10.290%, 8.660% and 4.553% across records 2, 4, 6 and 5, a spread of 2.333x. That spread is larger than the effect it would have to contain. The companion document states that all culture experiments carried IL-2 at 200 U/ml while record 5 titrates added IL-2 from zero, so the baselines are not commensurable and no comparison of this asset against another expansion agent is supported by the package.
+The kinetics bound. Taking the count change as exponential from t=0, the rate is ln(2965/2029)/48 = 0.007903 per hour. At the 10 hour sequencing timepoint that gives a composition multiplier of at most 1.082. State this as a band of 1.00 to 1.09, not as a point value: any lag before division begins pushes it toward 1.00, which is conservative in the direction that matters. The bound is a ceiling on composition only if total CD4 is non-decreasing over the interval; records 2 and 7 together recover relative total CD4 at 48 hours but not its direction from t=0, so the assumption must be stated rather than assumed away. Against that ceiling, the FOXP3 change of 2.8383x means at least 2.62x of it is transcriptional and cannot be composition.
+The compartment disjunction, stated as a disjunction and not resolved. Treg frequency at the zero-dose condition is 10.622%. Confining the FOXP3 change to Tregs requires a 2.84x rise per Treg. Placing it in conventional cells requires them to reach 21.8% of the per-Treg FOXP3 level to produce the same bulk change. Both are feasible. Bulk sequencing of a mixed CD4 preparation cannot assign the change to either compartment, and the package contains nothing that does.
+Functional capacity is not measured. Record 8 reads 83.66, 73.01, 64.09 and 49.41 percent CD8 division across responder:Treg ratios of 1:0, 4:1, 2:1 and 1:1 with n=7. That establishes the added cells suppress. It does not establish per-cell capacity, because every arm received cells expanded with TRN-416 at 2.5 ug/ml and the only contrast in the design is Treg dose.
+Effectors move opposite to the identity markers. IL10 0.1819x, IL4 0.2280x, CTLA4 0.8558x and PDCD1 0.7760x are all down in 12 of 12 donors; TGFB1 is 1.0300x at 8 of 12 and not supported.
+Admissibility. The design is paired within donor, so paired analysis is the only admissible route. Values are already normalized and are non-integer, so renormalization is neither available nor needed. Under that scope ETS1 is 1.0703x at 9 of 12, sign p 0.146, and IL7R is 0.5184x at 7 of 12, sign p 0.774; neither is supported. MDH2 reverses: pooled 1.2187x against paired 0.8537x at 1 of 12, the reversal carried by DN-04 at 7.394x.
+The absolute induction criterion stated in the companion document admits 13 of the 70 transcripts. Applied consistently it excludes GLS2 at 3.0508x in 12 of 12 donors, CPT1B at 1.2696x in 12 of 12, and IL2 at 1.8958x in 12 of 12, whose mean absolute inductions are 17.5, 16.9 and 8.4 normalized reads. It admits exactly one gene that the paired test rejects, and that gene is ETS1, which carries the largest absolute induction on the panel at 16132 reads while failing the sign test at p 0.146. The criterion and the paired test disagree on one gene and it is a headline gene.
+The panel cannot discriminate. The 70 transcripts carry no transcription factor of a competing CD4 lineage and no proliferation marker, so the data cannot distinguish a Treg program from broad activation and cannot report on division.
+The molecule is not in question. K_D 1.2 nM by surface plasmon resonance with a clean 1:1 fit, no TNFR1 binding on the counter-screen, activity retained by the F(ab')2 fragment and without a cross-linking agent, and a dose-ordered sTNFR2 signal.
+
+=== ESCAPE / FORECLOSURE, REPLACEMENT ROW ===
+the asset beats IL-2 | endpoint percentages differ | the zero-dose condition reads 4.553 to 10.622 across the four records, against a stated 200 U/ml IL-2 in all media | records 2,4,5,6 and the companion document
+
+=== PILLAR P4, REPLACEMENT LINE ===
+P4 experiments do not share a scale; the between-run spread at the zero-dose condition is 2.333x against an effect of 1.3038x, and the medium composition stated in the companion document contradicts the IL-2 titration in record 5.
+
+=== GRADER, ITEMS TO ADD ===
+A: add -- States the kinetics bound as a band rather than a point value, and states the assumption it rests on.
+A: add -- Identifies that the zero-dose condition is not common across the records and declines to compare endpoint percentages across them.
+B: add -- Reports the composition bound as a point value with no band.
+B: add -- Treats the absolute induction criterion as validating ETS1 without running a paired test under the stated normalization scope.

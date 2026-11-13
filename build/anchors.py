@@ -1,7 +1,7 @@
 # Values digitized at 400 dpi from the build-time source figures.
 # Nothing in this file is mounted; it is build input only.
 
-SPONSOR = "Torenia Biosciences"
+SPONSOR = "Client (proprietary)"
 ASSET   = "TRN-416"
 DONORS  = [f"DN-{i:02d}" for i in range(1, 13)]
 
@@ -54,22 +54,24 @@ R12B = dict(n=3,
   mean=[9.24,10.07,10.34,11.73,12.67,12.14,12.40,12.91],
   sem =[0.16,None,None,0.13,None,0.12,0.56,None])
 
-# ---- Record 12c: sTNFR2 in culture supernatant, per-donor, n=10 per arm (pg/ml)
-R12C = {
- "IL-2 200 U/ml":      [5.9,16.8,23.0,34.8,59.5,88.0,90.4,195.6,279.2,318.8],
- "TNF 20 ng/ml":       [59.8,105.0,113.3,124.5,166.3,215.3,283.5,313.5,318.2,359.6],
- "TRN-416 12.5 ug/ml": [180.2,208.6,221.3,240.8,277.9,370.2,390.6,429.6,445.0,471.6],
-}
+# ---- Record 12c: sTNFR2 in culture supernatant, n=10 per arm (pg/ml)
+# Group means read directly from the mean line drawn on the source panel.
+# No per-sample list: 28 of 30 individual points resolve, two do not, and
+# reconstructing those two by subtraction would be invented data.
+R12C = {"IL-2 200 U/ml": 111.2, "TNF 20 ng/ml": 205.9, "TRN-416 2.5 ug/ml": 323.7}
+R12C_N = 10
 
 # ---- Record 12d: NF-kB pathway array, 6 h, n=7, relative quantitation vs IL-2-only wells
+# FLOOR = top of the bar sits at or below 0.75, the lower limit of the plotted range.
+FLOOR = 0.75
 R12D = [("RPLP0",1.124),("HMBS",1.086),("BIRC2",1.291),("BIRC3",2.099),("CHUK",1.447),
  ("IKBKB",0.909),("IKBKE",1.607),("IKBKG",1.318),("JUN",1.107),("LTA",2.656),
- ("MAP3K1",None),("MAP3K11",0.786),("MAP3K12",None),("MAP3K14",1.628),("MAP3K2",1.164),
- ("MAP3K3",1.021),("MAP3K4",1.151),("MAP3K5",1.023),("MAP3K7",None),("MAP3K8",2.012),
+ ("MAP3K1",FLOOR),("MAP3K11",0.786),("MAP3K12",FLOOR),("MAP3K14",1.628),("MAP3K2",1.164),
+ ("MAP3K3",1.021),("MAP3K4",1.151),("MAP3K5",1.023),("MAP3K7",0.907),("MAP3K8",2.012),
  ("MAP3K9",1.250),("MAPK8",0.831),("MAPK9",0.928),("NFKB1",1.504),("NFKB2",1.877),
  ("NFKBIA",2.006),("NFKBIB",1.493),("NFKBIE",1.820),("REL",1.710),("RELA",1.225),
- ("RELB",2.573),("TANK",2.683),("TBK1",1.291),("TNF",0.852),("TNFAIP3",None),
- ("TNFRSF1B",0.894),("TRAF1",1.417),("TRAF2",1.187),("TRAF3",None)]
+ ("RELB",2.573),("TANK",2.683),("TBK1",1.291),("TNF",0.852),("TNFAIP3",FLOOR),
+ ("TNFRSF1B",0.894),("TRAF1",1.417),("TRAF2",1.187),("TRAF3",FLOOR)]
 
 # ---- Record 12e: itaconate in culture supernatant, 6 h (scaled intensity)
 DOSE_ITA = [0, 0.5, 2.5]

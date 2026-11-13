@@ -38,6 +38,7 @@ BANNED = {
  'source authors/institutions':[r'\bTorrey\b', r'\bFaustman\b', r'\bDana[- ]Farber\b', r'\bDFCI\b',
                                 r'\bBioMicro\b', r'Massachusetts Institute'],
  'original donor labels':[r'\bSubject \d', r'\bSubject\b'],
+ 'retired sponsor name':[r'\bTorenia\b', r'\bTOR-(?:HS|IACUC)\b', r'\bHurlow\b'],
 }
 for label,pats in BANNED.items():
     for pat in pats:

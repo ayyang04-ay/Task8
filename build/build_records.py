@@ -256,25 +256,26 @@ def rec12():
         ('Collection window','24 to 42 hours of incubation'),
         ('Capture plates','Commercial plates and custom plates coated with 2 ug per well anti-TNFR2'),
         ('Reader','SpectraMax 190, absorbance 450 nm'),
-        ('Samples (n)',10),('Units','pg/ml')]: ws.append([k,v])
+        ('Samples (n)',A.R12C_N),('Units','pg/ml'),
+        ('Summary statistic','mean')]: ws.append([k,v])
     ws.append([]); r=ws.max_row+1
-    ws.append(['Donor index']+list(A.R12C.keys()))
+    ws.append(['Condition','sTNFR2 mean (pg/ml)','Samples (n)'])
     for c in ws[r]: c.font=B
-    cols=list(A.R12C.values())
-    for i in range(10): ws.append([i+1]+[cols[j][i] for j in range(3)])
+    for k,v in A.R12C.items(): ws.append([k, v, A.R12C_N])
 
     ws = wb.create_sheet('nfkb_array')
     for k,v in [('Study code','TRN416-AR-012D'),('Sponsor',A.SPONSOR),
         ('Platform','TaqMan Array Human NF-kB Pathway 96-well plate, Applied Biosystems'),
         ('Treatment','TRN-416 2.5 ug/ml'),('Incubation','6 h'),
-        ('Comparator wells','IL-2 only, same donor, same plate'),
+        ('Paired wells','IL-2 only, same donor preparation, same plate'),
         ('Samples (n)',7),
         ('Reported quantity','Relative quantitation, IL-2-only wells set to 1.000'),
-        ('Undetermined','Wells with no amplification within 40 cycles')]: ws.append([k,v])
+        ('Lower limit of reported range','0.75')]: ws.append([k,v])
     ws.append([]); r=ws.max_row+1
-    ws.append(['Gene','IL-2 only (RQ)','TRN-416 (RQ)'])
+    ws.append(['Gene','IL-2 only (RQ)','TRN-416 (RQ)','Flag'])
     for c in ws[r]: c.font=B
-    for g,v in A.R12D: ws.append([g,1.000, v if v is not None else 'Undetermined'])
+    for g,v in A.R12D:
+        ws.append([g, 1.000, v, 'at or below lower limit of reported range' if v==A.FLOOR else None])
 
     ws = wb.create_sheet('itaconate_supernatant')
     for k,v in [('Study code','TRN416-MB-012E'),('Sponsor',A.SPONSOR),

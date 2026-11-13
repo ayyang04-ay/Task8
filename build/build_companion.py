@@ -8,7 +8,7 @@ from reportlab.platypus import (BaseDocTemplate, PageTemplate, Frame, Paragraph,
                                 Spacer, Table, TableStyle, KeepTogether)
 
 OUT = '/home/user/Task8/data_room/TRN416_nonclinical_study_summary.pdf'
-SP, AS = 'Torenia Biosciences', 'TRN-416'
+SP, AS = 'Client (proprietary)', 'TRN-416'
 
 ss = dict(
  H1=ParagraphStyle('H1', fontName='Helvetica-Bold', fontSize=13, leading=16, spaceBefore=12, spaceAfter=5),
@@ -47,9 +47,9 @@ def onpage(c, d):
     c.saveState()
     c.setFont('Helvetica', 7)
     c.setFillColor(colors.HexColor('#555555'))
-    c.drawString(20*mm, 287*mm, f'{SP}  |  Non-clinical study summary  |  {AS}  |  TRN-DOC-0416-07  Rev 3')
+    c.drawString(20*mm, 287*mm, f'Non-clinical study summary  |  {AS}  |  TRN-DOC-0416-07  Rev 3  |  Client proprietary')
     c.drawRightString(190*mm, 12*mm, f'Page {c.getPageNumber()}')
-    c.drawString(20*mm, 12*mm, 'Confidential — internal programme review')
+    c.drawString(20*mm, 12*mm, 'Confidential — client proprietary')
     c.setStrokeColor(colors.HexColor('#999999')); c.setLineWidth(0.4)
     c.line(20*mm, 285*mm, 190*mm, 285*mm)
     c.restoreState()
@@ -59,17 +59,16 @@ A = F.append
 
 # ---------------------------------------------------------------- title
 A(Spacer(1, 16*mm))
-A(Paragraph(SP, ss['ST']))
-A(Spacer(1, 4*mm))
 A(Paragraph('Non-clinical Study Summary', ss['T']))
 A(Paragraph(f'Test article {AS} — in vitro pharmacology, binding and selectivity', ss['ST']))
 A(Spacer(1, 7*mm))
 A(kv([('Document number','TRN-DOC-0416-07'),('Revision','3'),
+      ('Sponsor','Client. Sponsor identity withheld as proprietary.'),
       ('Compiled for','Programme review'),('Document owner','Non-clinical Sciences'),
       ('Test article',f'{AS} (anti-human TNFRSF1B monoclonal antibody)'),
       ('Studies covered','TRN416-FC-002 to FC-008, FC-012A, FC-012B, EL-012C, AR-012D, MB-012E, RS-001, BP-009, BP-010, BP-011'),
-      ('Donor consent protocol','TOR-HS-2019-114'),
-      ('Animal use protocol','TOR-IACUC-2016-041'),
+      ('Donor consent protocol','HS-2019-114'),
+      ('Animal use protocol','IACUC-2016-041'),
       ('Scope','Methods and conditions as performed. Tabulated results are held in the accompanying data files.')]))
 A(Spacer(1, 5*mm))
 
@@ -103,7 +102,7 @@ A(kv([
 
 # ---------------------------------------------------------------- 3
 A(H1('3. Donor material and cell isolation'))
-A(P('Peripheral whole blood was drawn into K2-EDTA (purple top) tubes. Donors provided written informed consent under protocol TOR-HS-2019-114. Donor material is described in each study section as nondiabetic blood donors or as donors with type 1 diabetes.'))
+A(P('Peripheral whole blood was drawn into K2-EDTA (purple top) tubes. Donors provided written informed consent under protocol HS-2019-114. Donor material is described in each study section as nondiabetic blood donors or as donors with type 1 diabetes.'))
 A(H2('3.1 CD4+ T cell isolation'))
 A(P('Whole blood was washed twice with 1x Hanks’ balanced salt solution containing 2% fetal bovine serum. CD4+ T cells were isolated by immunomagnetic negative selection using the EasySep Direct Human CD4+ T Cell Isolation Kit, following the instructions of the manufacturer. In brief, 1200 microlitres of Isolation Cocktail and 1200 microlitres of RapidSpheres were combined with 24 ml of whole blood in a 50 ml centrifuge tube and incubated for 5 minutes at room temperature. Twenty-four millilitres of calcium- and magnesium-free phosphate-buffered saline were added and the tube was placed in an Easy 50 EasySep magnet, immobilising the unwanted cells against the wall of the tube. After 10 minutes the enriched suspension was transferred to a fresh tube and the magnetic separation was repeated for 5 minutes with fresh RapidSpheres. The suspension was transferred again and purified a third time in the magnet.'))
 A(P('The purity of the final CD4+ T cell preparation was greater than 95% as assessed by flow cytometry. Cell recovery was counted on a hemocytometer with trypan blue exclusion; viability was above 92% in all preparations released to study.'))
@@ -223,7 +222,7 @@ A(kv([('Alignment reference','Human genome assembly HG19'),
 
 # ---------------------------------------------------------------- 10
 A(H1('10. Study TRN416-BP-009: binding kinetics by surface plasmon resonance'))
-A(kv([('Service provider','Contract biophysics laboratory (Hurlow Analytical)'),
+A(kv([('Service provider','Contract biophysics laboratory'),
  ('Instrument','Biacore 3000'),('Sensor chip','BioCap'),
  ('Analyte','Recombinant human TNFR2 extracellular domain'),
  ('Ligand preparation', f'{AS} was biotinylated at 5:1 stoichiometry with biotinyl-LC-LC-NHS in phosphate-buffered saline. Excess biotinylating reagent was removed by centrifugation chromatography.'),

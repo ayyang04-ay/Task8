@@ -1,0 +1,81 @@
+==========================================================================
+A. EXPANSION, VEHICLE-CONTROLLED
+==========================================================================
+  record 2 (n=13): 0 ug/ml = 10.622%   2.5 ug/ml = 13.849%   ratio = 1.3038
+  record 7 (n=11): 0 ug/ml = 2029 cells  2.5 ug/ml = 2965 cells  ratio = 1.4613
+
+==========================================================================
+B. KINETICS BOUND (records 2 + 7)
+==========================================================================
+  exponential rate from 0->48 h   = 0.007903 /h
+  implied multiplier at  6 h       = 1.0486
+  implied multiplier at 10 h       = 1.0822
+  implied multiplier at 24 h       = 1.2088
+  BAND for the 10 h timepoint     = 1.00 (any lag) to 1.082
+
+==========================================================================
+C. CROSS-RUN SCALE: zero-dose / no-added-agent condition
+==========================================================================
+   10.622%   rec2 asset dose, nondiabetic, n=13
+   10.290%   rec4 asset dose + TNF, n=3
+    4.553%   rec5 IL-2 dose, n=7
+    8.660%   rec6 TNF dose, n=8
+  spread = 10.622 / 4.553 = 2.3330x
+  effect being compared against it (record 2) = 1.3038x
+
+==========================================================================
+D. COMPOSITION DENOMINATOR AND THE DISJUNCTION
+==========================================================================
+  Treg fraction at 0 ug/ml = 10.622%
+  If the whole FOXP3 change is Treg-intrinsic: per-Treg rise needed = 2.8383x
+  If it sits in conventional cells: they must reach 21.8% of the per-Treg level to produce the same bulk change
+
+==========================================================================
+E. PAIRED EXPRESSION (record 1)
+==========================================================================
+  gene        n  paired GM    up/n   sign p   pooled
+  FOXP3      12     2.8383  12/12    0.0005   2.9733
+  IL10       12     0.1819   0/12    0.0005   0.1980
+  IL4        12     0.2280   0/12    0.0005   0.2213
+  CTLA4      12     0.8558   0/12    0.0005   0.8637
+  PDCD1      12     0.7760   0/12    0.0005   0.8024
+  TGFB1      12     1.0300   8/12    0.3877   1.0159
+  ETS1       12     1.0703   9/12    0.1460   1.3526
+  IL7R       12     0.5184   7/12    0.7744   0.7036
+  MDH2       12     0.8537   1/12    0.0063   1.2187
+  GLS2       12     3.0508  12/12    0.0005   3.0682
+  IL2        12     1.8958  12/12    0.0005   1.6196
+  CPT1B      12     1.2696  12/12    0.0005   1.2647
+  MDH2 reversal: pooled 1.2187 vs paired 0.8537; leverage donor DN-04 at 7.394x
+
+==========================================================================
+F. ABSOLUTE 1200-READ CRITERION APPLIED CONSISTENTLY
+==========================================================================
+  genes meeting the criterion: 13 of 70
+  excluded despite a large paired ratio:
+    GLS2      paired GM 3.051  mean absolute induction      17.5
+    IL1B      paired GM 2.370  mean absolute induction     373.3
+    CXCR3     paired GM 2.040  mean absolute induction     163.4
+    IL2       paired GM 1.896  mean absolute induction       8.4
+    PDCD1LG2  paired GM 1.783  mean absolute induction      53.3
+  included but failing the paired sign test:
+    ETS1      absolute induction   16132.2  paired GM 1.070  9/12  p=0.146
+
+==========================================================================
+G. SUPPRESSION ARMS (record 8)
+==========================================================================
+  Added cells: CD4+ cultures expanded with TRN-416 2.5 ug/ml for 48 h, all arms
+  Samples (n): 7
+  ratio    added cells   % CD8 division
+  1:0               0    83.66 +/- 9.71
+  4:1           12500    73.01 +/- 8.52
+  2:1           25000    64.09 +/- 11.29
+  1:1           50000    49.41 +/- 10.73
+  every ratio uses asset-expanded cells; the only contrast is Treg dose
+
+==========================================================================
+H. PANEL CONTENT (record 1)
+==========================================================================
+  unique genes: 70
+  competing-lineage TF present: none
+  proliferation marker present: none
