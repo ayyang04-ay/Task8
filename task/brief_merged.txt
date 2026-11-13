@@ -1,0 +1,201 @@
+# Anton Task Brief — TRN-416 TNFR2 agonist, advancement call
+RLS short ID: qu50cce7   RLS URL ID: task_1665bc436cf34a3389385f7fcc62f278
+Phase 1, lead optimisation and candidate selection.
+MERGED 2026-11-13. Revisions 1 to 4 folded in. Changes from the original are marked [REV].
+
+## 1. THE PROMPT
+
+### Scene
+Fictional client. Asset is a TNFR2 agonist antibody renamed TRN-416; the original clone code does not survive anywhere. Indication T1D and related autoimmunity. The firm has been asked for an independent read on the client's package before they commit to IND-enabling work. Competitive context, no approved agonist on this receptor and nobody known past early development, sits in the scene as a business fact and is what makes advancement a live answer.
+[REV] The sponsor is no longer named. The companion document withholds the client's identity as proprietary. The allocated toxicology slot was removed from the scene by writer decision; the hedge is foreclosed by the ask for studies with named comparators rather than by the scene, and the brief's own hedge mode is defined that way.
+
+### What the answer must carry
+Advancement recommendation in the solver's own words, leading. What the next studies must establish and what each must be compared against, or what would have to be shown to bring the asset back. Every claim grounded and cited to the file it sits in, with the derivation described. What was examined and set aside, and why.
+No output file, no path, no .md output.
+
+### Out-of-scope constraint
+None. Removed by writer decision. Do not reinstate. Consequence accepted: the studies ask may draw some protocol detail, which is not penalised.
+
+### Prompt draft
+Shipped text is task/prompt.txt, 252 words, flat text. Audit in build/prompt_audit.txt.
+
+## 2. THE DATA ROOM
+
+### Manifest
+No .md files anywhere. No publication mounted. Thirteen files, all prefixed TRN416.
+1  expression table        70 genes x 12 donors x 2 arms, normalized reads, FLAT, sorted alphabetically
+2  flow summary            Treg % by asset dose, nondiabetic donors, 48 h, n=13
+3  flow summary            Treg % by asset dose, T1D donors, 48 h, n=11
+4  flow summary            Treg % by asset dose with added TNF, 48 h, n=3
+5  flow summary            Treg % by IL-2 dose, 48 h, n=7
+6  flow summary            Treg % by TNF dose, 48 h, n=8
+7  cell count export       absolute Treg counts by dose, 48 h, n=11
+8  suppression export      % CD8 division at 1:0, 4:1, 2:1, 1:1, n=7, all arms asset-expanded
+9  SPR record              kinetics, capture levels, K_D 1.2 nM
+10 ELISA counter-screen    TNFR2 and TNFR1 binding
+11 epitope mapping export  CLIPS peptides and affinities
+12 ancillary functional    F(ab')2 n=5, cross-linker n=3, sTNFR2 n=10, NF-kB array n=7, itaconate
+13 companion document      PDF, non-clinical study summary, client proprietary
+[REV] Records 2 to 8 ship as summary tables, not per-donor rows, because the source publishes only mean and SEM for them. Record 1 is the only per-donor data. Fabricating per-donor distributions would have risked manufacturing findings the golden does not predict.
+[REV] Record 1 is sorted alphabetically. Flattening alone leaves the source's pathway grouping visible in row order; sorting destroys it.
+
+### Renaming map
+original clone code TY101-10 -> TRN-416
+Subject 1..12 -> DN-01..DN-12
+sponsor -> withheld as client proprietary, consistent across every file
+two named sequencing institutions -> two invented facility names
+journal, accession and supplementary-file conventions -> stripped from file names AND inside files
+Gene, target and reagent-clone names unchanged.
+Asserted mechanically by build/assert_room.py, which fails the build on any hit.
+
+### Anchor table  [REV: every value re-derived from the shipped room on 2026-11-13]
+value                                              establishes                               record    steps
+Treg 10.622 -> 13.849% at 2.5 ug/ml                real vehicle-controlled effect, 1.3038x   2         1 digitized
+Treg counts 2029 -> 2965 at 48 h                   expansion magnitude, 1.4613x              7         1 digitized
+rate 0.007903/h -> 1.082x bound at 10 h            THE decisive reclassification             2+7       2
+zero-dose arms 10.622 / 10.290 / 8.660 / 4.553     four different conditions, not one        2,4,5,6   2
+comparable pair 10.622 vs 8.660 = 1.227x           baseline replicate approaches the effect  2,6       1
+Treg frequency 10.622%                             the composition denominator               2         0
+FOXP3 2.8383x paired, 12/12, sign p 0.0005         magnitude against the bound               1         1
+IL10 0.1819x, IL4 0.2280x, CTLA4 0.8558x,          effectors do not track identity markers   1         1
+PDCD1 0.7760x all 0/12; TGFB1 1.0300x 8/12 ns
+suppression 83.66 / 73.01 / 64.09 / 49.41%         the cells suppress                        8         1 digitized
+suppression arms 1:0, 4:1, 2:1, 1:1                the absent comparator                     8         0
+ETS1 1.0703x 9/12 p=0.146, induction 16132 reads   headline gene fails paired test            1         1
+IL7R 0.5184x 7/12 p=0.774                          headline gene fails paired test            1         1
+MDH2 pooled 1.2187x vs paired 0.8537x 1/12         leverage reversal on DN-04 at 7.394x      1         1
+K_D 1.2 nM, no TNFR1 binding                       the molecule is good                      9,10      0
+murine IgG1 from a BALB/c hybridoma,               the article is not the candidate          13        0 absence
+no humanised form anywhere in the package
+70-gene list, no competing-lineage TF,             panel cannot discriminate                 1         0 absence
+no proliferation marker
+
+[REV] P4 WAS WRONG TWICE AND IS NOW CORRECT. The original 1.504x spread took the IL-2 panel's plateau for its zero-dose arm; the true arms give 2.333x. That figure is arithmetically right and analytically wrong, because the four arms are four different conditions: the with-TNF record carries TNF in every well including its zero arm, and the IL-2 record's zero point is a titration floor, so most of the apparent spread is an IL-2 dose effect. Pooling them is the cross-record move the golden rejects elsewhere. P4 now rests on the only comparable pair, 1.227x against an effect of 1.3038x, plus the companion document stating 200 U/ml IL-2 in all culture while the IL-2 record titrates from zero.
+VERIFIED AT BUILD: the 1.082x bound. Re-digitised at 300, 400 and 600 dpi; it is stable to plus or minus 0.001. Golden states it as a band of 1.00 to 1.09, never a point value, and notes that any lag pushes it toward 1.00, and that it bounds composition only if total CD4 is non-decreasing.
+No anchor requires prediction software. All arithmetic on mounted numbers.
+
+### Companion document
+PDF, non-clinical study summary, client proprietary, fourteen sections plus a transcript appendix.
+Must-say content is in place: cell source and preparation, medium composition with the IL-2 concentration per study, dose per arm, incubation, n, what each arm received, summary statistic, units; the expression study's two sequencing sites and two library prep kits, alignment reference, normalization software and scope, the absolute read-count criterion as a method with no resulting gene list, and the 70-transcript list; staining panel and gating; hemocytometer method; suppression responders, CFSE, anti-CD3 clone, IL-2 concentration, four ratios, index formula; SPR and ELISA conditions, CLIPS lengths and the three binding sequences; the ancillary methods; asset identity including isotype, species of origin, immunogen, purity, endotoxin and concentration determination; every intervention agent with its mechanism of action; and deliberate non-load-bearing content.
+Must-not-say list asserted mechanically by build/assert_room.py across ten categories, not checked by eye.
+[REV] The absolute read-count criterion is now stated in the sponsor's own words. It had been carried verbatim from the source's results section and was the most searchable string in the room. The threshold, the unit and the paired comparison are unchanged, so P5 and the escape-map entry keep their object. The room now shares no prose phrase with the source outside its methods.
+[REV] The expression harvest time is now unambiguous at ten hours. The sample-handling table previously read one hour against a narrative of ten, which made a one-hour reading defensible and made three grader items unfair. The one-hour figure survives as the interval from harvest to RNA stabilisation, which does not compete with it.
+
+Source inconsistencies preserved, verbatim and unremarked:
+IL-2 at 200 U/ml in general culture and 50 U/ml in the expression study  [LOAD-BEARING]
+normalization described per-subject in one place and per-sequencing-site in another  [LOAD-BEARING]
+itaconate n given as 6 in one place and 12 in another
+suppression responders described as T1D donors in one place and normal donors in another
+sTNFR2 agonist dose 12.5 ug/ml in the document against 2.5 ug/ml in the data file
+itaconate dose series of four in the document against three in the data file
+one duplicated gene row carrying different values, and one missing expression value
+[REV] The calibration item EXISTS and is in the source data, not the build. SUCLG1 carries the identical pair 3146.2 / 1669.82 across DN-01, DN-05 and DN-09, in a row that also holds values at fifteen significant figures. IDH3G and PDCD1 carry smaller versions. Flag and proceed is the target behaviour; missing it and derailing on it are both failures.
+
+### Required tooling
+Confirmed in the build sandbox: Python with openpyxl, exact sign test via math.comb, scipy, pdftoppm at 400 dpi.
+[REV] openpyxl is the blocking dependency for the task image. Every data file is .xlsx and the image is offline. The sign test is hand-rollable, so scipy is optional. Note that scipy was not preinstalled in the build container.
+
+## 3. THE GOLDEN RESPONSE
+Shipped text is task/golden_response.txt, 3,176 words. Recomputed from the shipped room after its last edit; 16 of 16 anchors reproduce.
+
+### Spec
+Four products, in the form the prompt asks, nothing more.
+1 Recommendation. [REV] Advance, but as a humanisation and candidate-selection programme rather than as a molecule ready for IND-enabling toxicology, with the per-cell potency claim struck until the studies read out.
+2 What the data establish. [REV] See the corrections below.
+3 The studies. [REV] Now seven.
+4 Set aside and why.
+
+### [REV] Corrections applied to the golden after independent audit
+The records are not commensurable, which is not the same as a variability estimate. P4 as above.
+The compartment branch is given as a range. The 21.8 percent figure imported a Treg frequency from a study run at 200 U/ml IL-2 in 10 percent serum into the expression study's 50 U/ml, 2 percent serum conditions, which is the cross-record move the golden forbids elsewhere. No Treg frequency is measured in the sequenced material. The range is 9.7 percent at a 5 percent Treg fraction to 46 percent at 20 percent, and both branches stay feasible across all of it.
+Cross-linker independence was a non sequitur and is removed. Every well in that record contains the cross-linking reagent and there is no zero-cross-linker arm.
+IKZF2, encoding Helios, is in the panel at 2.8931-fold in 12 of 12 donors, so "no discriminating marker beyond FOXP3" was too strong. The golden now says the panel carries one contested discriminator and still cannot settle the question.
+The cross-linking study examined 24, 48 and 72 hours, so "no timepoint beyond 48 hours anywhere" was wrong. The correct statement is that no result beyond 48 hours is tabulated and there is no withdrawal design.
+The test article is a murine IgG1 kappa from a BALB/c hybridoma, corroborated by the anti-rodent secondaries used across the binding work, and the package contains no humanised or engineered derivative. This was absent from the original golden and was found independently by all three validation solvers.
+The golden breached its own grader twice and both are fixed: one study named no comparator, and the itaconate values were stated without their file.
+
+### Studies, each with what it establishes, comparator, and the finding that necessitates it
+a  single concurrent expansion experiment | whether the effect exceeds standard expansion and run-to-run variability | unstimulated, vehicle, IL-2 plus TCR stimulation, SOC Treg-modality comparator, asset, one run | [REV] the comparable pair at 1.227x against an effect of 1.3038x, plus the document contradicting the IL-2 record
+b  paired MIXED and ISOLATED culture arms, scRNA-seq, timepoint at or past the expansion endpoint | which compartment responds, Treg program or broad activation, direct versus indirect action | within-run arms as above, and mixed against isolated | the 1.082x bound and the 10.622 percent Treg frequency
+c  Treg identification carrying discriminators beyond FOXP3 | that the population scored is Treg, not activation-induced FOXP3-positive conventional cells | FOXP3-alone gating, the thing being replaced | human conventional CD4 cells induce FOXP3 on activation
+d  matched-ratio suppression | per-cell suppressive capacity | asset-expanded against conventionally expanded Tregs, same donor, identical ratios | no non-asset Treg arm exists in the package
+e  durability and stability | whether the induced state persists after withdrawal | time course past 48 h with washout and exhaustion readouts | [REV] no result beyond 48 h is tabulated and there is no withdrawal design
+f  [REV NEW] humanisation and candidate selection | that an engineered derivative retains binding, selectivity and function | the murine parent at matched concentrations on K_D, the TNFR1 counter-screen, the epitope and the expansion assay | the test article is a murine IgG1 and no derivative exists in the package. On the critical path
+g  mechanism | how receptor ligation produces the phenotype | [REV] receptor-engaged against receptor-blocked cells, same donor preparation | the panel cannot discriminate. Lowest priority
+
+Item b is the expert answer. Mixed culture is the physiologically relevant condition, so the defect is having only that condition, not the condition itself. A response proposing sorted-only work is partial.
+
+### Forcing chain
+leg                                                             evidence                           route-necessary
+real vehicle-controlled Treg increase                           records 2 and 7                    yes
+records are not commensurable; nearest replicate is 1.227x      records 2 and 6 + medium composition  yes
+max composition contribution 1.082x at 10 h                     derived from 2 and 7               yes
+therefore 10 h data are an acute response, not the expanded pool above, plus the two timepoints     yes
+compartment not assignable from bulk                            Treg frequency + both branches     yes
+per-cell potency unmeasured                                     record 8 arm list                  yes
+effectors do not track identity markers                         record 1                           yes
+format and selectivity package clean                            records 9, 10, 12                  yes
+the article is murine and no derivative exists                  record 13                          yes
+panel cannot discriminate, no proliferation marker              record 1 gene list                 conditional
+ETS1 and IL7R fail paired test, MDH2 reverses                   record 1 under stated scope        conditional
+
+### Named domain knowledge, marked as such in the golden
+Human conventional CD4 T cells transiently induce FOXP3 on activation, so bulk FOXP3 in activated CD4 is not Treg-specific. THIS IS THE LEG A REVIEWER WILL CHALLENGE; the room does not carry it.
+Tregs consume rather than produce IL-2, so rising IL2 transcript is not a Treg signature.
+Activated T cells do not complete a first division within 10 h. Supports but is NOT required by the mounted kinetics bound.
+The lineage-defining transcription factors absent from the panel: TBX21, GATA3, RORC, BCL6.
+[REV] That a murine hybridoma product cannot be dosed chronically in an autoimmune indication without humanisation.
+
+## 4. PRE-REGISTERED FAILURE MODES
+
+### False-optimum map, expected to fire
+timepoint conflation   | did not reconcile 10 h sequencing against the 48 h endpoint | both sit in one programme narrative | 1.082x bound | reclassifies the data as an acute response
+compartment assignment | did not correct for bulk being unable to assign to an 11% subset | FOXP3 reads as a Treg marker, or skepticism feels rigorous | both branches feasible | the disjunction stands
+comparator blindness   | did not check whether the suppression assay has a per-cell comparator | suppression visibly rises with ratio | all arms asset-expanded | potency unmeasured
+cross-run comparison   | did not check whether experiments share a baseline condition | endpoint percentages differ, comparison is easy | the arms are four different conditions | no supported superiority
+pooled estimator       | did not pair within donor | it is the default analysis | stated normalization scope | ETS1, IL7R null; MDH2 reverses
+unspecified hedge      | recommended a direction without naming studies or comparators | hedging feels safe | the ask requires studies with comparators | a usable package instead of a posture
+sort-only remedy       | did not preserve the mixed condition, losing the direct-versus-indirect contrast | sorting reads as the obvious fix | mixed culture is the physiological condition | both arms, contrast is the readout
+FOXP3 gate             | did not account for activation-induced FOXP3 when specifying follow-up | FOXP3 is the canonical Treg marker | the same confound the package already has | discriminators beyond FOXP3
+
+### Watch list
+panel-gap miss; uncritical adoption of the absolute read-count criterion; attempting to renormalize; data-integrity derail into a fabrication argument, or silent miss of the repeated values; teardown discounting the clean biophysical package.
+[REV] The integrity derail is the live risk. Two of three validation solvers spent substantial effort on data-integrity concerns.
+
+### Grader
+Shipped text is task/grader.txt. ABC, 18 A items, flat text.
+[REV] Repaired after audit: stale slot references removed; the compartment item misdescribed its own arithmetic; A gained items for the recommendation and for the examined-and-set-aside account, the two most explicit asks, which it previously did not check at all; the neutral list no longer declares the required domain knowledge score-neutral but governs attribution instead; median added to the acceptable reductions.
+No placement or ordering requirement anywhere. No weighted penalties, severity rankings, caps or multipliers.
+
+## 5. SUPPORTING
+
+### Verdict and pillars
+Verdict: advance as a humanisation and candidate-selection programme, with the functional-capacity claim struck. Verdict carries NO credit; all credit is on the pillars.
+P1 bulk readout cannot report on Tregs, and the effectors argue against the claim. Decisive.
+P2 lineage skew and a panel that cannot detect it. Deepest; the panel-design point is the expert tell.
+P3 per-cell potency unmeasured; claim level decides which comparator is owed.
+P4 [REV] the records are not commensurable; the nearest baseline replicate is 1.227x against an effect of 1.3038x, and the package contradicts itself on the base condition.
+P5 normalization scope invalidates the absolute threshold; paired analysis reverses or nullifies headline genes.
+P6 mechanism undefined; no durability, stability or exhaustion data.
+P7 the molecule is good and the axis is unoccupied. What keeps advance alive.
+[REV] P8 the article measured is not the article that can be dosed. On the critical path.
+
+### Panel geometry
+16 independent samples. Subagent fanout is not a substitute.
+
+### Known risks and open questions
+1 The magnitude-to-compartment escape has no mounted foreclosure. Mode narrowed to the indefensible step.
+2 FOXP3-in-activated-conventional-cells is external knowledge the room cannot carry. The kinetics bound is deliberately independent of it.
+3 [RESOLVED] Anchors resting on digitised values. Re-digitised at three resolutions; the bound is stable to plus or minus 0.001.
+4 [RESOLVED] P6 depends on the studies ask surviving in the prompt. It survives.
+5 Scope line removed by writer decision. Not penalised.
+6 ROOM BALANCE. Binding, selectivity, F(ab')2, cross-linker, sTNFR2 and NF-kB records are mounted at full strength.
+7 [REV NEW] Three sets of summary statistics in the room claimed more precision than the source figures carry and have been corrected: three impossible SEMs in the F(ab')2 table, the itaconate SEMs implying a sub-1 percent between-donor CV, and repeated means in the IL-2 record which are left as a figure-resolution artefact by writer decision. A systematic weakness in how the summary records were built, not three unrelated slips.
+
+## VALIDATION BEFORE SUBMISSION
+Ceiling PROVEN. A solver working only from the room reached nine of the ten route-necessary legs.
+Floor PROVEN. No attempt derived the kinetics bound or reclassified the ten-hour data. The primary predicted mode fires on strong attempts.
+Transcripts in build/validation_runs/. Not panel data and not FA material.
+
+## AFTER THE RUN
+Carry the false-optimum table into the FA session and check each predicted mode against the transcripts. Naming a mode is the writer's call. Claude may compare, cluster, locate and count only, and may not draft any sentence intended for the FA.
