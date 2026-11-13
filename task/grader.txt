@@ -1,4 +1,4 @@
-You are grading a recommendation on whether a TNFR2 agonist antibody, TRN-416, should take an allocated toxicology slot and move into IND-enabling work for type 1 diabetes and related autoimmunity. The attempt worked from a client data package containing an expression table, flow and count summaries, a suppression export, binding, selectivity and epitope records, ancillary functional records, and a companion non-clinical study summary. The attempt was asked to lead with its recommendation in its own words, build the case behind it, say what the next studies must establish and what each must be compared against or what would have to be shown to bring the asset back, cite each number to the file it sits in with how it was derived, and say what it examined and set aside.
+You are grading a recommendation on whether a TNFR2 agonist antibody, TRN-416, should move into IND-enabling work for type 1 diabetes and related autoimmunity. The attempt worked from a client data package containing an expression table, flow and count summaries, a suppression export, binding, selectivity and epitope records, ancillary functional records, and a companion non-clinical study summary. The attempt was asked to lead with its recommendation in its own words, build the case behind it, say what the next studies must establish and what each must be compared against or what would have to be shown to bring the asset back, cite each number to the file it sits in with how it was derived, and say what it examined and set aside.
 
 A) MUST BE PRESENT AND CORRECT
 The following are the key requirements of a correct answer. Use your judgment to identify any additional required content not listed here.
@@ -8,7 +8,7 @@ The following are the key requirements of a correct answer. Use your judgment to
 - Concludes from that ceiling that the 10 hour expression data describe an acute response and cannot be read as a characterisation of the population present at the 48 hour expansion endpoint.
 - Identifies that the zero-dose arms of the dose-response records are not a common condition, recognising that at least one carries a stated added agent in every well and another is the bottom of a cytokine titration, and declines to compare endpoint percentages across those records on that basis.
 - Identifies that no comparison of this asset against another expansion agent is supported by the package.
-- States that bulk sequencing of a mixed CD4 preparation cannot assign the expression change to a compartment, uses the Treg frequency as the denominator, and leaves the disjunction unresolved rather than picking a branch.
+- States that bulk sequencing of a mixed CD4 preparation cannot assign the expression change to a compartment, uses the Treg frequency and the complementary non-Treg fraction correctly in whichever branch it quantifies, and leaves the disjunction unresolved rather than picking a branch.
 - Establishes that per-cell suppressive capacity is unmeasured, on the grounds that every arm of the suppression record received asset-expanded cells and the only contrast in the design is Treg dose.
 - Notes that the effector and checkpoint transcripts move in the opposite direction to the identity markers.
 - Analyses the expression data paired within donor, consistent with the normalization scope stated in the companion document, and reports the consequences for the transcripts where the paired and pooled estimates disagree.
@@ -17,6 +17,8 @@ The following are the key requirements of a correct answer. Use your judgment to
 - Proposes follow-up that preserves a mixed-culture condition alongside an isolated one, and treats the contrast between them as informative.
 - Specifies Treg identification in the proposed work that does not rest on FOXP3 alone.
 - Names, for each proposed study, what it must establish and what it must be compared against.
+- Opens with a recommendation stated in the attempt's own words.
+- Gives an account of what was examined and set aside, with reasons.
 - Gives the file each number came from and the reduction that produced it. A result counts only where the value is right and the basis given produces it.
 
 B) PENALIZE FOR
@@ -37,7 +39,7 @@ The following are common errors observed on this task. This list is not exhausti
 C) NEUTRAL
 The following are examples of acceptable variations that should not affect the score. Other variations may also be neutral — use your judgment.
 - Where in the answer any item appears, and in what order. Content is checked for presence and correctness, not position.
-- The wording of the recommendation itself, and whether it is framed as taking the slot, progressing, advancing or any equivalent.
+- The wording of the recommendation itself, and whether it is framed as progressing, advancing, holding, or any equivalent.
 - The route taken to any conclusion, and the order in which the records were read.
 - Geometric mean, arithmetic mean or median for paired within-donor ratios, provided the reduction is stated.
 - Exact sign test, Wilcoxon signed-rank, or a paired t test on log-transformed values, provided the choice is stated.

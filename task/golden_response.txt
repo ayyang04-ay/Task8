@@ -36,13 +36,13 @@ Durability and stability. It has to establish whether the induced state persists
 
 Humanisation and candidate selection. It has to establish that an engineered derivative retains the binding, selectivity and functional profile of the research reagent, and it has to produce the molecule the rest of the programme is run on. Comparators: the murine parent at matched concentrations, read out on K_D, the TNFR1 counter-screen, the epitope, and the expansion assay. This is necessitated by section 1 of TRN416_nonclinical_study_summary.pdf and by the absence of any humanised or chimeric form anywhere in the package. This item is on the critical path, because until it reads out every binding and potency figure above describes a reagent rather than a candidate.
 
-Mechanism. It has to establish how receptor ligation produces the phenotype, which the NF-kB array at six hours gestures at without resolving. Comparators as designed. This is necessitated by the panel being unable to discriminate, and it is the lowest priority of the seven because nothing else waits on it.
+Mechanism. It has to establish how receptor ligation produces the phenotype, which the NF-kB array at six hours gestures at without resolving. Comparator: receptor-engaged against receptor-blocked cells from the same donor preparation, since the NF-kB array as mounted contrasts only treated against IL-2-only wells. This is necessitated by the panel being unable to discriminate, and it is the lowest priority of the seven because nothing else waits on it.
 
 WHAT I LOOKED AT AND SET ASIDE
 
 TRN416_flow_treg_dose_t1d_donors.xlsx, the T1D donor dose-response at n of 11. It shows the same dose-ordered rise, 10.902 percent at 0 ug/ml to 14.368 percent at 2.5 ug/ml. It is consistent with the control-donor record and supports indication relevance, but it carries the same compartment and scale problems and adds no independent evidence on either, so it does not change the position.
 
-The itaconate record, 614601, 642714 and 700373 scaled intensity at 0, 0.5 and 2.5 ug/ml. It is dose-ordered and it is a supernatant measurement at six hours on a different cell input. It cannot speak to the identity of the expanded population, which is the open question, so I did not build on it.
+The itaconate sheet of TRN416_ancillary_functional_assays.xlsx, reading 614601, 642714 and 700373 scaled intensity at 0, 0.5 and 2.5 ug/ml. It is dose-ordered and it is a supernatant measurement at six hours on a different cell input. It cannot speak to the identity of the expanded population, which is the open question, so I did not build on it.
 
 The TNF and IL-2 dose-response records as comparators for TRN-416. Set aside for the scale reason given above. They remain useful as evidence that the assay responds to known agents, and I used them only for that.
 
