@@ -1,0 +1,67 @@
+PRE-SUBMISSION CHECKLIST — task qu50cce7 / task_1665bc436cf34a3389385f7fcc62f278
+Generated 2026-11-13 from the shipped files. Regenerate with: python3 build/assert_room.py
+
+THE FOUR UPLOADS AND WHERE EACH GOES
+task/prompt.txt              -> the prompt field
+task/grader.txt              -> the grading document
+task/golden_response.txt     -> Reviewer Facing Golden Response
+data_room/  (13 files)       -> the mounted data room, nothing else
+
+This repository is a working store. The project does not use GitHub for delivery; everything is
+uploaded through Studio by hand.
+
+VERIFY THE PASTE AFTER UPLOADING. A documented failure on this account uploaded 18,309 characters
+of a 24,504-character grading document: it stopped at the end of section A, so the grader ran with
+no penalty list and no neutral list. Check all three of these in the form, not in the file.
+
+file                     chars   sha256 prefix   must end with
+prompt.txt               1353    08d00390b760    Tell me what you looked at and set aside, and why.
+grader.txt               7321    b6d9702f8d12    - Length, layout, headings, bullets or prose.
+golden_response.txt      19806   d728598ee413    ...so each one can be checked.
+
+For the grading document the fastest check is to scroll to the bottom of the pasted field and
+confirm the C list is present. If section C is missing, the paste truncated.
+
+BUILD CONSTRAINTS, ALL VERIFIED
+Absence anchors asserted mechanically, not by eye: assert_room.py passes on all categories.
+No .md file anywhere in the room. The companion document is a PDF.
+The source publication is not mounted and never was.
+Renaming applied to file names and inside files. No original asset code, accession, journal
+convention, author name, institution or original donor label survives.
+The golden was recomputed from the shipped room after its last edit: 16 of 16 anchors reproduce.
+Every file the golden cites exists in the room under that exact name.
+
+PACKAGES THE FORCING CHAIN NEEDS, CONFIRM IN THE TASK IMAGE AS THE MODEL USER
+openpyxl   ESSENTIAL. Every data file is .xlsx. Without it the room cannot be read at all and
+           every attempt fails on tooling rather than on reasoning.
+math       Sufficient for the exact sign test via math.comb. No dependency.
+scipy      Optional. Wilcoxon and binomtest are convenient but the sign test is hand-rollable.
+Note: scipy was not preinstalled in the build container and needed pip. The task image is offline,
+so a missing package cannot be installed at run time. Check openpyxl first; it is the blocking one.
+
+REFUSAL RISK, CHECKED
+The prompt carries therapeutic-area framing throughout: TNFR2 agonist, type 1 diabetes and related
+autoimmunity, a client package, IND-enabling work. The documented refusal failure on this account
+came from stripping institutional framing out of a prompt while asking for a human dose. This
+prompt asks for no dosing regimen, no route and no schedule, and names the setting in its first
+sentence. No change needed.
+
+VALIDATION EVIDENCE, FOR A REVIEWER WHO ASKS
+build/validation_runs/ holds one ceiling solve, two floor solves and two document audits.
+Ceiling: a solver working only from the room reached nine of the ten route-necessary legs. The room
+supports the chain.
+Floor: no attempt derived the kinetics bound or reclassified the ten-hour data. The primary
+pre-registered mode fires on strong attempts.
+These are not panel run data and are not FA material. Three samples from one parent context are not
+the sixteen independent samples the FA requires, and they carry no grader scores or trajectory IDs.
+
+AFTER THE RUN
+QA is mandatory once every Taiga run has finished: Env Linter, Reward Hacking Detection, Data
+Quality Scan. Critical or Error blocks submission; warnings do not but read them. Then Re-evaluate,
+then Submit for review.
+If anything in the room, prompt or guidance is edited after the run, the freshness flag is accurate
+and QA has to be redone against the current files.
+
+STILL OPEN BEFORE UPLOAD
+Merge the four revisions in task/golden_and_anchors.txt into the master brief. The brief lives
+outside this repository and the anchor table there is still at revision 1.
