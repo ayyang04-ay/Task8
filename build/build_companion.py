@@ -217,7 +217,7 @@ A(kv([('Alignment reference','Human genome assembly HG19'),
  ('Normalization software','DESeq, part of the R-Bioconductor package'),
  ('Normalization scope','Raw reads were normalized for subjects separately.'),
  ('Units','Normalized reads'),
- ('Induction criterion applied','An induction of at least 1200 normalized reads was considered significant compared to cells cultured with IL-2 without antibody for the same length of time.'),
+ ('Induction criterion applied','Transcripts were counted as induced where the increase over the paired wells with/without treatment reached 1200 normalized reads or more.'),
  ('Analysis environment','Ingenuity Pathway Analysis software, the R Statistical Programming language and Microsoft Excel'),
  ('Reported transcripts','The 70 transcripts listed in Appendix A.')]))
 
