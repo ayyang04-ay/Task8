@@ -75,7 +75,7 @@ R12D = [("RPLP0",1.124),("HMBS",1.086),("BIRC2",1.291),("BIRC3",2.099),("CHUK",1
 
 # ---- Record 12e: itaconate in culture supernatant, 6 h (scaled intensity)
 DOSE_ITA = [0, 0.5, 2.5]
-R12E = dict(mean=[614601,642714,700373], sem=[1850,2400,1100])
+R12E = dict(mean=[614601,642714,700373], sem=[None,None,None])
 
 # ---- Record 9: SPR
 SPR = dict(KD_nM=1.2, capture_RU=100, streptavidin_RU=3000, Rmax_RU=26,
