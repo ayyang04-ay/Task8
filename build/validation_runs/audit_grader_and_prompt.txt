@@ -1,0 +1,459 @@
+CONSISTENCY AUDIT — prompt.txt / grader.txt / golden_response.txt
+Adversarial read. Arithmetic in the golden was recomputed independently and all of it
+reproduces (1.3038, 1.4613, rate 0.0079028/h, 1.0822, 2.6232, 21.85%, 2.3330). The
+defects below are not arithmetic defects; they are defects of fairness, evidencing,
+and agreement between the three documents.
+
+================================================================================
+PART 1 — IS THE GRADER FAIR AND ACCURATE
+================================================================================
+Ordered most to least serious.
+
+--------------------------------------------------------------------------------
+1.1  [b, d — MOST SERIOUS IN PART 1] A grades the 10-hour timepoint as settled when
+     the package itself states two harvest times, and the package is declared ground truth.
+Items:  A2 "Derives a ceiling on how much of the 10 hour expression change can be
+        composition..."; A4 "...the 10 hour expression data describe an acute response";
+        B1 "Reads the 10 hour expression data as a characterisation of the cells present
+        at the 48 hour expansion endpoint".
+What is wrong: the golden's own set-aside section records that "the expression harvest
+time is given as 1 hour in the sample-handling table against 10 hours in the narrative."
+The prompt says "Treat these files as ground truth." A model that takes the tabulated
+1 hour value — the structured field, which is the more conventional choice when a table
+and a narrative disagree — is making a defensible analytical choice, and every graded
+number downstream changes: exp(0.0079028 x 1) = 1.008, so the ceiling band becomes
+1.00-1.01, not 1.00-1.09, and the transcriptional residual becomes 2.82 rather than
+2.62. Under A as written that response is marked wrong on three separate items for a
+choice the package licenses. This is the single largest unfairness in the grader.
+Fix: rewrite A2/A4/B1 to be timepoint-agnostic — require that the expression timepoint
+be reconciled against the 48 hour expansion endpoint, that the conflict between the
+sample-handling table and the narrative be named, and that the ceiling arithmetic
+follow from whichever value the response adopts. Add the 1 hour branch to C.
+
+--------------------------------------------------------------------------------
+1.2  [a, d, e] A and B require external knowledge that the prompt forbids and that C
+     declares score-neutral. Three-way contradiction.
+Items:  A13 "Specifies Treg identification in the proposed work that does not rest on
+        FOXP3 alone"; B11 "Specifies follow-up that identifies Tregs by FOXP3 without
+        addressing activation-induced FOXP3-positive conventional cells"; C10 "Bringing
+        in external knowledge about activation-induced FOXP3 in conventional CD4 cells
+        ... where it is identified as external."
+What is wrong: the prompt says "Treat these files as ground truth: they are the
+client's own records, and nothing outside them has been validated against their
+system. All verdicts/calls must be supported by their data" and "Every claim has to be
+checkable against their files." The activation-induced-FOXP3 fact is nowhere in the
+package — the golden says so explicitly ("as named external knowledge not carried by
+these files"). So B11 penalises a model for obeying the prompt. And C10 says the same
+knowledge is merely a permitted variation that "should not affect the score", while
+A13/B11 make it mandatory and penalised-if-absent. A grader cannot hold that a fact is
+simultaneously optional and required.
+Fix: either add a sentence to the prompt permitting clearly-labelled outside immunology
+("you may use general immunology knowledge if you label it as outside their records"),
+or demote A13/B11 to "any discriminator beyond the FOXP3-alone gate, with the reason
+given" and delete the activation-induced-FOXP3 clause from B11. Either way remove the
+A13/B11-versus-C10 collision.
+
+--------------------------------------------------------------------------------
+1.3  [a, inverse] A contains no item for the two things the prompt asks for most
+     explicitly: the recommendation, and the looked-at-and-set-aside account.
+What is wrong: the prompt's third sentence is "Lead with the recommendation on the
+first line, in your own words", and its last sentence is "Tell me what you looked at
+and set aside, and why." The grader preamble recites both, but neither appears anywhere
+in A's fifteen items. A response that performed every A item and never stated a
+recommendation, or never said what it set aside, loses nothing. B9 ("Recommends a
+direction without naming the studies...") only presupposes a recommendation; it does
+not require one. Roughly a third of the golden's length (the whole final section) is
+ungraded.
+Fix: add to A: "States a recommendation on the asset in its own words" and "Says which
+records it examined and which it set aside, with the reason for each."
+
+--------------------------------------------------------------------------------
+1.4  [d] B10 penalises a defensible experimental design.
+Item: B10 "Proposes only sorted or isolated conditions for follow-up, discarding the
+physiologically relevant mixed condition."
+What is wrong: the open question A7 identifies is compartment assignment in a bulk
+mixed CD4 preparation. Sorting before sequencing is the direct, standard, decisive
+remedy for exactly that — it assigns the signal to a compartment unambiguously, which
+the mixed condition cannot do on its own. An expert who proposes sorted arms and argues
+that mixed culture confounds the assignment they are trying to make is reasoning
+correctly, not making an error. "Physiologically relevant" is the grader asserting one
+side of a live design trade-off. The golden's own position ("Sorting alone is not the
+remedy") is an opinion, not a finding from the files.
+Fix: recast as a positive A item only — "where follow-up is proposed, states the
+trade-off between sorted and mixed culture" — and delete B10.
+
+--------------------------------------------------------------------------------
+1.5  [c, d, e] B2 penalises a point-value ceiling, which is presentation taste, and
+     collides with C6.
+Items: A3 "States that ceiling as a band rather than a single point value"; B2 "Reports
+the composition ceiling as a single point value with no band"; C6 "Exponential or
+linear growth assumed in deriving the composition ceiling, provided the assumption is
+stated and the arithmetic follows from it."
+What is wrong: under the linear assumption C6 expressly permits, the ceiling is a point
+value; there is no second input to spread it across. More generally, a correctly derived
+upper bound stated as a single number with its assumption named is not an analytical
+error — it is a reporting convention. The golden's own justification for its band is
+soft and non-quantitative ("both inputs are summary means", "any lag before the first
+division pushes the figure toward 1.00"); neither input yields an interval from the
+records, so the band 1.00-1.09 is itself a judgement call, not a derived quantity.
+Penalising its absence penalises taste.
+Fix: replace A3/B2 with "states the ceiling together with the assumptions that make it
+a ceiling, and notes the direction in which those assumptions move it", scoring the
+reasoning rather than the interval notation.
+
+--------------------------------------------------------------------------------
+1.6  [d] B8 penalises a pooled analysis that the package's own companion document
+     supports.
+Item: B8 "Analyses the expression data pooled across donors, or on a between-group
+basis, rather than paired within donor."
+What is wrong: the golden records that the companion document gives normalization scope
+"as per-subject in section 9.4 and per-sequencing-site in section 9.3." Under the 9.3
+reading the values are not within-donor normalised and a pooled estimator is the
+coherent choice. The prompt gives the model no rule for resolving intra-package
+contradictions, so a model that reads 9.3, says so, and pools is being penalised for
+picking the other horn of a contradiction the task author built in.
+Fix: require that the response name the 9.3/9.4 conflict and state which scope it
+adopted and why; score the reasoning, not the choice. Alternatively remove the
+contradiction from the package if the paired analysis is meant to be forced.
+
+--------------------------------------------------------------------------------
+1.7  [b] A7 misstates the arithmetic it is asking the grader to check.
+Item: A7 "...uses the Treg frequency as the denominator..."
+What is wrong: in the golden the Treg frequency is the numerator/multiplier and the
+conventional-cell fraction is the denominator: (2.8383 - 1) x 0.10622 / 0.89378 =
+0.2185. A grading model following A7 literally will reject the correct derivation and
+accept an incorrect one. Verified: 0.10622 appears only as a multiplier; 0.89378 is the
+divisor.
+Fix: "scales the change by the Treg and non-Treg fractions of the preparation (the
+golden's reduction: (ratio - 1) x Treg frequency / non-Treg frequency)".
+
+--------------------------------------------------------------------------------
+1.8  [b] A10 asks for consistency with a scope the companion document does not
+     state uniquely.
+Item: A10 "...consistent with the normalization scope stated in the companion
+document..."
+What is wrong: there is no single stated scope — see 1.6. The item is unachievable as
+written because the condition it tests is ambiguous in the source material. The golden
+had to argue its way to one of the two ("I have used the scope stated in section 9.4
+... because that is the scope attached to the normalization step itself"), which is an
+inference, not a reading.
+Fix: name section 9.4 explicitly if that is the intended reading, and require the
+response to acknowledge the conflict rather than to agree with a scope the document
+does not settle.
+
+--------------------------------------------------------------------------------
+1.9  [a] The grader is graded against a framing the prompt never supplies: an allocated
+     toxicology slot.
+Items: grader preamble "whether TRN-416 should take an allocated toxicology slot";
+C2 "whether it is framed as taking the slot".
+What is wrong: the prompt says only "before they commit to IND-enabling work". It
+contains no toxicology slot, no allocation, and no scarcity or opportunity-cost
+framing. The golden leans on it twice ("take the toxicology slot", "does not gate the
+toxicology slot"). If a grading model reads the preamble as the decision under review,
+a response that recommends advancing without the slot framing may be read as answering
+a different question. A model cannot know about a resource it was never told exists.
+Fix: either add the slot and its scarcity to the prompt, or strike it from the preamble,
+C2 and the golden.
+
+--------------------------------------------------------------------------------
+1.10 [e, g] A15's second sentence is a scoring gate, and it contradicts C7.
+Items: A15 "A result counts only where the value is right and the basis given produces
+it"; C7 "Values derived from the summary records that fall within a narrow tolerance of
+the stated figures, since those records are summaries rather than per-sample data."
+What is wrong: A15 is not a content requirement, it is an all-or-nothing credit rule
+smuggled into the requirements list — the kind of gating device the rubric should not
+carry. It also says "the value is right" where C7 says near-enough is acceptable, with
+no definition of "narrow tolerance". A grading model has to choose between them.
+Fix: move A15's first sentence into A as the requirement ("gives the file and the
+reduction for each number"), delete the credit rule, and give C7 a numeric tolerance
+(e.g. agreement to three significant figures, or within 1%).
+
+--------------------------------------------------------------------------------
+1.11 [g] Both lists license unlisted criteria.
+Items: A preamble "Use your judgment to identify any additional required content not
+listed here"; B preamble "This list is not exhaustive — apply your judgment to any
+other issues you identify"; C "Other variations may also be neutral — use your
+judgment."
+What is wrong: open-ended scope expansion is a hidden-criteria defect of the same
+family as a generic quality standard. It makes the rubric unbounded and non-reproducible
+across grading runs, and it is the mechanism by which the taste judgements above
+(1.4, 1.5) would multiply.
+Fix: close the lists, or restrict the judgement clause to "factual errors in numbers or
+file attributions not listed above."
+
+--------------------------------------------------------------------------------
+1.12 [accuracy] C11 describes a data feature that does not exist in the golden.
+Item: C11 "Flagging the two repeated six-figure values as a data-quality observation
+and proceeding, or not raising them at all."
+What is wrong: the only six-figure values in the golden are the three itaconate
+intensities 614601, 642714 and 700373 — three values, all distinct, none repeated. The
+golden's two actual data-quality flags are duplicate BDNF rows with different values
+and IL2RA missing both arms for one donor. Either C11 is stale against an earlier
+version of the data package, or the golden missed a real duplication. Worse, the
+golden's genuine flags (BDNF, IL2RA) have no neutral-list entry at all, so a grader may
+treat raising them as noise.
+Fix: verify against the data files; replace C11 with the duplicate-BDNF-row and
+IL2RA-n=11 items if those are the intended flags.
+
+--------------------------------------------------------------------------------
+1.13 [c, d] A11 requires a stance rather than an observation, and forecloses a
+     legitimate criticism.
+Item: A11 "Treats the biophysical and selectivity package as clean and does not discount
+it."
+What is wrong: "does not discount it" is not observable as a discrete act — it grades
+posture. And it makes one conclusion mandatory in an area where a careful reviewer could
+dissent on the records themselves: the golden reports an SPR surface at "100 RU capture
+against a 26 RU theoretical maximum", which is a four-fold excess over theoretical Rmax
+and a conventional ground for questioning a reported KD (avidity, heterogeneous
+capture, mass transport). A response that flags it and asks for a lower-density repeat
+is doing better biophysics than one that waves it through, and A11 penalises it.
+Fix: "finds no defect in the binding, selectivity or epitope records that would hold
+the programme, or states the specific record-level defect it relies on." That rewards
+either posture when it is evidenced.
+
+--------------------------------------------------------------------------------
+1.14 [e] A10 requires an analysis B8 penalises, distinguished only by a "rather than".
+Items: A10 "...reports the consequences for the transcripts where the paired and pooled
+estimates disagree"; B8 "Analyses the expression data pooled across donors ... rather
+than paired within donor."
+What is wrong: satisfying A10 requires computing the pooled estimates (the golden
+reports ETS1 1.3526, IL7R 0.7036, MDH2 1.2187 pooled). Only the trailing "rather than"
+in B8 keeps that from being a penalty. A grading model skimming B8 will penalise a
+response for doing what A10 demands.
+Fix: reword B8 as "reports only the pooled estimate, or treats the pooled estimate as
+the primary result."
+
+--------------------------------------------------------------------------------
+1.15 [b, minor] A1 names a comparator condition the records may not contain.
+Item: A1 "...is real against the vehicle condition within a record..."
+What is wrong: the golden's comparator is the 0 ug/ml, no-added-agent condition, which
+it is careful never to call vehicle; "vehicle" appears in the golden only as a
+comparator for a future study ("unstimulated, vehicle, IL-2 plus TCR stimulation").
+A5 itself uses the correct phrase, "the zero-dose or no-added-agent condition". A1's
+terminology is inconsistent with A5 and may send a grader looking for an arm that is
+not evidenced.
+Fix: use "the zero-dose condition" in A1, matching A5.
+
+--------------------------------------------------------------------------------
+1.16 [f] On the formatting question specifically: the grader imposes no position, order
+     or format requirement — C1 and C12 explicitly neutralise position, order, length,
+     layout, headings and bullets. That is correct practice. The defect runs the other
+     way: C1 neutralises the prompt's one explicit positional instruction, "Lead with
+     the recommendation on the first line", so that instruction is unenforced and
+     unenforceable. That is the right call for a rubric, but prompt and grader should
+     not disagree in writing.
+Fix: soften the prompt to "Open with the recommendation in your own words" and drop
+"on the first line".
+
+--------------------------------------------------------------------------------
+1.17 [g] On weighting specifically: no numeric weights, severity tiers, multipliers or
+     caps appear, and no generic quality standard such as "well organised" appears.
+     The only devices of that family are A15's credit gate (1.10) and the open-ended
+     judgement clauses (1.11). Noted as largely clean.
+
+VERDICT ON PART 1
+The grader is accurate on the analytical substance — the twelve B items track real
+failure modes and the A items track real content in the golden — but it is not fair as
+written. Four items penalise defensible analytical choices (1.1 the 1 hour harvest
+reading, 1.4 sorted-only designs, 1.5 a point-value ceiling, 1.6 a pooled analysis
+under section 9.3); one requires external knowledge the prompt forbids and C
+simultaneously calls neutral (1.2); one misstates the arithmetic it checks (1.7); one
+tests a condition the source material does not settle (1.8); and the two most explicit
+prompt instructions are ungraded (1.3). Not usable in its current form. Items 1.1 to
+1.8 must be fixed before the rubric is applied; 1.9 to 1.15 should be.
+
+================================================================================
+PART 2 — DOES THE PROMPT FAIRLY ELICIT THE GOLDEN
+================================================================================
+Ordered most to least serious.
+
+--------------------------------------------------------------------------------
+2.1  [a, d — MOST SERIOUS IN PART 2] The golden's load-bearing reasoning rests on
+     knowledge the prompt rules out.
+Prompt: "Treat these files as ground truth: they are the client's own records, and
+nothing outside them has been validated against their system. All verdicts/calls must
+be supported by their data." And: "Every claim has to be checkable against their files."
+Golden: "as named external knowledge not carried by these files, human conventional CD4
+T cells transiently induce FOXP3 on activation"; "As named external knowledge, the
+transcription factors that would be needed are TBX21, GATA3, RORC and BCL6"; "Tregs
+consume IL-2 rather than produce it."
+What is wrong: the first of these is not decoration — it is the stated justification
+for the golden's third proposed study ("This is necessitated by the external fact above
+about activation-induced FOXP3") and it is what the grader turns into A13 and B11. A
+model that obeys the prompt literally cannot reach it. The prompt and the golden
+disagree on whether outside knowledge is permitted, and the grader sides with the
+golden.
+Fix: add an explicit carve-out to the prompt — "you may use general immunology
+knowledge where you mark it as coming from outside their records" — which is exactly
+what the golden does and what C10 anticipates.
+
+--------------------------------------------------------------------------------
+2.2  [a] Six of the golden's analytical moves are hidden requirements: graded in A,
+     asked for nowhere in the prompt.
+The prompt's only analytical instruction is "build the case behind it out as strongly
+as their data allows". Nothing in it points at any of the following, each of which is
+a separate A item:
+ - timepoint reconciliation between the 10 hour expression data and the 48 hour
+   expansion endpoint (A2, A4) — the prompt never mentions timepoints;
+ - the composition-versus-transcription ceiling and its arithmetic (A2, A3) — the
+   prompt never raises composition artefacts;
+ - the cross-record baseline check and the 2.3330 spread (A5) — the prompt never says
+   the records may be on different scales;
+ - the compartment disjunction in bulk sequencing of a mixed preparation (A7) — the
+   prompt never mentions the preparation or bulk-versus-sorted;
+ - per-cell suppressive capacity being unmeasured because every suppression arm got
+   asset-expanded cells (A8) — the prompt never mentions potency;
+ - paired within-donor analysis with significance testing, and the paired-versus-pooled
+   reversals (A10) — the prompt says nothing about statistics, pairing, or estimators.
+Add to those the golden's unprompted application of the companion document's own
+section 9.4 induction criterion ("at least 1200 normalized reads") across all 70
+transcripts, which no A item requires either.
+What is wrong: these are the entire intellectual content of the task and they are all
+discoverable only by a model that already knows what the task is testing. That is
+defensible as a hard task design, but the prompt should at least signal the register —
+otherwise the grader is scoring guesses about the author's intent rather than analysis.
+Fix: add one sentence to the prompt that opens the register without handing over any
+answer, e.g. "Check the package for internal consistency before you lean on any part of
+it: whether readouts are on the same scale, taken at the same time, and measuring the
+thing the claim needs." That names no finding and invalidates no A item.
+
+--------------------------------------------------------------------------------
+2.3  [b] The golden fails one of the prompt's four explicit instructions on its sixth
+     study.
+Prompt: "What do the next studies have to establish, and what does each one have to be
+compared against?"
+Golden, study six: "Mechanism. It has to establish how receptor ligation produces the
+phenotype ... Comparators as designed."
+What is wrong: "Comparators as designed" names no comparator. The prompt asks for one
+per study and the grader codifies it (A14 "Names, for each proposed study, what it must
+establish and what it must be compared against"; B9). The reference answer does not
+satisfy its own rubric item on study six. A model that writes the same phrase would be
+penalised.
+Fix: give study six a real comparator (e.g. the six-hour NF-kB array against a
+TNFR2-blocked or isotype arm on the same donors), or drop the study, since the golden
+itself calls it "the lowest priority of the six because it does not gate the
+toxicology slot".
+
+--------------------------------------------------------------------------------
+2.4  [b] The golden states numbers without the file they sit in, which the prompt
+     requires and B12 penalises.
+Prompt: "Cite each number to the file it sits in and say how you arrived at it."
+Golden: "The itaconate record, 614601, 642714 and 700373 scaled intensity at 0, 0.5 and
+2.5 ug/ml" — three numbers, no filename, where every other record in the response is
+named in full (TRN416_spr_binding_kinetics.xlsx, TRN416_suppression_cd8_division.xlsx,
+and so on). Secondarily, the paired-statistics paragraph gives ETS1 1.0703, IL7R
+0.5184, MDH2 0.8537, DN-04 at 7.394, "16132 reads" and "13 of the 70 transcripts"
+without re-naming TRN416_expression_normalized_reads.xlsx in that paragraph; whether
+that counts depends on how strictly a grader reads "each number".
+What is wrong: the reference answer trips the final B item. A grading model comparing a
+response against the golden will see the standard being applied inconsistently.
+Fix: name the itaconate file, and re-attach the expression file in the statistics
+paragraph.
+
+--------------------------------------------------------------------------------
+2.5  [d, e] The prompt tells the model the files are ground truth, and then the package
+     contradicts itself at least six times, including once in a way that changes a
+     graded number.
+Golden: "IL-2 is given at 200 U/ml in general culture and 50 U/ml in the expression
+study; normalization scope is given as per-subject in section 9.4 and
+per-sequencing-site in section 9.3; the suppression responders are described as T1D
+donors and the sample count as normal blood donors; the sTNFR2 agonist dose is 12.5
+ug/ml in the document and 2.5 ug/ml in the data file; the itaconate n is 6 in one line
+and 12 in another; the expression harvest time is given as 1 hour in the
+sample-handling table against 10 hours in the narrative."
+What is wrong: "ground truth" is incoherent for a self-contradicting package, and the
+prompt gives no tie-break rule. Two of the six are load-bearing (normalization scope,
+harvest time) and the grader silently adopts one side of each — see findings 1.1 and
+1.6. The golden has to invent its own tie-break ("because that is the scope attached to
+the normalization step itself and it is also the one the paired design requires"), which
+is reasoning the prompt never asks for and the grader never credits.
+Fix: replace "Treat these files as ground truth" with "These are the client's own
+records and all calls must rest on them; where they disagree with each other, say so
+and say which reading you used and why." That makes the golden's tie-break an asked-for
+act instead of an unrequested one, and it makes 1.1 and 1.6 gradeable.
+
+--------------------------------------------------------------------------------
+2.6  [a] One whole golden section is unrequested work, graded by nothing.
+Golden: the paragraph "The panel cannot settle the question" — the absence of TBX21,
+GATA3, RORC and BCL6, the absence of a proliferation marker, and the IL-2-consumption
+argument against a pure Treg response.
+What is wrong: no A item covers it, the prompt does not ask for it, and it is built
+almost entirely on external knowledge (see 2.1). It is good analysis and it is
+ungraded, so it sets a length and depth bar the rubric does not reward — a model that
+omits it loses nothing, and a model that attempts it may be penalised for the external
+knowledge if a grader reads the prompt's ground-truth clause strictly.
+Classification: unrequested work. Fix: either add an A item for it (the panel's
+inability to discriminate a Treg program from broad activation) or accept that it is
+surplus and do not let graders treat its absence as a gap.
+
+--------------------------------------------------------------------------------
+2.7  [c] The prompt contains leading language that pre-tilts the verdict toward the
+     golden's answer.
+Quote: "Then build the case behind it out as strongly as their data allows."
+Quote: "No agonist against this receptor has been approved, and nobody we can see has
+taken one past early development, which is why they are willing to spend the resources
+on it."
+What is wrong: the first presupposes there is a case to build and instructs the model
+to build it "as strongly as" it can — an instruction to advocate, in a task whose
+reference answer is "Advance". The second pre-establishes the client's risk tolerance
+and willingness to spend, which is the consideration that makes "advance" rather than
+"hold" the defensible call. Together they put a thumb on the scale for the golden's
+recommendation. The prompt does hedge with the no-advance branch, but that branch is
+introduced second and conditionally.
+Fix: "Then set out the case for and against, as far as their data carries each." Keep
+the no-advance branch, and keep the client's resourcing out of the framing.
+Note in the prompt's favour: it contains no hint at any of the six analytical moves in
+2.2 — no mention of timepoints, scales, pairing, compartments or potency. The prompt's
+problem is the opposite of over-hinting.
+
+--------------------------------------------------------------------------------
+2.8  [b, accuracy] The golden treats two records as the same dose series when they are
+     not donor-matched, and the prompt's own derivation requirement should have exposed
+     it.
+Golden: "TRN416_treg_absolute_counts.xlsx gives absolute counts on the same dose series
+at the same 48 hour timepoint ... across eleven preparations" — against thirteen donor
+preparations in the frequency record.
+What is wrong: thirteen preparations versus eleven means the frequency and count records
+are not the same preparations, so "both move in the same direction, so the effect is a
+real increase in cell number and not a compositional artefact" is weaker than stated —
+the two ratios are not paired. A1 requires exactly this inference and the golden does
+not caveat it. A model that does caveat it is being more rigorous than the reference.
+Fix: add the caveat to the golden, and allow it in C as a neutral addition.
+
+--------------------------------------------------------------------------------
+2.9  [b] Everything else the prompt asks for is delivered.
+Checked and present in the golden: recommendation on the first line in its own words
+("Advance TRN-416 into IND-enabling work and take the toxicology slot..."); the case
+built from the data (eight paragraphs under THE CASE); next studies with what each must
+establish (six, under THE STUDIES — comparators on five of six, see 2.3); the
+no-advance branch correctly not triggered; derivations given for the ratios ("taken as
+the ratio of the two tabulated means", the explicit log/rate/exponential chain); and
+the looked-at-and-set-aside account (four items, each with a reason). No other
+prompt requirement is unmet.
+
+--------------------------------------------------------------------------------
+2.10 [e] Where the prompt falls on the clear-versus-prescriptive line.
+It is clear about the deliverable and silent about the work. A competent specialist
+reading it would know exactly what artefact to produce — recommendation first, case,
+next studies with comparators, per-number citations with derivations, a set-aside
+account — and would have no idea that the task turns on timepoint reconciliation,
+cross-record baselines, the bulk-sequencing compartment problem, paired estimators, and
+the suppression design's missing comparator. It is therefore under-prescriptive, not
+over-prescriptive: it does none of the thinking, but it also does not signal the
+register in which the thinking has to happen, and the grader's A list is effectively a
+hidden checklist of six analytical discoveries. The single sentence proposed in 2.2
+would move it onto the right side of the line without giving anything away.
+
+VERDICT ON PART 2
+The prompt elicits the shape of the golden reliably and its substance only by luck. The
+deliverable structure maps one-to-one onto prompt sentences, and the golden meets every
+prompt instruction except the comparator for study six (2.3) and the file citation for
+the itaconate numbers (2.4) — two places where the reference answer fails its own
+rubric. But the analytical core is six hidden requirements (2.2), the most important
+single inference in the golden is reachable only by breaking the prompt's ground-truth
+rule (2.1), and the prompt leaves a self-contradicting package with no tie-break rule
+while the grader quietly scores one side of two of those contradictions (2.5). The
+prompt also leans toward the golden's recommendation (2.7). Usable with repairs: add
+the external-knowledge carve-out, add the intra-package-conflict instruction, add the
+one consistency-register sentence, neutralise the advocacy framing, and fix the two
+places where the golden breaches its own rubric.

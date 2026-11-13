@@ -1,0 +1,716 @@
+INDEPENDENT READ ON THE TRN-416 PACKAGE
+=======================================
+
+RECOMMENDATION (first line, as asked)
+-------------------------------------
+Do not commit to IND-enabling work on TRN-416. Hold the asset at lead
+optimisation and fund a bounded re-validation-and-reformatting package first:
+the client's data support target engagement and a plausible TNFR2 pharmacology
+signature, but they do not support a single one of the efficacy claims the
+IND-enabling spend would rest on, and the molecule they have is a murine
+hybridoma IgG1 that cannot be the clinical candidate, so the pivotal work
+would have to be repeated on a different protein regardless. This is a hold,
+not a kill: the binding package is good enough that the asset is worth a
+defined, milestone-gated investment, and I set out below exactly what would
+bring it back.
+
+Short version of why: the package has one strong leg (biophysics and
+selectivity), one suggestive leg (a non-canonical NF-kB / FOXP3 transcriptional
+signature reproducible across 12 donors), and three legs that do not hold at
+all (the only functional efficacy assay has no comparator arm; the mechanism
+that would dictate the human format is untested; and several data files contain
+values that cannot have arisen from the experiments as described). On top of
+that the narrative report and the data files contradict each other on at least
+a dozen points of fact, including the dose of test article used in one study
+and the harvest time in another.
+
+
+=====================================================================
+PART 1. WHAT THEIR DATA DOES ESTABLISH
+=====================================================================
+
+1.1 Target engagement is real, and the biophysics is internally consistent
+--------------------------------------------------------------------------
+Source: TRN416_spr_binding_kinetics.xlsx (sheet "kinetics", study TRN416-BP-009)
+and TRN416_elisa_receptor_counterscreen.xlsx (sheet "counterscreen", BP-010).
+
+- Reported global KD 1.2 nM, SE 0.2 nM (bottom rows of the kinetics sheet).
+  I checked the arithmetic of the per-concentration rate constants: taking the
+  50 nM row, kd/ka = 5.79e-4 / 4.82e5 = 1.201e-9 M, which reproduces the
+  tabulated KD of 1.2e-09 exactly. The same holds at every concentration
+  (ka 4.68e5-4.91e5, kd 5.64e-4-5.88e-4, KD 1.19-1.22 nM). The rate constants
+  and the derived KD are mutually consistent. Method: divided the kd column by
+  the ka column, row by row, and compared with the tabulated KD column.
+
+- The ELISA gives an independent, concordant potency. I fitted a four-parameter
+  Hill curve (scipy curve_fit) to the "TNFR2 full ectodomain OD450" column
+  against the TRN-416 concentration column, with the bottom fixed at the
+  0 ug/ml value of 0.047: EC50 = 0.331 ug/ml, Hill slope 0.93, top 2.657. At
+  150 kDa for an IgG, 0.331 ug/ml = 2.2 nM. Two orthogonal methods agreeing
+  within ~2-fold on an apparent affinity is a genuine strength.
+
+- Selectivity against TNFR1 is clean. At the top dose of 10 ug/ml the TNFR2
+  specific signal is 2.541 - 0.047 (zero-antibody well) = 2.494 OD, while the
+  TNFR1 signal is 0.062 - 0.048 = 0.014 OD and the BSA signal is
+  0.048 - 0.043 = 0.005 OD. Ratio of specific signals = 2.494/0.014 = 178:1,
+  and the TNFR1 and BSA columns are flat across the whole 2,000-fold titration
+  (TNFR1 0.048 to 0.062; BSA 0.043 to 0.048), i.e. at assay noise. Method:
+  subtracted each column's own 0 ug/ml value from its 10 ug/ml value.
+
+- The epitope is defined and the mapping is self-consistent.
+  Source: TRN416_epitope_mapping_clips.xlsx (BP-011). Dividing each
+  construct's "Binding (AU)" by the scrambled control (N-0001, 96 AU) gives
+  signal:background of 29.9 for C-0141 (residues 44-55, QMCCSKCSPGQH), 27.7 for
+  C-0207 (98-105, CSSDQVET) and 25.1 for C-0263 (116-123, NRICTCRP), against
+  1.5-2.2 for the three linear peptides outside those regions (L-0088 2.0,
+  L-0154 1.6, L-0301 1.5). Critically, the signal falls off correctly in the
+  neighbouring frames: shifting C-0141 two residues N-terminally (C-0139,
+  42-53) collapses it from 29.9 to 2.2, and shifting C-0263 two residues
+  (C-0261, 114-121) drops it from 25.1 to 6.7. That frame-dependence is what a
+  real discontinuous epitope looks like and is hard to fake.
+  It also agrees with the counter-screen: the aa 50-122 fragment retains
+  2.188/2.541 = 86% of the full-ectodomain signal at 10 ug/ml and fits an EC50
+  of 0.361 ug/ml versus 0.331 ug/ml for the full ectodomain (same Hill fit as
+  above, applied to the "TNFR2 aa 50-122 OD450" column) - so the epitope sits
+  essentially inside the fragment used as the immunogen
+  (TRN416_nonclinical_study_summary.pdf, section 1, "Immunogen").
+
+Verdict on this leg: I would carry the binding, selectivity and epitope data
+forward as supportive. It is the only part of the package I would let into a
+briefing document largely as it stands.
+
+1.2 There is a coherent, donor-reproducible transcriptional signature
+---------------------------------------------------------------------
+Source: TRN416_expression_normalized_reads.xlsx (sheet "normalized_reads",
+study TRN416-RS-001), 12 donors, paired IL-2-only vs IL-2+TRN-416 wells.
+
+I ran the analysis the sponsor says they ran (PDF section 14, "Expression
+comparisons: Paired Student's t test, two tailed"), because no statistics
+appear anywhere in their files. Method: for each gene I took the 12 matched
+column pairs DN-nn_IL2_only / DN-nn_IL2_plus_TRN416, computed log2(treated/
+control) per donor, and ran a one-sample paired t test on those 12 ratios
+(scipy.stats.ttest_1samp); the fold change quoted is the geometric mean.
+
+The Treg identity module moves up, in the same direction in every donor:
+  FOXP3   2.84-fold, p = 8.0e-9, up in 12/12 donors
+  IL2RA   3.45-fold, p = 2.6e-5, n = 11 (DN-07 is blank in both arms)
+  IKZF2   2.89-fold, p = 1.1e-3 (Helios)
+  RUNX1   1.93-fold, p = 7.9e-4
+  CD274   3.24-fold, p = 2.1e-5 (PD-L1)
+  IL7R    0.52-fold, p = 0.082 (CD127 down, directionally Treg-like)
+
+The co-activator / non-canonical signalling arm moves with it:
+  EP300 3.36-fold (p = 4.8e-9), CREBBP 1.93-fold (p = 1.5e-7),
+  "CREB" 1.83-fold (p = 5.0e-9).
+
+And the independent NF-kB array points the same way.
+Source: TRN416_ancillary_functional_assays.xlsx, sheet "nfkb_array" (AR-012D),
+n = 7, TRN-416 2.5 ug/ml vs paired IL-2-only wells. The two housekeeping genes
+on the plate are not at 1.000 (RPLP0 1.124, HMBS 1.086), so I renormalised
+every gene to their mean (1.105) before calling anything moved. Method:
+divided each gene's "TRN-416 (RQ)" value by 1.105. Nine genes then sit at or
+above 1.5-fold, and they are the right nine for TNFR2:
+  TANK 2.43, LTA 2.40, RELB 2.33, BIRC3 1.90, MAP3K8 1.82, NFKBIA 1.82,
+  NFKB2 1.70, NFKBIE 1.65, REL 1.55 (MAP3K14/NIK 1.47 just below).
+RELB + NFKB2 + BIRC3 + NIK is the canonical non-canonical (alternative) NF-kB
+readout, which is the pathway TNFR2 is supposed to drive. Two independent
+platforms (RNA-seq and TaqMan array) on separate donor sets agreeing on the
+pathway is the second real asset in this package.
+
+1.3 The Treg flow signal is reproducible, dose-ordered, and present in
+    patient cells
+----------------------------------------------------------------------
+Sources: TRN416_flow_treg_dose_control_donors.xlsx (FC-002, n=13) and
+TRN416_flow_treg_dose_t1d_donors.xlsx (FC-003, n=11).
+
+Because the files give only mean and SEM, I could not run their stated linear
+mixed-effects model; I ran the most conservative test the summary statistics
+permit, an unpaired Welch t test on the reported mean and SEM at
+df = 2n-2 (the real design is paired, so the true p values are likely smaller).
+Method: t = (mean_dose - mean_0) / sqrt(SEM_0^2 + SEM_dose^2).
+
+  FC-002, non-diabetic, 0 vs 2.5 ug/ml: 10.622 +/- 0.706 to 13.849 +/- 1.076
+    = +3.227 percentage points (+30.4% relative), t = 2.51, p ~ 0.019
+  FC-003, type 1 diabetes, 0 vs 2.5 ug/ml: 10.902 +/- 0.481 to 14.368 +/- 0.680
+    = +3.466 percentage points (+31.8% relative), t = 4.16, p ~ 0.0005
+
+The curves are monotonic from 0.02 to 0.5 ug/ml and plateau from 0.5-2.5 ug/ml
+to 25 ug/ml in both files, which is what a receptor-mediated effect should look
+like, and the effect is at least as clean in T1D donor cells as in control
+cells. Two separate donor sets, 24 donors in total, same direction, same
+plateau. That is worth something.
+
+The absolute counts move too: TRN416_treg_absolute_counts.xlsx (FC-007, n=11)
+goes from 2,029 +/- 96 cells/well at 0 ug/ml to 2,965 +/- 88 at 2.5 ug/ml,
+= +46.1% (computed as (2965-2029)/2029), Welch t = 7.19 - so the percentage
+rise is not purely a loss of the FoxP3-negative denominator.
+
+That is the whole of the positive case. Everything below is why it is not
+enough to spend IND-enabling money on.
+
+
+=====================================================================
+PART 2. WHY I WOULD NOT ADVANCE IT - THE FOUR LOAD-BEARING FAILURES
+=====================================================================
+
+FAILURE 1. The only functional efficacy assay in the package has no
+comparator arm, so it cannot attribute anything to TRN-416
+-------------------------------------------------------------------
+Source: TRN416_suppression_cd8_division.xlsx (FC-008) and PDF section 8.
+
+This is the single study that claims a therapeutically meaningful endpoint:
+suppression of CD8+ division. The data do show a dose-ordered decline, from
+83.66 +/- 9.71% division with no added cells to 49.41 +/- 10.73% at the "1:1"
+arm (Welch t = 2.37, p ~ 0.036 on the summary statistics, df 12).
+
+But the design cannot support the conclusion:
+
+(a) No vehicle-expanded arm. The data file's metadata row reads "Added cells |
+    CD4+ cultures expanded with TRN-416 2.5 ug/ml for 48 h, all arms", and the
+    PDF confirms it: "The cells added in every ratio were expanded in this
+    way." Every arm that contains cells contains TRN-416-expanded cells; the
+    only cell-free arm is the 1:0 arm with 0 added cells. So the comparison
+    being made is "adding CD4 cells" versus "adding no cells", not
+    "TRN-416-expanded cells" versus "vehicle-expanded cells". Bulk CD4 cells
+    added to an anti-CD3/IL-2 culture suppress CD8 division by IL-2 competition
+    and by the ~10% Tregs they already contain, with no drug involved. The
+    experiment as built cannot distinguish that from drug effect. This is not a
+    nitpick - it is the one control the entire efficacy claim depends on.
+
+(b) The ratios are mislabelled by roughly 7-fold. The file calls the columns
+    "Responder:Treg ratio" and "Added cells per well", but the added cells are
+    bulk CD4 cultures, which at 2.5 ug/ml are 13.85% Treg by their own FC-002
+    data. At the "1:1" arm, 50,000 added cells x 0.1385 = 6,925 Tregs against
+    50,000 responders, a true Treg:responder ratio of about 1:7.2, not 1:1.
+    Any per-Treg potency read off this table is overstated ~7-fold.
+
+(c) The variance swamps the effect. Converting SEM to CV at n=7
+    (CV = SEM*sqrt(7)/mean): 30.7% at the 1:0 arm and 57.5% at the 1:1 arm. A
+    suppression assay with a 57% coefficient of variation is not a decision-
+    grade assay.
+
+(d) The record contradicts itself on who the cells came from. PDF section 8
+    says "Responders were CD8+ T cells from donors with type 1 diabetes" and,
+    four rows later, "Samples (n) 7, from normal blood donors", while also
+    calling the added CD4 cells "Autologous". Those three statements cannot all
+    be true. If the responders and the added cells are from different donors,
+    a substantial part of the CD8 division in the 1:0 arm, and of its
+    suppression, is allogeneic mismatch, not pharmacology.
+
+(e) The stated suppression index is malformed: "(Treg cell proliferation
+    without Treg - Tresp proliferation with Treg) / Tresp proliferation
+    without Treg cell" (PDF section 8). It subtracts two different populations'
+    proliferation. No suppression index values appear anywhere in the package.
+
+FAILURE 2. The mechanism of agonism is untested, and it is the one answer
+needed before a human molecule can even be designed
+-------------------------------------------------------------------------
+TRN-416 is a mouse IgG1 kappa from a BALB/c hybridoma (PDF section 1, "Species
+of origin", "Isotype"). Every detection and cross-linking reagent in the
+package is anti-mouse or anti-rodent IgG (BP-010 secondary, BP-011 detection,
+FC-012B cross-linker). This molecule cannot go into patients. The clinical
+candidate will be a humanised or human-framework antibody, and the choice of
+human Fc - IgG1 versus IgG4 versus an Fc-silent or Fc-enhanced variant - turns
+entirely on whether agonism is Fc-dependent. The two studies meant to answer
+that both fail:
+
+(a) F(ab')2, study FC-012A (sheet "fab2_fragment"). The vehicle well reads
+    0.16% Treg with an SEM of 0.55 at n = 5. Converting to SD:
+    0.55 x sqrt(5) = 1.23, a CV of 769% on a quantity bounded at zero, which
+    requires large negative percentages among the five donors. That is
+    arithmetically impossible, so the control well is not a measurement. It
+    also cannot be reconciled with the rest of the package: FC-012A used "Media
+    as in section 4" (PDF 13.1), the same media as FC-002, whose vehicle well
+    reads 10.622%. A 66-fold difference in the same nominal measurement rules
+    the baseline out. Without a valid baseline, the 0.16% to 13.37% "response"
+    in that sheet means nothing. (The top of the F(ab')2 curve, 13.37%, does sit
+    at the same ceiling as whole IgG, 14.10% in FC-002, which weakly hints that
+    agonism is Fc-independent and bivalency-driven - but across two experiments
+    with a broken control, that is a hypothesis, not a finding.)
+
+(b) Cross-linking, study FC-012B (sheet "cross_linking"). The cross-linker
+    ab9165 is present in every well (PDF 13.2) and there is no zero-dose well
+    and no uncross-linked parallel arm in the experiment. I compared it dose-
+    for-dose against FC-002, the nearest non-cross-linked curve (method:
+    matched the eight shared doses and subtracted). Cross-linking makes the
+    response worse at every single dose: -1.80 pp at 0.0008, -1.29 at 0.004,
+    -0.74 at 0.02, -0.05 at 0.1, -0.17 at 0.5, -1.71 at 2.5, -1.70 at 12.5,
+    -0.86 at 25 ug/ml. Taken at face value, that argues against Fc-mediated
+    clustering adding anything. But the comparison is cross-study (n=3 vs n=13,
+    different donors), so it cannot be relied on either.
+
+Net: after both studies, the client still does not know whether their agonist
+needs an Fc. They cannot rationally pick a human isotype, which means they
+cannot define the IND candidate, which means IND-enabling studies would be run
+on a molecule whose pharmacology has not been established.
+
+FAILURE 3. The Treg readout is under-specified, and the one control that
+would prove selectivity was gated and never reported
+------------------------------------------------------------------------
+Source: PDF section 5 (flow panel and gating) plus all five FC flow files.
+
+- "Treg" is defined as CD25-high, FoxP3-positive on an FL2-vs-FL1 plot, on a
+  four-colour FACSCalibur using two channels. There is no viability dye, no
+  CD127, no isotype control for the intracellular FoxP3 stain (quadrants are
+  "set on unstained and single-stained aliquots"), and no CD4 co-stain inside
+  the gate - CD4 identity rests on >95% isolation purity alone. CD25-high is
+  exactly what IL-2 and TNF and any activating stimulus produce, and activated
+  conventional CD4 cells transiently express FoxP3. A 3-percentage-point shift
+  in a two-marker gate without a viability dye is as consistent with activation
+  of conventional T cells as with Treg expansion.
+
+- PDF section 5 explicitly defines a second gate - "population reported as
+  Teff: events that are CD25 high and FoxP3 negative, assessed on the same
+  plot". Those numbers exist by construction, on the same plots, and they are
+  nowhere in the package. For a TNFR2 agonist, where the central safety and
+  mechanism question is whether you also expand effector T cells, the absence
+  of the Teff data from a package assembled for programme review is the single
+  most consequential omission in these files.
+
+- The vehicle baseline is not under control across the package. Same readout,
+  same 48 h, same nominal media, same donor type (non-diabetic CD4+), zero-dose
+  wells: 0.16% (FC-012A), 4.553% (FC-005), 8.66% (FC-006), 10.29% (FC-004),
+  10.622% (FC-002), and 10.902% for the T1D set (FC-003). That is a 66-fold
+  spread, and a 2.3-fold spread even if the impossible 0.16% is discarded.
+  Every effect size in the package is a difference from one of those baselines.
+
+- Every curve tops out in the same narrow band: 14.101% (FC-002), 14.866%
+  (FC-003), 14.936% (FC-004), 13.370% (FC-012A), 12.910% (FC-012B). A common
+  ceiling of ~13-15% across different agents, different donor types and
+  different experiments is the signature of an assay limit, not of a shared
+  pharmacological maximum. It also means the apparent non-additivity with TNF
+  (FC-004 reaching 14.936% on top of saturating 20 ng/ml TNF, versus 14.101%
+  for TRN-416 alone) cannot be read as evidence of a shared pathway - the
+  assay had nowhere left to go.
+
+- Effect size is not differentiated from the obvious comparators. Computed from
+  their own files: TRN-416 gives +32.8% over vehicle at its best dose
+  (FC-002, 10.622 -> 14.101); TNF alone gives +32.1% (FC-006, 8.660 -> 11.438);
+  IL-2 alone gives +56.1% (FC-005, 4.553 -> 7.106). The drug does not out-
+  perform either of the two natural ligands they tested, and low-dose IL-2 is
+  the incumbent in exactly this indication. And there is no T1D advantage: at
+  2.5 ug/ml the T1D and control responses are 14.368 +/- 0.680 and
+  13.849 +/- 1.076, t = 0.41 - indistinguishable - so the disease rationale in
+  these files is "it also works in patient cells", not "it works better".
+
+- The absolute-count gain is partly non-selective. Dividing FC-007 counts by
+  FC-002 percentages at matched doses (method: 100 x count / percent; note this
+  crosses two studies, n=11 vs n=13, so treat as approximate) implies total CD4
+  per well rising from 19,102 at 0 ug/ml to 21,409 at 2.5 ug/ml, +12.1%. So
+  roughly a quarter of the +46.1% absolute Treg gain comes from more CD4 cells
+  overall, not from a Treg-selective effect. (Separately, that implied
+  19,000-21,000 CD4 cells per well is irreconcilable with PDF section 4's
+  seeding density of 0.2-1 x 10^6 cells per well - a 2-10% recovery.)
+
+FAILURE 4. Several data files contain values that cannot have come from the
+experiments as described
+----------------------------------------------------------------------------
+I am not alleging misconduct; the likeliest explanation for most of this is
+template filling and copy-paste during report assembly. But as the files
+stand, these specific numbers cannot be cited, and an FDA reviewer or a
+diligence team will find them.
+
+(a) The IL-2 dose-response is not a measurement.
+    Source: TRN416_flow_treg_il2_dose.xlsx (FC-005), n = 7, seven doses from 0
+    to 5000 U/ml. The six non-zero doses read 7.106, 7.106, 7.085, 7.064,
+    7.085, 7.106 with SEMs 0.319, 0.319, 0.298, 0.298, 0.298, 0.319. Across a
+    2,500-fold dose range there are three distinct mean values, each repeated,
+    each travelling with its own repeated SEM to three decimals. Seven
+    independent donors measured under six independent conditions cannot produce
+    byte-identical means and SEMs. On top of that, PDF section 4 states "All
+    cell culture experiments included low-level IL-2 at 200 U/ml in the media",
+    and the data file says "Doses are the quantity of IL-2 added to the well" -
+    so the "0 U/ml" well actually contains 200 U/ml and the "2 U/ml" well
+    contains 202 U/ml. The file therefore reports a +56% jump in Treg
+    percentage (4.553 -> 7.106) from a 1% increase in IL-2. That is not
+    possible. This matters beyond the file itself: FC-005 is the package's only
+    IL-2 comparator, and the claim that TRN-416 acts on top of a saturating
+    IL-2 signal rests on it.
+
+(b) Three "independent donors" share identical paired values in the RNA-seq.
+    Source: TRN416_expression_normalized_reads.xlsx. For SUCLG1, donors DN-01,
+    DN-05 and DN-09 all read 3146.2 in the IL2_only arm and 1669.82 in the
+    IL2_plus_TRN416 arm - the same pair of 6-significant-figure values, three
+    times. CREBBP reads 2529.87 in both DN-01 and DN-05 IL2_only. SUCLG1 reads
+    1687.41019185791 in both DN-03 and DN-11 IL2_only. Method: counted exact
+    value repeats within each gene row across the 24 donor-arm columns.
+    Identical 15-significant-figure values in two different donors, and
+    identical value pairs in three different donors, do not arise from
+    independent sequencing runs.
+
+(c) The same file mixes incompatible provenances. Twelve cells carry 12-15
+    significant figures (e.g. MYC DN-04 IL2_only = 5851.89326902868,
+    PDCD1LG2 DN-04 = 52.0079388120819, SUCLA2 DN-08 = 696.106257946327) in an
+    otherwise integer table. BDNF appears as two separate rows with different
+    values, giving 71 rows against the 70 transcripts listed in PDF Appendix A.
+    IL2RA is blank in both DN-07 arms. MDH2 in DN-04 goes 3,037 -> 22,456
+    (7.4-fold up) while 11 of 12 donors go down. ETS1 falls ~5-fold in DN-03,
+    DN-07 and DN-11 and rises ~2-fold in the other nine, and the gene's overall
+    p value is 0.82. IL7R reads exactly 12,232 in both the DN-06 and DN-12
+    treated arms.
+
+(d) The sponsor's own significance criterion is incoherent, and would have
+    failed their headline gene. PDF section 9.4: "An induction of at least
+    1200 normalized reads was considered significant". That is an absolute
+    read-count threshold with no direction, no fold change and no variance
+    term. Applying it literally (method: per gene, counted donors whose
+    treated-minus-control difference is >= +1200):
+      - FOXP3 fails in 2 of 12 donors (DN-01 +865, DN-05 +822), and IKZF2 in 3
+        of 12, despite both being up in every donor;
+      - IL7R "passes" as an induction in 7 of 12 donors while its mean change
+        is -20,570 reads, i.e. it is going down;
+      - ETS1 "passes" in 9 of 12 with a mean change of +16,132 while its paired
+        t test p value is 0.82;
+      - 24 of the 71 rows have mean control abundance below 1,200 reads, so
+        they can never meet the criterion at all.
+    No gene in this package has been called by a defensible rule.
+
+(e) Six panel genes sit at noise-level abundance, and they dominate the
+    significance ranking. Mean IL2_only reads: BDNF 5.8 and 6.1, IL12B 5.9,
+    GLS2 8.4, IL2 13.6, IL10 16.0. GLS2 (glutaminase 2, a liver enzyme) is the
+    third most "significant" gene in the whole panel at 3.05-fold, p = 5.8e-9,
+    off counts of 6-13 reads. IL12B, which CD4 T cells do not make, "falls"
+    9-fold off counts of 0.1-12. Fold changes on single-digit read counts are
+    not interpretable at any p value.
+
+(f) The itaconate result has impossible precision.
+    Source: TRN416_ancillary_functional_assays.xlsx, sheet
+    "itaconate_supernatant" (MB-012E), n = 6 donors, Metabolon scaled
+    intensity. 0 ug/ml: 614,601 +/- 1,850. 2.5 ug/ml: 700,373 +/- 1,100.
+    Converting SEM to CV at n=6 (SEM*sqrt(6)/mean): 0.74% and 0.38%. A
+    six-donor mass-spectrometry scaled-intensity measure with sub-1%
+    between-donor CV does not exist; by comparison their own flow assays run
+    20-60% CV on the same kind of donor panel. The implied Welch t is 39.9 for
+    a 14.0% change ((700373-614601)/614601). Separately, itaconate is made by
+    ACOD1/IRG1, which is not on their 70-gene panel at all - ACO1 (+1.15-fold)
+    and ACO2 (+1.43-fold) are different enzymes - so there is no transcriptional
+    corroboration anywhere in the package for a metabolite claim.
+
+(g) The soluble TNFR2 ELISA is confounded by the test article by ~4 orders of
+    magnitude. Source: same workbook, sheet "stnfr2_supernatant" (EL-012C).
+    Reported means: IL-2 111.2, TNF 205.9, TRN-416 323.7 pg/ml (2.91-fold over
+    IL-2 alone; method: 323.7/111.2). But the matrix being measured contains
+    TRN-416 at 2.5 ug/ml = 2.5 x 10^6 pg/ml, which is 7,723-fold the analyte
+    signal by mass (2.5e6/323.7) - and the PDF says the dose was 12.5 ug/ml,
+    which would make it 38,616-fold. An anti-TNFR2 antibody at that excess in a
+    TNFR2 capture-and-detect ELISA will compete or bridge, and no spike-
+    recovery or interference control is reported. The sheet also records a
+    24-to-42-hour collection window and a mixture of "Commercial plates and
+    custom plates", and reports no dispersion at all ("Summary statistic |
+    mean"), so no statistical test is possible. This number cannot be used in
+    either direction.
+
+(h) The SPR response levels are inconsistent with the KD the same file
+    reports. Source: TRN416_spr_binding_kinetics.xlsx. The sheet states a
+    theoretical Rmax of 26 RU, confirmed at 26 RU with 500 nM analyte. For a
+    1:1 interaction, the steady-state response should be
+    Rmax x C/(C + KD). Method: computed that prediction at KD = 1.2 nM for each
+    analyte concentration and compared with the "Rmax observed" column.
+      50 nM     predicted 25.39, reported 25.60 (ratio 1.01)
+      25 nM     predicted 24.81, reported 25.10 (1.01)
+      12.5 nM   predicted 23.72, reported 24.70 (1.04)
+      6.25 nM   predicted 21.81, reported 24.20 (1.11)
+      3.125 nM  predicted 18.79, reported 23.80 (1.27)
+      1.5625 nM predicted 14.71, reported 23.10 (1.57)
+    Back-solving a KD from each reported level alone (KD = C(Rmax-R)/R) gives a
+    monotonic drift: 0.78, 0.90, 0.66, 0.47, 0.29, 0.20 nM - a 6-fold departure
+    from the stated 1.2 nM at the bottom of the series. Either the column is
+    mislabelled (in a global 1:1 fit Rmax is one shared parameter, so it should
+    not vary with concentration at all) or the sensorgrams do not support the
+    reported affinity. The Chi-squared column reinforces the suspicion by
+    ranking perfectly with concentration (0.118, 0.104, 0.097, 0.089, 0.081,
+    0.076). And the capture step as described is not physical: "Antibody was
+    injected at a concentration of 1 ng/ml to reach the final capture of
+    100 RU" (PDF section 10) - 100 RU of a 150 kDa IgG cannot be loaded from a
+    1 ng/ml solution.
+
+2.5 Record-versus-data contradictions (the diligence exposure)
+--------------------------------------------------------------
+Every one of these is a direct conflict between
+TRN416_nonclinical_study_summary.pdf (TRN-DOC-0416-07 Rev 3) and the data
+files, or within the PDF itself. A partner's diligence team will tabulate
+these before they read the science.
+
+ 1. EL-012C dose of test article: PDF 13.3 says "TRN-416 at 12.5 ug/ml"; the
+    data sheet's metadata and its own row label say "TRN-416 2.5 ug/ml".
+ 2. RS-001 harvest time: PDF 9.1 says "The incubation time for the samples
+    reported here was 10 hours"; the PDF 9.2 table says "Harvest time after
+    addition of test article: 1h".
+ 3. RS-001 normalisation scope: PDF 9.3 says the data "were normalized for each
+    sequencing laboratory separately"; PDF 9.4 says "Raw reads were normalized
+    for subjects separately". Two different operations.
+ 4. RS-001 batch structure: two sequencing sites (Calder, Westmoor) with two
+    different library kits (NEBNext Ultra vs Ultra II), and no record anywhere
+    of which donor went to which site - so site cannot be modelled or even
+    checked. (Supporting observation: pairwise Spearman correlation of log
+    reads between the 12 IL2_only arms ranges 0.81-0.97, i.e. there is real
+    between-donor structure that a site term would need to absorb.)
+ 5. FC-008 donor attribution: "Responders were CD8+ T cells from donors with
+    type 1 diabetes" vs "Samples (n) 7, from normal blood donors" vs
+    "Autologous", all in PDF section 8.
+ 6. FC-008 ratios: PDF section 8 lists "Responder to Treg at 0:1, 1:1, 2:1 and
+    4:1"; the data file lists 1:0, 4:1, 2:1, 1:1. The PDF has no cell-free arm;
+    the data file's 1:0 arm is the cell-free arm and is the reference for the
+    whole result.
+ 7. MB-012E n: PDF 13.5 says "n = 6 donors" in one row and "Samples (n) 12" in
+    the next; the data file says 6.
+ 8. MB-012E doses: PDF 13.5 lists "0, 0.1, 0.5 and 2.5 ug/ml"; the data file
+    has only 0, 0.5 and 2.5 - the 0.1 ug/ml condition is absent.
+ 9. BP-011 units: PDF section 12 narrative says peptides were plated "at a
+    concentration of 1 mg per well" with "Primary monoclonal antibody at 0.1 mg
+    per well", while the table in the same section says the primary was at
+    "1 ug/ml". A 10^3-10^4 discrepancy.
+10. BP-011 construct lengths: declared as 17-mer (single-loop), 22-mer
+    (double-loop) and 15-mer (linear); the tabulated sequences are 8, 12 and
+    16 residues respectively, and the residue spans match the sequence lengths,
+    not the declared lengths.
+11. Appendix A lists 70 transcripts; the data file has 71 rows, BDNF twice with
+    different values.
+12. PDF section 4 calls 200 U/ml IL-2 "low-level" and says it was in every well
+    of every experiment, which is incompatible with FC-005 having a 0 U/ml arm
+    (see 2.4(a)) and means every TRN-416 effect in the package is measured on
+    top of an undeclared IL-2 background.
+13. PDF section 4 seeding (0.2-1 x 10^6 cells/well) versus ~19,000-21,000 CD4
+    cells per well implied by FC-007 and FC-002 together.
+14. PDF section 14 specifies five statistical methods (t tests, one-way ANOVA
+    with Tukey, linear mixed-effects models, paired t tests); not one p value,
+    confidence interval, test statistic or model output appears anywhere in the
+    package. FC-002 and FC-003 both list "Analysis of trend | Linear
+    mixed-effects model with participant-level random effects" in their
+    metadata with no result attached.
+15. An animal use protocol (IACUC-2016-041) is cited on the cover page, but
+    there is no in vivo study of any kind in the package - no efficacy, no PK,
+    no tolerability.
+
+2.6 What is simply absent
+-------------------------
+Nothing in these files addresses: in vivo efficacy; PK or exposure; any
+toxicology; species cross-reactivity (so no tox species is identified, and
+since the immunogen was human TNFR2 aa 50-122 with no cross-reactivity data,
+there is currently no route to in vivo proof of concept without a human-TNFR2
+knock-in model, a mouse surrogate agonist, or a humanised-immune-system model);
+FcgammaR binding or effector function; counter-screening against any TNFRSF
+member other than TNFR1; any functional (as opposed to binding) TNFR1
+counter-screen; developability (aggregation, viscosity, stability, forced
+degradation) beyond ">95% by SDS-PAGE and SEC"; Treg lineage confirmation
+beyond two flow markers (no CD127-low, no TSDR demethylation, no stability
+after withdrawal); any protein-level confirmation of NF-kB activation (the
+pathway claim is transcript-only); and any effector-T-cell or
+proinflammatory-safety readout.
+
+2.7 The safety signal their own data contains, which they have not addressed
+----------------------------------------------------------------------------
+This is the part I would put in front of their board. TNFR2 agonism is not
+Treg-exclusive, and their own RNA-seq says so. From the same paired analysis as
+section 1.2:
+  IL1B    2.37-fold up, p = 7.1e-5
+  CXCR3   2.04-fold up, p = 8.0e-3
+  IL2     1.90-fold up, p = 7.8e-4
+  TNF     1.36-fold up, p = 2.7e-4
+  TNFRSF9 1.52-fold up, p = 1.7e-2 (4-1BB, a costimulatory receptor)
+  LTA     2.40-fold up on the NF-kB array after housekeeper rescaling
+          (lymphotoxin-alpha)
+Meanwhile the Treg effector molecules move the wrong way or not at all:
+  IL10    0.18-fold, p = 3.0e-5 (a 5.5-fold decrease)
+  CTLA4   0.86-fold, p = 4.8e-5
+  TGFB1   1.03-fold, p = 0.16 (unchanged)
+And two brakes on NF-kB are at or below the array's 0.75 reporting floor and
+therefore unquantified: TNFAIP3 (A20) and TRAF3.
+
+So the transcriptional picture is: Treg identity genes up, Treg effector genes
+down or flat, inflammatory and costimulatory genes up, negative regulators of
+NF-kB unmeasurable. That is a mixed signature, and for an agonist of a receptor
+that is also expressed on effector T cells and on tumour-infiltrating
+lymphocytes, "we raised FOXP3 but lowered IL10 and CTLA4 and raised IL1B and
+LTA" is a liability question, not a supporting datum. It is also the reason the
+missing Teff gate (Failure 3) is the most important gap in the package.
+
+(Two further internal inconsistencies in the metabolic story, for
+completeness: the glycolysis genes fall as a block - ALDOA 0.51, TPI1 0.68,
+PFKL 0.81, PKM 0.82, ENO1 0.87, PGK1 0.89, GPI 0.90 - yet PFKFB3, the
+allosteric activator of glycolysis, rises 1.54-fold; and in the TCA cycle,
+citrate synthase rises 1.97-fold while almost every downstream enzyme falls
+(IDH2 0.66, IDH3G 0.69, IDH3B 0.71, SDHA 0.76, MDH1 0.77, SUCLG2 0.76,
+FH 0.85). That is not "a shift to oxidative metabolism"; it is a pattern that
+needs explaining before it is used as supporting mechanism.)
+
+
+=====================================================================
+PART 3. WHAT WOULD HAVE TO BE SHOWN TO BRING THE ASSET BACK, AND WHAT
+WORK WOULD SHOW IT
+=====================================================================
+
+I have sequenced these so that the cheapest study that can kill the programme
+comes first. Each one names what it must establish and what it must be
+compared against - a comparator inside the same experiment, same donors, same
+plate, same run, because cross-study comparison is what broke most of the
+current package.
+
+GATE 1 - Does TRN-416 expand Tregs selectively at all?
+  Must establish: that the Treg percentage rise is Treg-selective and not
+  generalised CD4 activation, and that it survives a properly specified gate.
+  Compared against: within the same wells and the same acquisition, (i) a
+  vehicle/isotype-matched mouse IgG1 control at the same concentration - the
+  package has no isotype control anywhere; (ii) the CD25-high FoxP3-negative
+  Teff gate the PDF already defines in section 5 but never reports, as a
+  co-primary readout; (iii) recombinant TNF at 20 ng/ml and IL-2 at a dose on
+  the steep part of its own curve, run on the same donors on the same day, so
+  the "no better than TNF or IL-2" arithmetic in section 2.3 above gets a real
+  answer. Add a viability dye, CD4, CD127 and a FoxP3 isotype control, and run
+  it on an instrument with enough colours to do so. Pre-register the analysis,
+  which must be paired per donor with the linear mixed-effects model they
+  already claim in FC-002/FC-003, and must report the model output.
+  Kill criterion: if the Teff gate moves as much as the Treg gate, or if the
+  effect disappears against an isotype control, stop.
+
+GATE 2 - Is the suppression real, and is it attributable to the drug?
+  Must establish: that cells expanded in the presence of TRN-416 suppress
+  responder proliferation more than cells expanded without it.
+  Compared against: the arm the current study lacks - CD4 cells from the same
+  donor expanded for the same 48 hours with vehicle or isotype control, added
+  at the identical cell number per well. Also required: truly autologous
+  responders (or a documented allogeneic design with its own mismatch control),
+  sorted Tregs rather than bulk CD4 so the stated ratio is the actual ratio,
+  and a cell-number-matched non-Treg CD4 arm to control for IL-2 competition.
+  Report the suppression index with a formula that is dimensionally sound, and
+  power the study to the observed variance - at the current 30-57% CV, n=7 will
+  not resolve the effect.
+  Kill criterion: no separation from vehicle-expanded cells at matched cell
+  number.
+
+GATE 3 - Is agonism Fc-dependent? (this gate defines the candidate)
+  Must establish: whether TNFR2 agonism by this epitope requires Fc-mediated
+  clustering, because that determines the human isotype.
+  Compared against: all arms in one experiment, same donors, same plate -
+  intact IgG, F(ab')2, monovalent Fab, F(ab')2 plus a secondary cross-linker,
+  intact IgG plus cross-linker, and isotype control, each with a valid
+  zero-dose well. The two current studies (FC-012A and FC-012B) each lack the
+  in-experiment comparator that would make them readable, and FC-012A's
+  vehicle well is arithmetically impossible.
+  Why this is the gate: until it is answered, the humanised construct cannot be
+  specified, and anything done before it is answered may have to be redone.
+
+GATE 4 - Does a humanised molecule reproduce the mouse molecule's pharmacology?
+  Must establish: that a humanised or human-framework antibody carrying this
+  epitope, in the Fc format Gate 3 selects, matches the parent on affinity and
+  on function.
+  Compared against: the parental murine TRN-416 head-to-head - SPR on the same
+  chip and run (target: reproduce KD 1.2 nM, and this time report sensorgrams,
+  a single global Rmax, residuals, and a repeat at a higher capture level so
+  the inconsistency in section 2.4(h) is resolved); the ELISA counter-screen on
+  the same plate (target: reproduce EC50 ~0.33 ug/ml against the full
+  ectodomain and ~178:1 selectivity over TNFR1); and the Gate 1 and Gate 2
+  assays on the same donors. Add FcgammaR and C1q binding panels and
+  ADCC/CDC assays, which the package entirely lacks, because an agonist that
+  kills the Tregs it binds is self-defeating.
+
+GATE 5 - Is there in vivo proof of concept, and in what system?
+  Must establish: a Treg increase and a disease-relevant effect in a living
+  animal, in a model where the target is actually engaged.
+  Compared against: vehicle and isotype control in the same study, plus the
+  standard-of-care comparator for the indication (low-dose IL-2, and
+  anti-CD3 given the T1D setting). Note the design problem first: TRN-416 was
+  raised against human TNFR2 and the package contains no cross-reactivity data,
+  so the client must first decide and justify the system - human-TNFR2
+  knock-in NOD mice, a mouse-TNFR2 surrogate agonist with matched epitope and
+  format, or humanised-immune-system mice - and must show target engagement in
+  whichever they choose before running efficacy.
+
+GATE 6 - Clean up the record before anyone else reads it.
+  Must establish: that the data files are the data. Specifically: retrieve the
+  primary records behind FC-005 (the repeated means and SEMs), behind the
+  SUCLG1/CREBBP duplicate donor values in the RNA-seq, and behind the itaconate
+  SEMs; correct the 15 record-versus-data contradictions listed in section 2.5;
+  reconcile the EL-012C dose and the RS-001 harvest time against lab notebooks;
+  record the donor-to-sequencing-site assignment and re-normalise the RNA-seq
+  with site as a covariate; and replace the "1200 normalized reads" criterion
+  with a prespecified fold-change-plus-paired-test rule with multiplicity
+  control, re-calling the panel under it. Repeat the sTNFR2 ELISA with a
+  spike-recovery and antibody-interference control on a single plate type, or
+  withdraw the result.
+  This is not optional housekeeping. If the client goes to a partner or to a
+  pre-IND meeting with the files as they stand, the duplicate values and the
+  impossible SEMs will be found, and they will cost the programme more
+  credibility than the data could ever buy it.
+
+What I would tell the client in one sentence: pay for Gates 1-3, in that order,
+with the comparators specified above; if all three read out positive, the asset
+is fundable and Gate 4 onward is a normal development path; if Gate 1 or Gate 2
+reads out negative, they have saved the entire IND-enabling budget.
+
+
+=====================================================================
+PART 4. WHAT I LOOKED AT, AND WHAT I SET ASIDE
+=====================================================================
+
+Looked at, in full: all twelve data files and the eight-page study summary. For
+the record, the studies are TRN416-FC-002 through FC-008, FC-012A, FC-012B,
+EL-012C, AR-012D, MB-012E, RS-001, BP-009, BP-010 and BP-011, which is the
+complete list on the PDF cover page - nothing the summary references is
+missing from the package.
+
+I read every sheet whole rather than from a header row, because each .xlsx
+carries a metadata block above the table; several of my findings come from that
+block rather than from the data (the "all arms" admission in the suppression
+file, the TRN-416 concentration in the sTNFR2 sheet, the 0.75 reporting floor
+in the NF-kB array, the "doses are the quantity added" note in the IL-2 file).
+
+Weight I placed on each piece:
+
+  Carried as supporting, with confidence: BP-009 rate constants and derived KD
+  (arithmetic self-consistent); BP-010 selectivity and EC50; BP-011 epitope
+  mapping (frame-dependence is internally coherent). These are the asset.
+
+  Carried as suggestive, needs confirmation: RS-001 FOXP3/IL2RA/IKZF2
+  induction (direction consistent in every donor, so robust to the file's
+  integrity problems, which affect specific cells rather than the overall
+  pattern); AR-012D non-canonical NF-kB signature after housekeeper
+  renormalisation; FC-002 and FC-003 dose-ordered Treg increase. I down-weighted
+  all of these for the missing Teff gate, the under-specified flow panel and
+  the absence of any reported statistics.
+
+  Set aside as uninterpretable, with the reason:
+   - FC-005 (IL-2 dose-response): repeated means and SEMs across six
+     conditions, plus a +56% response to a 1% IL-2 increment. Not usable as the
+     IL-2 comparator.
+   - FC-012A (F(ab')2): vehicle well mean 0.16 with SEM 0.55 at n=5 is
+     arithmetically impossible, and 66-fold off every other vehicle well under
+     the same media. No valid baseline, so no dose-response.
+   - FC-012B (cross-linking): cross-linker in every well, no zero dose, no
+     uncross-linked arm. Nothing can be attributed to cross-linking.
+   - EL-012C (soluble TNFR2): test article present at 7,700-38,600-fold the
+     analyte signal with no interference control, mixed plate types, an 18-hour
+     collection window, and no dispersion reported.
+   - MB-012E (itaconate): sub-1% between-donor CV at n=6 on a mass-spec
+     intensity, no ACOD1/IRG1 on the gene panel to corroborate it, a missing
+     dose, and n stated three different ways.
+   - FC-008 (suppression): no vehicle-expanded comparator; retained only as a
+     design template for Gate 2, not as evidence.
+   - FC-004 (TRN-416 plus TNF): n=3, and the 0 vs 25 ug/ml comparison gives
+     Welch t = 1.97, p ~ 0.12 - not significant on its own summary statistics.
+     Also its TNF-only well (10.29%) sits below FC-002's no-TNF vehicle well
+     (10.622%), contradicting FC-006 where 20 ng/ml TNF raised Treg percentage
+     by 2.16 points. Set aside as underpowered and internally inconsistent.
+   - Individual RNA-seq genes at single-digit read counts (BDNF x2, IL12B,
+     GLS2, IL2, IL10): excluded from any mechanistic reading, including GLS2
+     despite its p = 5.8e-9, because a 6-to-17-read change carries no
+     information. Note that I did include IL10's decrease in the safety
+     discussion but flag it as low-abundance and therefore soft.
+   - The "CREB" row: not a gene symbol (CREB1 is), so I did not interpret it
+     mechanistically despite p = 5.0e-9.
+   - Any cross-study quantitative comparison (FC-007 counts against FC-002
+     percentages; FC-012B against FC-002) is labelled approximate where I used
+     it, because donors, n and run dates differ.
+
+  Things I deliberately did not do: I did not go outside the package. No
+  literature, no competitor data, no external TNFR2 benchmarks, no reference
+  sequence check on the CLIPS peptides. Every number above is computed from the
+  client's own files, and the method for each is stated next to it so it can be
+  re-run. Where I say something is impossible, that judgement rests on
+  arithmetic internal to their files (an SEM implying negative percentages, a
+  response level inconsistent with the KD in the same sheet, identical values
+  in independent donors), not on an outside expectation.
+
+  Tools used: openpyxl to read all sheets whole; scipy for the paired t tests,
+  the Welch tests on reported summary statistics, the Spearman correlations and
+  the Hill-curve fits; pdftotext for the study summary.

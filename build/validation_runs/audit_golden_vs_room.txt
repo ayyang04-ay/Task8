@@ -1,0 +1,422 @@
+ADVERSARIAL ACCURACY AUDIT — TRN-416 analysis vs. primary data room
+Auditor recomputation: all 12 xlsx files read whole (metadata blocks included) with openpyxl;
+PDF via pdftotext -layout; sign tests via scipy.stats.binomtest (exact, two-sided);
+paired t / Wilcoxon via scipy.stats. Every figure below was recomputed from raw cells.
+
+=====================================================================
+PART 0 — WHAT CHECKS OUT (so the errors below are not noise)
+=====================================================================
+Every arithmetic figure in the analysis reproduces exactly from the cells it cites:
+
+ 13.849/10.622 = 1.303803  -> "1.3038"            OK  (flow_treg_dose_control_donors B12,B18)
+ 2965/2029     = 1.461311  -> "1.4613"            OK  (treg_absolute_counts B13,B19)
+ 10.622/4.553  = 2.332967  -> "2.3330"            OK  (but see Finding 1)
+ ln(2965/2029)/48 = 0.00790279 -> "0.007903"      OK
+ exp(0.00790279*10) = 1.082235 -> "at most 1.082" OK
+ 2.8383/1.082  = 2.6232    -> "at least 2.62"     OK
+ (2.8383-1)*0.10622/0.89378 = 0.21847 -> "21.8%"  OK arithmetically (but see Finding 3)
+ MDH2 DN-04 22456/3037 = 7.39414 -> "7.394"       OK  (expression H44,I44)
+ MDH2 pooled excluding DN-04 = 0.6968            -> confirms "reversal carried by a single donor"
+ T1D 10.902 -> 14.368, n=11                       OK  (flow_treg_dose_t1d_donors)
+ Itaconate 614601 / 642714 / 700373               OK  (ancillary, itaconate_supernatant B12:B14)
+ SPR: KD 1.2 nM, SE 0.2 nM, 6 pts 50->1.5625 nM, max chi2 0.118 (<0.12), 100 RU capture,
+      26 RU theoretical, double referencing       OK  (spr_binding_kinetics)
+ ELISA 2.541 (TNFR2, 10 ug/ml) / 0.062 (TNFR1) / 0.048 (BSA)  OK (elisa_counterscreen B16,D16,E16)
+ F(ab')2 13.37% at 0.91 ug/ml, n=5                OK  (ancillary, fab2_fragment B16)
+ Cross-linking range 9.24-12.91, n=3              OK  (ancillary, cross_linking)
+ sTNFR2 111.2 / 205.9 / 323.7 pg/ml, n=10 each    OK  (ancillary, stnfr2_supernatant)
+ NF-kB: 28 of 39 genes >1.000, n=7, largest TANK 2.683  OK (ancillary, nfkb_array; recount: 28 up,
+      11 down, 39 genes)
+ Suppression 83.66 / 73.01 / 64.09 / 49.41, n=7   OK  (suppression_cd8_division)
+ Expression file: 71 data rows, 70 unique genes (BDNF duplicated), IL2RA missing DN-07 both arms
+      (cells N37/O37 empty) -> n=11 for IL2RA only  OK, exactly as the analysis states
+
+Paired statistics, all recomputed independently (geometric mean of within-donor ratios,
+exact two-sided sign test):
+ FOXP3  2.8383  12/12 up  p=0.000488 -> "2.8383 ... 0.0005"   OK
+ IL10   0.1819  12/12 dn  p=0.000488 -> "0.1819"              OK
+ IL4    0.2280  12/12 dn  p=0.000488 -> "0.2280"              OK
+ CTLA4  0.8558  12/12 dn  p=0.000488 -> "0.8558"              OK
+ PDCD1  0.7760  12/12 dn  p=0.000488 -> "0.7760"              OK
+ TGFB1  1.0300   8/12 up  p=0.38770  -> "1.0300 ... 0.3877"   OK
+ ETS1   1.0703   9/12 up  p=0.14599  -> "1.0703 ... 0.1460"; pooled 1.3526  OK
+ IL7R   0.5184   7/12 up  p=0.77441  -> "0.5184 ... 0.7744"; pooled 0.7036  OK
+ MDH2   0.8537   1/12 up  p=0.006348 -> "0.8537 ... 0.0063";  pooled 1.2187 OK
+ GLS2   3.0508  12/12, mean induction 17.5 reads               OK
+ CPT1B  1.2696  12/12, mean induction 16.9 reads               OK
+ IL2    1.8958  12/12, mean induction  8.4 reads               OK
+ ETS1 mean induction 16132.2 reads ("16132")                   OK
+ >=1200 mean normalized-read induction admits exactly 13 of 70 transcripts (ETS1, IL2RA, EP300,
+      SLC38A1, CREBBP, CD274, CS, FOXP3, IKZF2, RUNX1, CREB, PFKFB3, PRKAA1)   OK
+ Of those 13, ETS1 is the ONLY one the sign test rejects (PRKAA1 11/12 p=0.0063; IL2RA 11/11
+      p=0.0010; all others 12/12 p=0.0005) -> "admits exactly one transcript that the paired test
+      rejects, and that transcript is ETS1"                    OK
+
+Statistical design judgement is sound where it matters: the design IS paired (PDF 9.1 "Each donor
+preparation was split into two wells"), and the package's own prescribed estimator (PDF s.14,
+"Expression comparisons: Paired Student's t test, two tailed") agrees with the sign test on all
+four disputed genes — I ran it: ETS1 p=0.188 (raw) / 0.823 (log), IL7R p=0.180/0.082,
+TGFB1 p=0.442/0.161. So "three of the headline results do not survive" survives the swap of
+estimator. Good.
+
+All document/data inconsistencies the analysis lists are real and correctly located
+(IL-2 200 vs 50 U/ml: PDF s.4 vs s.9.1; normalization scope per-subject s.9.4 vs per-site s.9.3;
+suppression responders T1D vs "n=7, from normal blood donors" s.8; sTNFR2 agonist 12.5 ug/ml
+s.13.3 vs 2.5 ug/ml in the data file; itaconate n=6 vs Samples(n)=12 s.13.5; harvest 1 h in the
+s.9.2 table vs 10 h in the s.9.1 narrative).
+
+=====================================================================
+PART 1 — ERRORS, MOST SERIOUS FIRST
+=====================================================================
+
+FINDING 1 (MOST SERIOUS). The headline 2.3330 "spread in the no-drug condition" is built on a
+mischaracterisation of three of its four inputs. Three of the four values are NOT the
+"no-drug, no-added-agent condition."
+
+The analysis: "The no-drug, no-added-agent condition reads 10.622 percent in
+..._dose_control_donors.xlsx, 10.290 percent in ..._dose_with_tnf.xlsx, 8.660 percent in
+..._dose_tnf_dose.xlsx and 4.553 percent in ..._dose_il2_dose.xlsx. The spread is 10.622 divided
+by 4.553, a factor of 2.3330."
+
+What the room says:
+ - TRN416_flow_treg_dose_with_tnf.xlsx cell B7: "Recombinant human TNF, 20 ng/ml, all wells"; PDF
+   s.6.3: "Recombinant human TNF at 20 ng/ml was added to every well, including the well receiving
+   no TRN-416." So its 0 ug/ml value (10.290) is a TNF-treated well, not a no-added-agent well.
+ - TRN416_flow_treg_il2_dose.xlsx: the 0 U/ml row (4.553) is the ZERO point of an IL-2 titration.
+   PDF s.6.4 specifies the conditions for FC-005 as "Recombinant human IL-2 added at 0, 2, 10, 50,
+   200, 1000 and 5000 U/ml. No test article was added to any well." It does NOT restate the
+   200 U/ml background, whereas PDF s.6.1, s.6.2 and s.6.3 each explicitly do ("Media as in
+   section 4, including IL-2 at 200 U/ml in every well"). PDF s.4 ends: "Culture conditions
+   specific to an individual study are given in that study's section and take precedence over this
+   paragraph." On the document's own precedence rule, the FC-005 0-arm is an IL-2-free well.
+ - Same for TRN416_flow_treg_tnf_dose.xlsx (PDF s.6.5, no 200 U/ml restatement).
+
+Consequence: the "spread" is overwhelmingly an IL-2 dose effect, not run-to-run variability. The
+two records that unambiguously share the section-4 media and a genuinely agent-free 0-arm are
+FC-002 (10.622) and — once TNF is set aside — nothing else; FC-002 vs FC-004 differ by 3.2%
+(10.622 vs 10.290), not 133%. The correct statement of inter-record baseline variability among
+comparable records is a factor of about 1.03 (10.622/10.290), or at most about 1.23
+(10.622/8.660) if FC-006's 0-arm is taken as comparable. 2.3330 is not a measure of assay
+variability.
+
+This is load-bearing twice over: it is the sole cited justification for Study 1 ("This is
+necessitated by the 2.3330 spread in the no-drug condition across the four dose-response
+records"), and it carries the paragraph's conclusion that "any claim of superiority drawn from the
+endpoint percentages is comparing incommensurable baselines." The recommendation to run a
+concurrent-comparator experiment is still right for other reasons (different n, different donors,
+no within-run comparator), but the quantitative warrant given for it is wrong.
+
+FINDING 2 (VERY SERIOUS). "The absence of any discriminating marker in the mounted panel" is
+contradicted by the panel itself. IKZF2 (Helios) is present, is a transcription factor, and is one
+of the strongest signals in the file.
+
+The analysis asserts, in two places:
+ - "The 70 transcripts ... contain no lineage-defining transcription factor of a competing CD4
+   lineage and no proliferation marker."
+ - Study 3 is "necessitated by ... the absence of any discriminating marker in the mounted panel."
+
+TRN416_expression_normalized_reads.xlsx row 32 is IKZF2. Recomputed paired within-donor geometric
+mean 2.8931, up in 12 of 12 donors, exact sign-test p=0.000488, mean absolute induction
+2830.4 normalized reads — i.e. it also passes the s.9.4 >=1200-read criterion and is one of the
+13 admitted transcripts the analysis itself counted. IL2RA (row 37, gm 3.4523, 11/11, p=0.0010,
+mean induction 7158.8 reads) and TNFRSF18/GITR (row 68, gm 1.0982, 10/12, p=0.0386) are also
+mounted Treg-associated markers.
+
+So the room DOES carry a Treg discriminator beyond FOXP3, with a large, unanimous, criterion-
+passing signal, and the analysis's own compartment argument ("If the whole FOXP3 change sits in
+Tregs ... If it sits in the conventional cells instead") never engages it. The correct statement
+is that the panel lacks a *flow-cytometric* discriminator in the gating panel (PDF s.5 is CD25/
+FoxP3 only) and lacks lineage TFs of competing lineages — not that it contains no discriminating
+marker at all. Study 3 remains a sensible ask; its stated necessitating evidence is false.
+
+FINDING 3 (SERIOUS). The 21.8 percent conventional-cell figure and the 1.082 ceiling both import
+numbers across records in exactly the way the analysis declares impermissible, and the 21.8 figure
+is highly sensitive to that import.
+
+The analysis states flatly: "The records do not share a scale, so the effect cannot be compared
+across them" and "No comparison of TRN-416 against IL-2, against TNF, or against any other
+expansion agent is supported by this package." It then:
+ (a) imports the 10.622% Treg frequency from FC-002 (48 h, 96-well round-bottom, 0.2-1e6 cells/
+     well, IL-2 200 U/ml, nondiabetic donors, n=13) into the compartment arithmetic for RS-001
+     (10 h, 24-well, 3e6 cells/well, IL-2 50 U/ml, n=12 — PDF s.9.1); and
+ (b) imports the 48-h count means from FC-007 (n=11, IL-2 200 U/ml) to bound composition change
+     in RS-001 at 10 h.
+No record in the room reports Treg frequency under RS-001's conditions.
+
+Sensitivity: recomputing (2.8383-1)*f/(1-f) at the IL-2 level RS-001 actually used —
+TRN416_flow_treg_il2_dose.xlsx reports 7.085% at 50 U/ml added (B14) — gives 14.0 percent, not
+21.8 percent. At the 0-added-IL-2 value (4.553%) it gives 8.8 percent. The quoted figure is
+arithmetically correct for f=0.10622 but the choice of f is unsupported, and the answer moves by
+a factor of 2.5 across defensible choices from the same room. The figure should be given as a
+range (roughly 9 to 22 percent) or not quoted to three significant figures.
+
+Also in this finding: "Taking the count change as exponential from time zero, the growth rate is
+the natural log of 2965 over 2029 divided by 48 hours." 2029 is the 48-hour count of the 0 ug/ml
+arm (treg_absolute_counts B13), not a time-zero count. The quantity computed is the excess
+drug-attributable growth-rate difference between arms, not a growth rate from time zero. The value
+(0.007903/h) and the 10-h multiplier (1.082) are the right construction for a drug-attributable
+composition bound, so the number survives; the stated derivation misdescribes it.
+
+FINDING 4 (SERIOUS). The claimed contradiction between PDF s.4 and the IL-2 record is not
+established, and the paragraph's strongest sentence — "The reason is stated in the package rather
+than inferred" — is a non sequitur.
+
+The analysis: "section 4 ... says that all cell culture experiments included low-level IL-2 at
+200 U/ml in the media, while TRN416_flow_treg_il2_dose.xlsx titrates added IL-2 from 0 U/ml and
+then sits flat at 7.06 to 7.11 percent across every non-zero dose including 200 U/ml. Those two
+statements cannot both describe one scale."
+
+PDF s.4 (lines 104-105) ends with an explicit precedence clause: "Culture conditions specific to
+an individual study are given in that study's section and take precedence over this paragraph."
+PDF s.6.4 gives FC-005's conditions and omits the 200 U/ml background that s.6.1-6.3 each state
+explicitly. The two statements therefore CAN both hold: s.6.4 overrides s.4 for FC-005. There is
+no contradiction to be found here, only a document that is less explicit in s.6.4 than in s.6.1.
+Separately, even if a contradiction existed, it would not establish that it is "the reason" the
+four tabulated 0-arms differ — the records also differ in donors, n (13/3/8/7), and added agent.
+The analysis presents an inference as a statement of the package.
+
+FINDING 5 (SERIOUS). "This is necessitated by the absence of any timepoint beyond 48 hours
+anywhere in the package" is false on the face of the room.
+
+TRN416_ancillary_functional_assays.xlsx, sheet cross_linking, cell B6: "Timepoints assessed:
+24 h, 48 h, 72 h" (B7: "Tabulated timepoint 48 h"). PDF s.13.2 repeats it: "Timepoints examined
+24, 48 and 72 hours." PDF s.4 also states cultures were "incubated for up to 72 hours." The
+analysis quotes this very sheet two paragraphs earlier for the 9.24-12.91 range, so it had the
+cell in hand. The accurate statement is that no timepoint beyond 48 hours is *tabulated*; 72 h was
+assessed and the data were not reported. That is a materially different — and arguably stronger —
+basis for Study 5, and it is a request the client can satisfy from existing work.
+
+FINDING 6 (SERIOUS, logic). The cross-linking inference runs backwards. "the cross-linking arm
+runs 9.24 to 12.91 percent across three preparations, so activity does not require an exogenous
+cross-linker."
+
+In that record the cross-linker is present in EVERY well (xlsx cross_linking A4/B4: "Anti-rodent
+IgG clone ab9165, 2.5 ug/ml"; PDF s.13.2: "with the cross-linking reagent present in every well"),
+and the record has no 0 ug/ml TRN-416 row at all (lowest dose 0.0008 = 9.24%). A record in which
+every well contains the cross-linker cannot show that activity does not require one; it shows at
+most that adding one does not further boost the response. The claim that activity is
+cross-linker-independent rests on FC-002, where no cross-linker was used — not on this record. As
+written the conclusion does not follow from the cited evidence. (The 9.24 figure is also not a
+vehicle baseline, as "runs 9.24 to 12.91" implies.)
+
+FINDING 7 (MODERATE). "no proliferation marker ... without a proliferation marker they cannot
+report on division at all" overstates. MYC (row 45) and CDKN1C (row 12) are both mounted
+cell-cycle/growth genes. Recomputed: MYC gm 0.9345, down in 10 of 12 donors, p=0.0386;
+CDKN1C gm 0.6945, down in 11 of 12, p=0.0063. A significant MYC decrease at 10 h is directly
+relevant to the analysis's own 1.082 composition ceiling — it argues the proliferative program is
+not engaged at 10 h, which strengthens the conservative end of the 1.00-1.09 band. The panel does
+lack a canonical cytometric proliferation marker (no MKI67, no CCNB1, no PCNA), which is the
+defensible version of the claim.
+
+Relatedly: "The 70 transcripts ... contain no lineage-defining transcription factor of a competing
+CD4 lineage" is true for TBX21/GATA3/RORC/BCL6 (I confirmed all four absent from the 70-gene
+Appendix A list and from the file), but the panel does carry lineage-*associated* effectors with
+unanimous signals: CXCR3 (Th1-associated) up gm 2.0401, 12/12, p=0.0005; IL4 (Th2) down gm 0.2280,
+12/12; IL12B down gm 0.1107, 12/12. The panel is not wholly uninformative about competing
+lineages, as "the panel cannot settle the question" implies.
+
+FINDING 8 (MODERATE, fairness). IL4 is listed among "the effectors" and "the transcripts that
+carry suppressor function," and its fall is recruited as evidence against a potency claim.
+
+"Under paired within-donor analysis, IL10 is 0.1819, IL4 is 0.2280, CTLA4 is 0.8558 and PDCD1 is
+0.7760 ... The transcripts that carry suppressor function fall while the identity transcripts
+rise."
+
+IL4 is a Th2 effector cytokine, not a Treg suppressive effector. Its 4.4-fold fall in 12 of 12
+donors is, if anything, evidence AGAINST Th2 contamination of the response — i.e. evidence
+favourable to the Treg reading the analysis is arguing against. Grouping it with IL10/CTLA4/PDCD1
+inflates the count of "effectors down" from three to four and converts favourable evidence into
+unfavourable. IL12B (gm 0.1107, 12/12 down) is the same case and is not mentioned at all.
+
+FINDING 9 (MODERATE, internal contradiction). IL2 is used both ways. The analysis excludes IL2 by
+the s.9.4 criterion because its mean absolute induction is only 8.4 reads ("Applied consistently it
+excludes ... IL2 at 1.8958 in 12 of 12, whose mean absolute inductions are 17.5, 16.9 and
+8.4 reads"), and then, three paragraphs later, relies on the same transcript's ratio as substantive
+evidence: "the IL2 transcript rise of 1.8958 in 12 of 12 donors argues against a pure Treg
+response rather than for one." Both cannot stand. The raw reads are 3-44 (IL2-only) against 10-55
+(TRN-416) — an 8-read mean change at counts in the single and double digits. If 8.4 reads is below
+the package's own threshold of meaning, it cannot carry an argument about Treg purity.
+
+FINDING 10 (MODERATE). "the current FOXP3-alone gate" contradicts the analysis's own earlier,
+correct description and the PDF. PDF s.5 (lines 119-120): "Events within the CD4+ preparation that
+are CD25 high and FoxP3 positive." The analysis states this correctly earlier ("the flow gate on
+CD25-high FoxP3-positive events") and then, in Study 3, calls the comparator "the current
+FOXP3-alone gate." It is a two-marker gate. Minor as arithmetic, but it is an internal
+contradiction in a sentence defining a proposed study's comparator.
+
+FINDING 11 (MODERATE, omission that cuts against the recommendation). The analysis's central
+recommendation — "take the toxicology slot," justified by "Format, selectivity and proximal
+signalling are all clean. That is the reason to spend the slot" — never mentions that the test
+article is an unmodified murine antibody.
+
+PDF s.1: "Species of origin: Mouse. Hybridoma raised in BALB/c." "Isotype: IgG1, kappa."
+Purification is Protein A; the ELISA and CLIPS secondaries are anti-mouse/anti-rodent IgG. There is
+no humanisation, no species cross-reactivity data, no in vivo data of any kind, and no toxicology
+in the room (PDF s."Studies covered" lists only in vitro FC/EL/AR/MB/RS/BP studies). For a
+recommendation that turns on spending an IND-enabling toxicology slot, the molecule's murine
+origin is the single largest unaddressed development item in the package, and "the molecule is not
+what is in question" / "the molecule itself is clean" is stronger than the room supports. This is
+the clearest instance of evidence in the room that argues against the stated position and is not
+engaged.
+
+FINDING 12 (MINOR-MODERATE). "TNFR1 binding is at blank" overstates. In
+TRN416_elisa_receptor_counterscreen.xlsx column D the TNFR1 series is 0.062, 0.059, 0.058, 0.055,
+0.054, 0.052, 0.051, 0.050 against its own zero-antibody well at 0.048 (D24) — a monotone,
+dose-ordered titration across all eight concentrations, 0.014 OD above its own blank at the top
+dose. The BSA column (E) by contrast is essentially flat (0.048 down to 0.043). The magnitude is
+trivial and the selectivity conclusion stands, but the TNFR1 signal is dose-dependent and
+non-zero, not "at blank."
+
+FINDING 13 (MINOR-MODERATE). The suppression ratios are repeated uncritically although the room
+shows they do not describe Treg content. "reads 83.66, 73.01, 64.09 and 49.41 percent CD8 division
+at responder-to-Treg ratios of 1:0, 4:1, 2:1 and 1:1."
+
+TRN416_suppression_cd8_division.xlsx B4: the added material is "CD4+ cultures expanded with
+TRN-416 2.5 ug/ml" — whole CD4 cultures, which by the same package's flow data are roughly 13.8%
+CD25hi FoxP3+ at that dose. Responder input is 5e4 (PDF s.8); added cells are 12500/25000/50000
+(column B). So the columns are responder:total-CD4 ratios; the true responder:Treg ratios are
+roughly 29:1, 14:1 and 7:1. The analysis correctly flags that all four arms are TRN-416-expanded,
+but then re-states the mislabelled axis as fact. Also: "That establishes the added cells suppress
+and that suppression tracks dose" is asserted with no test; the record gives only means and SEMs
+(9.71-11.29 on means 83.66 and 49.41). An unpaired two-sample t on the 1:0 vs 1:1 means gives
+t=2.37, p~0.036 — real but marginal, and the arms are not independent of total cell density. The
+word "establishes" is stronger than n=7 means with SEMs ~20% of the mean support.
+
+FINDING 14 (MINOR). The F(ab')2 record is used as clean evidence while carrying the worst baseline
+anomaly in the room — which the analysis elsewhere treats as disqualifying.
+TRN416_ancillary_functional_assays.xlsx, fab2_fragment: the 0 ug/ml well reads 0.16% (B11), i.e.
+66-fold below FC-002's 0 ug/ml of 10.622% and 28-fold below FC-005's 4.553%. The curve is also
+non-monotone (peaks 13.37 at 0.91 ug/ml, then 11.55, 12.00, 9.35, 8.24) with SEMs up to 5.69.
+By the analysis's own "incommensurable baselines" standard this record's scale should have been
+flagged; instead "the F(ab')2 fragment reaches 13.37 percent" is quoted as if commensurate with
+the 13.849% endpoint of FC-002. The Fc-independence conclusion is still supported within-record
+(0.16 -> 13.37 is a large internal dose-response); the uncritical treatment is the issue.
+
+FINDING 15 (MINOR). SPR quality is presented as uniformly clean while the one internal
+inconsistency in the record is passed over. "consistent per-concentration KD values and chi-squared
+below 0.12" is correct (KD 1.19-1.22 nM; chi2 0.076-0.118). But column C, "Rmax observed," drifts
+monotonically with analyte concentration: 25.6, 25.1, 24.7, 24.2, 23.8, 23.1 RU across 50 to
+1.5625 nM. In a 1:1 *global* fit (B19/PDF s.10) Rmax is a single shared parameter and should not
+track analyte concentration; a monotone drift of that shape is the classic signature of
+incomplete equilibration or a mass-transport/avidity contribution. It does not overturn a 1.2 nM
+KD, but it is the one quality flag in the record and it is not mentioned.
+
+FINDING 16 (MINOR). The NF-kB summary omits censoring. "28 of 39 genes above the IL-2-only wells"
+is exactly right (recount: 28 up, 11 down, 39 genes). But column D flags four genes — MAP3K1,
+MAP3K12, TNFAIP3, TRAF3 — as "at or below lower limit of reported range," all reported at the floor
+value 0.750 (B9: "Lower limit of reported range 0.75"). Four of 39 values are censored, including
+two core NF-kB negative regulators. Describing the array as showing "proximal signalling ... clean"
+without noting that a tenth of the panel is floored is understated.
+
+FINDING 17 (MINOR). "I report IL2RA at its true n" — the analysis never reports an IL2RA figure
+anywhere. (For the record: gm 3.4523, 11/11 up, p=0.0010, mean induction 7158.8 reads — the
+largest fold-change among the 13 criterion-passing transcripts.) The sentence claims a disclosure
+that was not made.
+
+FINDING 18 (MINOR). "ETS1 ... carries the largest absolute induction on the panel at 16132 reads."
+Correct as the largest *induction* (16132.2). But the largest absolute *change* on the panel is
+IL7R at -20569.5 reads, and ALDOA is -6447.9. Since the sentence is about magnitude ("largest
+absolute induction"), it is worth stating that the largest absolute movement on the panel is a
+reduction that the analysis separately finds non-significant (IL7R 7/12, p=0.7744) — a point that
+would have reinforced its own argument.
+
+FINDING 19 (MINOR). The flagged doc/data inconsistency list is presented as complete ("The rest do
+not affect any figure I have relied on") but omits at least four more:
+ - itaconate doses: PDF s.13.5 gives "0, 0.1, 0.5 and 2.5 ug/ml"; the data file has only 0, 0.5,
+   2.5 (the 0.1 arm is missing).
+ - suppression ratios: PDF s.8 "Responder to Treg at 0:1, 1:1, 2:1 and 4:1" vs the file's
+   "1:0, 4:1, 2:1, 1:1" (0:1 and 1:0 are inverses).
+ - epitope mapping: PDF s.12 gives peptide at "1 mg per well" and primary at "0.1 mg per well";
+   the xlsx gives "primary at 1 ug/ml" — a 100-fold discrepancy in antibody loading.
+ - epitope construct lengths: the xlsx labels 12-residue sequences as "double-loop CLIPS, 22-mer"
+   and 8-residue sequences as "single-loop CLIPS, 17-mer" (rows 15-23), internally inconsistent
+   with B8 and with PDF s.12.
+None is load-bearing, but the claim of having swept them is not met.
+
+FINDING 20 (MINOR, logic). "Both move in the same direction, so the effect is a real increase in
+cell number and not a compositional artefact of the denominator." The frequency record (FC-002,
+n=13 nondiabetic donors) and the count record (FC-007, n=11 nondiabetic donors) are separate
+studies on separate donor sets; no donor appears in both and neither file reports the other's
+quantity. FC-007 does establish a count rise in its own donors on its own, so the conclusion is
+substantively right — but "gives absolute counts on the same dose series at the same 48 hour
+timepoint" invites the reading that FC-007 validates FC-002's denominator, which it cannot. This is
+the same cross-record move the analysis forbids elsewhere (see Finding 3), applied here without the
+caveat. Note also that recovering total CD4 requires combining the two files
+(2965/0.13849 vs 2029/0.10622 = 1.121), exactly the cross-study division the analysis calls
+unavailable; its hedge ("The two records together recover relative total CD4 at 48 hours") concedes
+this but does not flag that the two records are different donors.
+
+FINDING 21 (MINOR). "MDH2 reverses outright: pooled 1.2187 against paired 0.8537 at 1 of 12,
+p of 0.0063" asserts significance on the estimator most favourable to it without saying so. The
+sign test gives p=0.0063; the estimator the package itself prescribes (PDF s.14, paired two-tailed
+t test) gives p=0.686 on raw reads and p=0.448 on log ratios, because the single DN-04 outlier
+(7.394-fold up, 3037 -> 22456) dominates the mean. Wilcoxon signed-rank gives p=0.034. The
+analysis elsewhere leans on the sign test to *reject* claims (ETS1, IL7R), which is consistent;
+but asserting a significant reversal here, from the one test blind to the outlier it simultaneously
+identifies, deserves the disclosure. (The direction of its conclusion — that the pooled 1.2187 is
+an artefact of DN-04 — is correct: pooled excluding DN-04 is 0.697.)
+
+FINDING 22 (MINOR). "It shows the same dose-ordered rise" (T1D record) and "The curve is
+dose-ordered through the mid-range" (control record) are both slightly loose. FC-002 dips at
+0.02 ug/ml (11.361 -> 11.076); FC-003 dips at 0.004 (10.968 -> 10.653) and at 5 ug/ml
+(14.368 -> 14.302). The hedge "through the mid-range" covers FC-002; the unqualified "same
+dose-ordered rise" for FC-003 does not. Immaterial to any conclusion.
+
+=====================================================================
+PART 2 — ITEMS CHECKED AND FOUND SOUND (worth recording)
+=====================================================================
+- The paired-versus-pooled reasoning is correct and the design justification is correctly sourced
+  (PDF s.9.1 split wells). It is also independently corroborated by PDF s.14, which prescribes a
+  paired t test — a citation the analysis could have used and did not.
+- All seven quoted sign-test p-values are exactly right to four decimals, including the 12/12 case
+  (2*0.5^12 = 0.000488).
+- The "exactly one admitted transcript fails the paired test, and it is ETS1" claim is a strong,
+  non-obvious result and it is correct: I enumerated all 13 admitted transcripts and only ETS1
+  has p>0.05.
+- Nothing claimed as external knowledge is in fact in the room, and the three external claims are
+  correctly marked (activation-induced FOXP3 in conventional CD4 cells; TBX21/GATA3/RORC/BCL6 as
+  the needed lineage TFs; Tregs consuming rather than producing IL-2). I found no fourth
+  unmarked-external *biological* claim — the unsupported assertions I found (Findings 1, 2, 5) are
+  misreadings of the room, not smuggled outside knowledge.
+- The two data-quality items (duplicate BDNF rows 5 and 6 with different values; IL2RA missing both
+  arms for DN-07) are real and correctly characterised.
+
+=====================================================================
+VERDICT
+=====================================================================
+The analysis is arithmetically impeccable and statistically well-judged. Every one of the roughly
+forty numeric claims reproduces exactly from the cells cited, the paired design is correctly
+identified, all sign-test p-values are exact and correct, the pooled-versus-paired reversals are
+real, and the one genuinely hard combinatorial claim (exactly one criterion-admitted transcript
+fails the paired test, and it is ETS1) is right. On criteria 1, 2 and 3 of this audit I found no
+errors at all.
+
+It fails on criteria 4, 5 and 7. Three claims are asserted as if they came from the files and are
+contradicted by the files: that four records share a "no-drug, no-added-agent" condition spreading
+2.3330-fold (three of the four are not that condition; two records carry an added agent or an
+IL-2-free zero point, so the figure is largely an IL-2 dose effect — Finding 1); that the mounted
+panel contains no Treg-discriminating marker (IKZF2/Helios is present at gm 2.89, 12/12,
+p=0.0005, and passes the package's own induction criterion — Finding 2); and that no timepoint
+beyond 48 hours exists anywhere in the package (72 h was assessed in the cross-linking study, in a
+sheet the analysis quotes for another purpose — Finding 5). Each of these three is the *sole*
+stated warrant for one of the six recommended studies. One further conclusion does not follow from
+its evidence at all (cross-linker independence inferred from a record in which every well contains
+the cross-linker — Finding 6), and one claimed document contradiction dissolves against the PDF's
+own precedence clause (Finding 4).
+
+The conclusions themselves survive. Strike the per-cell potency claim: correct and well evidenced
+(Finding 13 notwithstanding, the suppression record genuinely has no non-TRN-416 comparator).
+Treat the 10-hour expression data as an acute response rather than a characterisation of the 48-hour
+population: correct. Do not claim superiority over IL-2 or TNF: correct, though for the right
+reason (no concurrent comparator, different donors and n) rather than the stated one. All six
+proposed studies are the right studies. But three of the six rest on stated factual premises that
+the room contradicts, the 21.8 percent compartment figure is quoted to three significant figures
+when the room supports only a range of roughly 9 to 22 percent, and the recommendation to spend an
+IND-enabling toxicology slot on a declared-clean molecule is made without once noting that the
+molecule is an unmodified murine BALB/c IgG1 with no humanisation, no species cross-reactivity
+data and no in vivo data anywhere in the package — the largest item in the room arguing against
+its own position.
+
+Overall: accurate in its computation, not fully accurate in its reading of the room; conclusions
+supported, but three of the six study justifications and the headline variability figure need to be
+rewritten before this goes to a client.
