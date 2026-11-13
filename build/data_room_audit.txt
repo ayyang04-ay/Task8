@@ -1,0 +1,35 @@
+DATA ROOM AUDIT — transcription fidelity and leak scan. Run 2026-11-13 against the shipped room after its last edit.
+
+1. EXPRESSION TABLE, THE ONLY REAL DATA. EXACT.
+Compared cell by cell against the source workbook, as a multiset of gene plus its 24 values. 71 source rows, 71 shipped rows, zero rows present in one and not the other, zero values altered. The transformation is reordering and renaming only.
+Donor mapping is positional and intact: source column pair j maps to DN-{j} in the same order, arm order preserved, Control to IL2_only and AgonistAb to IL2_plus_TRN416.
+Alphabetical sort confirmed. Source order begins TNF, IL7R, IL1B, IL2, IL2RA, IL4, which is the source's own pathway grouping. Shipped order begins ACO1, ACO2, ALDOA, BDNF, BDNF, CAD. The grouping does not survive.
+The two deliberate artefacts survive: BDNF appears twice with different values, and IL2RA is absent for one donor in both arms.
+
+2. DIGITISATION ERROR, BOUNDED BY RE-MEASUREMENT AT OTHER RESOLUTIONS.
+Record 2, the frequency dose-response, re-digitised at 300 and 600 dpi against the shipped 400 dpi values. Maximum absolute difference across all ten doses is 0.012 percentage points. The 2.5 over 0 ratio reads 1.3038, 1.3040 and 1.3045 at 400, 300 and 600 dpi.
+Record 7, the absolute counts, re-digitised at 300 dpi. Maximum absolute difference 2.6 cells. The ratio reads 1.4613 and 1.4602; the derived growth rate 0.007903 and 0.007886 per hour; the 10 hour composition bound 1.0822 and 1.0821.
+The composition bound is therefore 1.082 plus or minus 0.001 with respect to digitisation. The band of 1.00 to 1.09 carried in the golden is comfortably conservative. Re-measurement of record 7 at 600 dpi failed on tick detection, which is a threshold artefact of the extractor at that resolution and not a data problem; two resolutions agreeing is sufficient.
+
+3. COMPANION DOCUMENT, DERIVATION FROM SOURCE METHODS. CLEAN.
+234 eight-word sequences are shared with the source methods text, which is expected because the document is authored from those methods.
+Zero of those shared sequences carry a conclusion verb. Searched for demonstrat, suggest, indicat, show, confirm, prove, superior, maximal, potent, robust, rapid, we found, conclude. No conclusion prose was carried across.
+
+4. LEAK SCAN AGAINST THE SOURCE'S NON-METHODS PROSE. ONE FINDING.
+22 eight-word sequences are shared with the source's abstract, results, discussion or supplementary text and are not also in its methods.
+21 of the 22 are fragments of the dose series, 0, 0.0008, 0.004, 0.02, 0.1, 0.5, 2.5, 5, 12.5, 25. These are the real experimental doses and cannot be changed without falsifying the record. Not a leak.
+The remaining one is a leak and is actionable. The sentence "An induction of at least 1200 normalized reads was considered significant compared to cells cultured with IL-2 without antibody for the same length of time" is carried verbatim into section 9.4. In the source it sits in the results, not the methods. It is a distinctive and searchable string, and it is the single most retrievable phrase in the room.
+The brief requires the criterion to be present as a method with no resulting gene list, and that requirement is met by the criterion's content rather than by its wording. Rewording it would retain everything load-bearing, since what matters is the threshold value, the unit, and the comparison it is defined against. Proposed replacement wording is recorded below. Not applied, because the item is brief-mandated and the call belongs to the writer.
+Proposed: "Transcripts were counted as induced where the increase over the paired wells receiving IL-2 without test article, at the same incubation time, reached 1200 normalized reads or more."
+
+5. COMPANION DOCUMENT AGAINST THE DATA FILES. CONSISTENT.
+All 12 sample counts agree between the document and the corresponding data file: 13, 11, 3, 7, 8, 11, 7, 5, 3, 10, 7, 6.
+The dose series stated in the document matches the series tabulated in the file.
+Exactly the four intended document-versus-file differences are present and no others: the sTNFR2 agonist dose reads 12.5 ug/ml in the document and 2.5 ug/ml in the file; the itaconate dose series carries four doses in the document and three in the file; the itaconate n reads 6 in one line and 12 in another within the document; and the expression harvest time reads 10 hours in the narrative and 1 h in the sample-handling table.
+
+6. PROVENANCE SCRUB. PASS.
+assert_room.py passes on all categories: original clone code, accession numbers, journal and publisher strings, supplementary-file conventions, figure back-references, source authors and institutions, original donor labels, and the retired sponsor name. No .md file in the room. 13 files, two extensions.
+
+VERDICT
+Transcription is accurate. The only real data is carried without alteration, the digitised values are stable to a thousandth of the quantity that matters, the companion document is faithfully derived from methods and carries no conclusions, and the document and the files agree everywhere except in the four places where disagreement is deliberate.
+One leak, actionable, at item 4: one verbatim results-section sentence that is a searchable fingerprint. Content can be preserved and the fingerprint removed in a single line.
