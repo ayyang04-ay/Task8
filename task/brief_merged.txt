@@ -54,7 +54,7 @@ Treg 10.622 -> 13.849% at 2.5 ug/ml                real vehicle-controlled effec
 Treg counts 2029 -> 2965 at 48 h                   expansion magnitude, 1.4613x              7         1 digitized
 rate 0.007903/h -> 1.082x bound at 10 h            THE decisive reclassification             2+7       2
 zero-dose arms 10.622 / 10.290 / 8.660 / 4.553     four different conditions, not one        2,4,5,6   2
-comparable pair 10.622 vs 8.660 = 1.227x           baseline replicate approaches the effect  2,6       1
+200 U/ml stated in all culture vs rec5 from zero   the package contradicts its own baseline  13 + 5    0
 Treg frequency 10.622%                             the composition denominator               2         0
 FOXP3 2.8383x paired, 12/12, sign p 0.0005         magnitude against the bound               1         1
 IL10 0.1819x, IL4 0.2280x, CTLA4 0.8558x,          effectors do not track identity markers   1         1
@@ -70,7 +70,7 @@ no humanised form anywhere in the package
 70-gene list, no competing-lineage TF,             panel cannot discriminate                 1         0 absence
 no proliferation marker
 
-[REV] P4 WAS WRONG TWICE AND IS NOW CORRECT. The original 1.504x spread took the IL-2 panel's plateau for its zero-dose arm; the true arms give 2.333x. That figure is arithmetically right and analytically wrong, because the four arms are four different conditions: the with-TNF record carries TNF in every well including its zero arm, and the IL-2 record's zero point is a titration floor, so most of the apparent spread is an IL-2 dose effect. Pooling them is the cross-record move the golden rejects elsewhere. P4 now rests on the only comparable pair, 1.227x against an effect of 1.3038x, plus the companion document stating 200 U/ml IL-2 in all culture while the IL-2 record titrates from zero.
+[REV] P4 WAS WRONG THREE TIMES. OPTION A TAKEN 2026-11-13: THE PILLAR MAKES NO VARIABILITY CLAIM. The original 1.504x spread took the IL-2 panel's plateau for its zero-dose arm; the true arms give 2.333x. That figure is arithmetically right and analytically wrong, because the four arms are four different conditions: the with-TNF record carries TNF in every well including its zero arm, and the IL-2 record's zero point is a titration floor, so most of the apparent spread is an IL-2 dose effect. Pooling them is the cross-record move the golden rejects elsewhere. The third attempt, 1.227x from records 2 and 6, is a between-study offset across different donor sets, and setting it against a within-donor paired effect mixes designs: section 6 states each donor preparation was divided across all of the conditions in its own study, so pairing controls for donor and run. The underlying reason all three failed is the same. There is no replicate of any single condition anywhere in the package, so the data cannot speak to run-to-run variability at all. That is a property of the room, not of the wording. P4 therefore makes no variability claim. It rests on one mounted contradiction: section 4 of the companion document states that all cell culture experiments included low-level IL-2 at 200 U/ml, while record 5 titrates added IL-2 from zero and reads 7.064 percent at its 200 U/ml arm against record 2's vehicle at 10.622 percent. Those cannot both describe the same base condition, so no cross-record comparison of the asset against another expansion agent is supported. The within-record effect is not in question and never was. Record 2's 1.3038x is paired within donor at n=13 and clears noise even unpaired, Welch t = 2.51 from the tabulated means and SEMs.
 VERIFIED AT BUILD: the 1.082x bound. Re-digitised at 300, 400 and 600 dpi; it is stable to plus or minus 0.001. Golden states it as a band of 1.00 to 1.09, never a point value, and notes that any lag pushes it toward 1.00, and that it bounds composition only if total CD4 is non-decreasing.
 No anchor requires prediction software. All arithmetic on mounted numbers.
 
@@ -128,7 +128,8 @@ Item b is the expert answer. Mixed culture is the physiologically relevant condi
 ### Forcing chain
 leg                                                             evidence                           route-necessary
 real vehicle-controlled Treg increase                           records 2 and 7                    yes
-records are not commensurable; nearest replicate is 1.227x      records 2 and 6 + medium composition  yes
+records do not share a baseline, so cross-record            record 5 arm list + companion s.4     yes
+  comparison of the asset is unsupported
 max composition contribution 1.082x at 10 h                     derived from 2 and 7               yes
 therefore 10 h data are an acute response, not the expanded pool above, plus the two timepoints     yes
 compartment not assignable from bulk                            Treg frequency + both branches     yes
@@ -174,7 +175,7 @@ Verdict: advance as a humanisation and candidate-selection programme, with the f
 P1 bulk readout cannot report on Tregs, and the effectors argue against the claim. Decisive.
 P2 lineage skew and a panel that cannot detect it. Deepest; the panel-design point is the expert tell.
 P3 per-cell potency unmeasured; claim level decides which comparator is owed.
-P4 [REV] the records are not commensurable; the nearest baseline replicate is 1.227x against an effect of 1.3038x, and the package contradicts itself on the base condition.
+P4 [REV] the records do not share a baseline, so no comparison of the asset against another expansion agent is supported. The package contradicts itself on the base condition: section 4 states 200 U/ml IL-2 in all culture while record 5 titrates added IL-2 from zero. This pillar makes no claim about run-to-run variability; see the note below.
 P5 normalization scope invalidates the absolute threshold; paired analysis reverses or nullifies headline genes.
 P6 mechanism undefined; no durability, stability or exhaustion data.
 P7 the molecule is good and the axis is unoccupied. What keeps advance alive.
