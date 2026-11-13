@@ -7,7 +7,7 @@ The following are the key requirements of a correct answer. Use your judgment to
 - States that ceiling as a band rather than a single point value, and states the assumption it rests on, that total CD4 is non-decreasing across the interval.
 - Concludes from that ceiling that the 10 hour expression data describe an acute response and cannot be read as a characterisation of the population present at the 48 hour expansion endpoint.
 - Identifies that the zero-dose arms of the dose-response records are not a common condition, recognising that at least one carries a stated added agent in every well and another is the bottom of a cytokine titration, and declines to compare endpoint percentages across those records on that basis.
-- Identifies that no comparison of this asset against another expansion agent is supported by the package.
+- Identifies that no comparison of this asset against another expansion agent is supported by the package, and grounds that on something mounted rather than asserting it: either the companion document's statement about the IL-2 background set against the record that titrates IL-2 from zero, or the fact that no condition in the package is measured more than once.
 - States that bulk sequencing of a mixed CD4 preparation cannot assign the expression change to a compartment, quantifies at least one branch of the disjunction using a Treg fraction and its complement correctly, recognising that no Treg frequency is measured in the sequenced material so any figure carried in from another record is conditional, and leaves the disjunction unresolved rather than picking a branch.
 - Establishes that per-cell suppressive capacity is unmeasured, on the grounds that every arm of the suppression record received asset-expanded cells and the only contrast in the design is Treg dose.
 - Notes that the effector and checkpoint transcripts move in the opposite direction to the identity markers.
@@ -44,7 +44,7 @@ The following are examples of acceptable variations that should not affect the s
 - Geometric mean, arithmetic mean or median for paired within-donor ratios, provided the reduction is stated.
 - Exact sign test, Wilcoxon signed-rank, or a paired t test on log-transformed values, provided the choice is stated.
 - Exponential or linear growth assumed in deriving the composition ceiling, provided the assumption is stated and the arithmetic follows from it.
-- Values derived from the summary records that fall within a narrow tolerance of the stated figures, since those records are summaries rather than per-sample data.
+- Values that differ from the figures a careful reader would obtain only in the last reported digit or two, since the summary records carry limited precision. A value is still wrong where the derivation the attempt states does not produce the value the attempt gives, however small the difference.
 - Which branch of the compartment disjunction is described first, provided neither is presented as resolved.
 - Additional proposed studies beyond those required, and additional readouts within a proposed study.
 - Flagging repeated or implausible values in the summary records as a data-quality observation and proceeding, or not raising them at all. Declining to proceed at all on data-integrity grounds is not neutral and is a failure to deliver what was asked.
