@@ -1,0 +1,49 @@
+You are grading a recommendation on whether a TNFR2 agonist antibody, TRN-416, should take an allocated toxicology slot and move into IND-enabling work for type 1 diabetes and related autoimmunity. The attempt worked from a client data package containing an expression table, flow and count summaries, a suppression export, binding, selectivity and epitope records, ancillary functional records, and a companion non-clinical study summary. The attempt was asked to lead with its recommendation in its own words, build the case behind it, say what the next studies must establish and what each must be compared against or what would have to be shown to bring the asset back, cite each number to the file it sits in with how it was derived, and say what it examined and set aside.
+
+A) MUST BE PRESENT AND CORRECT
+The following are the key requirements of a correct answer. Use your judgment to identify any additional required content not listed here.
+- Establishes that the Treg increase is real against the vehicle condition within a record, using both the frequency record and the absolute count record rather than frequency alone.
+- Derives a ceiling on how much of the 10 hour expression change can be composition rather than transcription, from the absolute count change across the 48 hour interval, and states the arithmetic that produces it.
+- States that ceiling as a band rather than a single point value, and states the assumption it rests on, that total CD4 is non-decreasing across the interval.
+- Concludes from that ceiling that the 10 hour expression data describe an acute response and cannot be read as a characterisation of the population present at the 48 hour expansion endpoint.
+- Identifies that the zero-dose or no-added-agent condition is not common across the dose-response records, gives the spread, and declines to compare endpoint percentages across records on that basis.
+- Identifies that no comparison of this asset against another expansion agent is supported by the package.
+- States that bulk sequencing of a mixed CD4 preparation cannot assign the expression change to a compartment, uses the Treg frequency as the denominator, and leaves the disjunction unresolved rather than picking a branch.
+- Establishes that per-cell suppressive capacity is unmeasured, on the grounds that every arm of the suppression record received asset-expanded cells and the only contrast in the design is Treg dose.
+- Notes that the effector and checkpoint transcripts move in the opposite direction to the identity markers.
+- Analyses the expression data paired within donor, consistent with the normalization scope stated in the companion document, and reports the consequences for the transcripts where the paired and pooled estimates disagree.
+- Treats the biophysical and selectivity package as clean and does not discount it.
+- Proposes follow-up that preserves a mixed-culture condition alongside an isolated one, and treats the contrast between them as informative.
+- Specifies Treg identification in the proposed work that does not rest on FOXP3 alone.
+- Names, for each proposed study, what it must establish and what it must be compared against.
+- Gives the file each number came from and the reduction that produced it. A result counts only where the value is right and the basis given produces it.
+
+B) PENALIZE FOR
+The following are common errors observed on this task. This list is not exhaustive — apply your judgment to any other issues you identify.
+- Reads the 10 hour expression data as a characterisation of the cells present at the 48 hour expansion endpoint, without reconciling the two timepoints.
+- Reports the composition ceiling as a single point value with no band.
+- Assigns the expression change to Tregs, or to conventional cells, as a resolved conclusion when both branches remain feasible.
+- Treats a rise in bulk FOXP3 as establishing that Treg numbers or Treg identity rose.
+- Concludes that suppressive potency per cell is demonstrated, or treats the no-Treg arm of the suppression record as a comparator for potency.
+- Compares endpoint percentages across dose-response records without checking whether those records share a baseline condition.
+- Concludes that the asset outperforms IL-2, TNF or any other expansion agent.
+- Analyses the expression data pooled across donors, or on a between-group basis, rather than paired within donor.
+- Recommends a direction without naming the studies that would support it or what those studies must be compared against.
+- Proposes only sorted or isolated conditions for follow-up, discarding the physiologically relevant mixed condition.
+- Specifies follow-up that identifies Tregs by FOXP3 without addressing activation-induced FOXP3-positive conventional cells.
+- States a number without the file it came from, or with a stated derivation that does not reproduce the number.
+
+C) NEUTRAL
+The following are examples of acceptable variations that should not affect the score. Other variations may also be neutral — use your judgment.
+- Where in the answer any item appears, and in what order. Content is checked for presence and correctness, not position.
+- The wording of the recommendation itself, and whether it is framed as taking the slot, progressing, advancing or any equivalent.
+- The route taken to any conclusion, and the order in which the records were read.
+- Geometric or arithmetic mean for paired within-donor ratios, provided the reduction is stated.
+- Exact sign test, Wilcoxon signed-rank, or a paired t test on log-transformed values, provided the choice is stated.
+- Exponential or linear growth assumed in deriving the composition ceiling, provided the assumption is stated and the arithmetic follows from it.
+- Values derived from the summary records that fall within a narrow tolerance of the stated figures, since those records are summaries rather than per-sample data.
+- Which branch of the compartment disjunction is described first, provided neither is presented as resolved.
+- Additional proposed studies beyond those required, and additional readouts within a proposed study.
+- Flagging the two repeated six-figure values as a data-quality observation and proceeding, or not raising them at all.
+- Bringing in external knowledge about activation-induced FOXP3 in conventional CD4 cells, about IL-2 consumption by Tregs, or about division timing, where it is identified as external rather than attributed to the package.
+- Length, layout, headings, bullets or prose.
