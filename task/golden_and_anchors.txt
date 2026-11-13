@@ -7,7 +7,8 @@ value                                                  establishes              
 Treg 10.622 -> 13.849% at 2.5 ug/ml                    real vehicle-controlled effect, 1.3038x     2          1 digitized
 Treg counts 2029 -> 2965 at 48 h                       expansion magnitude, 1.4613x                7          1 digitized
 rate 0.007903/h -> 1.082x bound at 10 h                THE decisive reclassification               derived 2+7  2
-zero-dose condition 10.622 / 10.290 / 8.660 / 4.553    runs do not share a scale, 2.333x spread    2,4,5,6    2
+zero-dose arms 10.622 / 10.290 / 8.660 / 4.553         the arms are four different conditions      2,4,5,6    2
+comparable pair 10.622 vs 8.660 = 1.227x               baseline replicate approaches the effect    2,6        1
 Treg frequency 10.622%                                 the composition denominator                 2          0
 FOXP3 2.8383x paired, 12/12, sign p 0.0005             magnitude against the bound                 1          1
 IL10 0.1819x, IL4 0.2280x, CTLA4 0.8558x,              effectors do not track identity markers     1          1
@@ -56,3 +57,15 @@ A: add -- States the kinetics bound as a band rather than a point value, and sta
 A: add -- Identifies that the zero-dose condition is not common across the records and declines to compare endpoint percentages across them.
 B: add -- Reports the composition bound as a point value with no band.
 B: add -- Treats the absolute induction criterion as validating ETS1 without running a paired test under the stated normalization scope.
+
+
+=== REVISION 3, 2026-11-13. P4 CORRECTED AGAIN, AFTER AN INDEPENDENT AUDIT OF THE GOLDEN AGAINST THE ROOM ===
+Revision 2 replaced a wrong 1.504x spread with a 2.333x spread. That figure is arithmetically right and analytically wrong, and the golden no longer uses it as a variability estimate.
+The four zero-dose arms are not one condition measured four times. The with_tnf record carries TNF at 20 ng/ml in every well including its zero-dose arm, so its 10.290 is a TNF-containing condition. The il2_dose record's zero point is the bottom of an IL-2 titration, so its 4.553 is a low-IL-2 condition and most of the apparent spread against the control-donor record is an IL-2 dose effect. Pooling the four into a variability estimate is the same cross-record move the golden rejects elsewhere.
+What survives, and what P4 should now rest on. The only genuinely comparable pair is the control-donor record at 10.622 and the TNF-dose record's zero arm at 8.660, both no added agent on the stated 200 U/ml background, differing by 1.227x against a drug effect of 1.3038x. The nearest thing the package has to a replicate of its own baseline is almost as large as the effect it is being used to measure. Separately, section 4 of the companion document states 200 U/ml IL-2 in all culture while the IL-2 record titrates from zero, so the document and that record cannot both describe the same base condition.
+P4 replacement line: the records cannot be lined up against each other, the nearest available baseline replicate differs by 1.227x against an effect of 1.3038x, and the package contradicts itself on what the base condition was.
+FOUR OTHER CORRECTIONS from the same audit, all verified against the room and all now applied to the golden:
+The compartment branch figure of 21.8 percent imported a Treg frequency from a study run under different culture conditions. No Treg frequency is measured in the sequenced material. The golden now gives the range, 9.7 percent at a 5 percent Treg fraction to 46 percent at 20 percent, and notes that both branches stay feasible across all of it.
+Cross-linker independence was a non sequitur. Every well in that record contains the cross-linking reagent and there is no zero-cross-linker arm, so the record cannot establish independence from it. Claim removed.
+IKZF2, encoding Helios, is in the panel at 2.8931-fold in 12 of 12 donors, so "no discriminating marker beyond FOXP3" was too strong. The golden now states that the panel carries one contested discriminator and still cannot settle the question.
+The cross-linking study states that 24, 48 and 72 hours were examined, so "no timepoint beyond 48 hours anywhere" was wrong. The correct statement is that no result beyond 48 hours is tabulated and there is no withdrawal design.

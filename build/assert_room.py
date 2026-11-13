@@ -118,6 +118,30 @@ if PANEL & comp: fails.append(f'F competing-lineage TF present: {PANEL&comp}')
 if PANEL & prolif: fails.append(f'F proliferation marker present: {PANEL&prolif}')
 notes.append(f'F panel = {len(PANEL)} unique genes; no competing-lineage TF; no proliferation marker')
 
+# ---- G. arithmetic plausibility of every summary statistic
+import math
+for f,sh in [('TRN416_flow_treg_dose_control_donors.xlsx',None),('TRN416_flow_treg_dose_t1d_donors.xlsx',None),
+             ('TRN416_flow_treg_dose_with_tnf.xlsx',None),('TRN416_flow_treg_il2_dose.xlsx',None),
+             ('TRN416_flow_treg_tnf_dose.xlsx',None),('TRN416_treg_absolute_counts.xlsx',None),
+             ('TRN416_suppression_cd8_division.xlsx',None),
+             ('TRN416_ancillary_functional_assays.xlsx','fab2_fragment'),
+             ('TRN416_ancillary_functional_assays.xlsx','cross_linking'),
+             ('TRN416_ancillary_functional_assays.xlsx','itaconate_supernatant')]:
+    wb=openpyxl.load_workbook(os.path.join(ROOM,f),data_only=True)
+    ws=wb[sh] if sh else wb.active
+    rws=list(ws.iter_rows(values_only=True))
+    nn=next((r[1] for r in rws if r[0] and 'Samples (n)' in str(r[0])), None)
+    if not nn: continue
+    for r in rws:
+        if not isinstance(r[0],(int,float)): continue
+        v=[x for x in r[1:] if isinstance(x,(int,float))]
+        if len(v)<2: continue
+        m,se=v[-2],v[-1]
+        if not se: continue
+        lim=m*math.sqrt((nn-1)/nn)
+        if se>lim:
+            fails.append(f'G [impossible SEM] {sh or f} dose {r[0]}: mean {m}, SEM {se}, max possible {lim:.3f} at n={nn}')
+
 print('\n--- NOTES ---'); [print(' ',n) for n in notes]
 print('\n--- ASSERTIONS ---')
 if fails:

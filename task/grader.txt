@@ -6,13 +6,14 @@ The following are the key requirements of a correct answer. Use your judgment to
 - Derives a ceiling on how much of the 10 hour expression change can be composition rather than transcription, from the absolute count change across the 48 hour interval, and states the arithmetic that produces it.
 - States that ceiling as a band rather than a single point value, and states the assumption it rests on, that total CD4 is non-decreasing across the interval.
 - Concludes from that ceiling that the 10 hour expression data describe an acute response and cannot be read as a characterisation of the population present at the 48 hour expansion endpoint.
-- Identifies that the zero-dose or no-added-agent condition is not common across the dose-response records, gives the spread, and declines to compare endpoint percentages across records on that basis.
+- Identifies that the zero-dose arms of the dose-response records are not a common condition, recognising that at least one carries a stated added agent in every well and another is the bottom of a cytokine titration, and declines to compare endpoint percentages across those records on that basis.
 - Identifies that no comparison of this asset against another expansion agent is supported by the package.
 - States that bulk sequencing of a mixed CD4 preparation cannot assign the expression change to a compartment, uses the Treg frequency as the denominator, and leaves the disjunction unresolved rather than picking a branch.
 - Establishes that per-cell suppressive capacity is unmeasured, on the grounds that every arm of the suppression record received asset-expanded cells and the only contrast in the design is Treg dose.
 - Notes that the effector and checkpoint transcripts move in the opposite direction to the identity markers.
 - Analyses the expression data paired within donor, consistent with the normalization scope stated in the companion document, and reports the consequences for the transcripts where the paired and pooled estimates disagree.
 - Treats the biophysical and selectivity package as clean and does not discount it.
+- Notes that the test article is a murine immunoglobulin from a hybridoma and therefore cannot itself be the clinical candidate, and that the package contains no humanised or engineered derivative.
 - Proposes follow-up that preserves a mixed-culture condition alongside an isolated one, and treats the contrast between them as informative.
 - Specifies Treg identification in the proposed work that does not rest on FOXP3 alone.
 - Names, for each proposed study, what it must establish and what it must be compared against.
@@ -38,12 +39,12 @@ The following are examples of acceptable variations that should not affect the s
 - Where in the answer any item appears, and in what order. Content is checked for presence and correctness, not position.
 - The wording of the recommendation itself, and whether it is framed as taking the slot, progressing, advancing or any equivalent.
 - The route taken to any conclusion, and the order in which the records were read.
-- Geometric or arithmetic mean for paired within-donor ratios, provided the reduction is stated.
+- Geometric mean, arithmetic mean or median for paired within-donor ratios, provided the reduction is stated.
 - Exact sign test, Wilcoxon signed-rank, or a paired t test on log-transformed values, provided the choice is stated.
 - Exponential or linear growth assumed in deriving the composition ceiling, provided the assumption is stated and the arithmetic follows from it.
 - Values derived from the summary records that fall within a narrow tolerance of the stated figures, since those records are summaries rather than per-sample data.
 - Which branch of the compartment disjunction is described first, provided neither is presented as resolved.
 - Additional proposed studies beyond those required, and additional readouts within a proposed study.
-- Flagging the two repeated six-figure values as a data-quality observation and proceeding, or not raising them at all.
+- Flagging repeated or implausible values in the summary records as a data-quality observation and proceeding, or not raising them at all. Declining to proceed at all on data-integrity grounds is not neutral and is a failure to deliver what was asked.
 - Bringing in external knowledge about activation-induced FOXP3 in conventional CD4 cells, about IL-2 consumption by Tregs, or about division timing, where it is identified as external rather than attributed to the package.
 - Length, layout, headings, bullets or prose.
