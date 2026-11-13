@@ -24,7 +24,7 @@ ANCHORS = [
 LEGS = {
  "L1 expansion real, counts as well as frequency": r"(absolute count|2029|2965|cell number)",
  "L2 records do not share a scale":               r"(4\.553|2\.33|do not share|different baseline|incommensur|not comparable across)",
- "L3 composition ceiling derived":                r"(0\.0079|ceiling|upper bound|at most 1\.0|composition multiplier)",
+ "L3 composition ceiling derived":                r"(0\.0079\d|growth rate.{0,40}(hour|/h)|composition (multiplier|ceiling|bound))",
  "L4 10 h is acute, not the 48 h population":     r"(acute|different timepoint|10[ -]hour.{0,80}48[ -]hour|cannot characteri[sz]e the)",
  "L5 compartment not assignable from bulk":       r"(bulk|cannot assign|which compartment|conventional CD4|Tconv)",
  "L6 per-cell potency unmeasured":                r"(per[- ]cell|every arm|all arms|no non-asset|only.{0,40}Treg dose|potency.{0,30}unmeasured)",

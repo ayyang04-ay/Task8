@@ -1,0 +1,26 @@
+CEILING TEST, SAMPLE 1. Fresh solver, prompt verbatim, isolated room copy, no access to the golden, grader, brief or any build material. Scored 2026-11-13.
+
+RESULT: CEILING NOT FULLY REACHED. Nine of the ten route-necessary legs present. The decisive one is absent.
+
+WHAT IT GOT
+Expansion is real, and it checked frequency against absolute counts rather than resting on frequency alone. It read 2029 to 2965 cells from the count record.
+The cross-run scale problem, found independently and more thoroughly than the golden does it. It listed five baseline conditions rather than four, picking up the lowest dose of the cross-linking record as a further non-comparable baseline, and stated that between-study drift is the same size as the signal. It also made the sharpest form of the point: the IL-2 study's 200 U/ml arm and the control-donor study's vehicle are nominally the same condition and read differently.
+The compartment question, with the Treg frequency as the denominator.
+Per-cell potency unmeasured, and it noticed separately that the suppression design lacks an isotype-matched well.
+Effectors moving against identity markers.
+Paired within-donor analysis, correctly applied, with ETS1 and IL7R both coming out null and MDH2 reversing on a single donor.
+The panel gap and the clean biophysical package.
+
+WHAT IT MISSED
+The kinetics bound, and therefore the reclassification that depends on it. It never converted the 48 hour count change into a growth rate, never bounded how much of the 10 hour expression change could be composition, and never stated that the 10 hour data and the 48 hour data describe different populations. Forcing-chain legs 3 and 4 are both absent.
+This is the decisive leg and the brief's primary predicted mode, timepoint conflation. A strong attempt with a deep-analysis nudge, 6000 words, correct on nine other legs, did not find it.
+
+WHAT IT FOUND THAT THE GOLDEN DOES NOT CARRY
+The test article is a murine IgG1 kappa from a BALB/c hybridoma, stated in section 1 of the companion document and corroborated by the anti-rodent secondary reagents used throughout the binding work. A murine hybridoma product cannot be dosed chronically in an autoimmune indication without humanisation, and humanisation re-opens affinity and fine-specificity.
+This is mounted, decision-relevant, and the golden misses it entirely. It is not a pillar in the brief either. It needs a decision: add it to the golden, or leave it as acceptable additional analysis under NEUTRAL.
+
+VERDICT DIFFERENCE
+The attempt recommended holding at lead optimisation rather than advancing. Under the brief the verdict carries no credit, so this is not itself a failure, and its reasoning for holding is largely the golden's own reasoning about what the package does not establish.
+
+SCORER CORRECTION
+The L3 probe returned a false positive on this attempt, matching an unrelated figure. Probe tightened. The anchor hits for the transcriptional floor and the conventional-cell branch should also be treated as unconfirmed on this attempt, since the attempt did not perform the derivation those numbers come from.
