@@ -1,35 +1,42 @@
-PROMPT AUDIT — TRN-416, draft 1. Run against references/prompt-craft.md checklist on 2026-11-13.
+PROMPT AUDIT — TRN-416. Run on 2026-11-13 against the user-edited prompt at task/prompt.txt, commit c940e72, and against task/golden_response.txt.
 
-PASS
-No personas. No numbered steps, tool names, cautions or hints. No decision rule stated.
-Reads as a terse brief: situation, ask, stop. Scene and ask only. 302 words, well under the 600 ceiling.
-Load-bearing sources not named. Room described generically, with the not-all-of-it-is-relevant line.
-Spoken by the person who owns the deliverable, with a real constraint on deferral: the toxicology slot is allocated at the review and goes elsewhere if not taken.
-Nothing in the prompt does work the data room should do. No reporting conventions stated; they are mounted in the companion document.
-Provenance required per number, explicitly: cite each number to the file it sits in and say what was taken from the record and what was done to it. Not satisfiable by "grounded in our data".
-What was examined and set aside asked for, as a question, not a mandated heading.
-No enumerated answer set. No closed taxonomy. The solver constructs the verdict in its own words; first line asked for, placement not graded.
-Several products that fail independently: the recommendation, the case behind it, the studies with their comparators, per-number provenance, and the set-aside list. No inverse pairs.
-Flat text, one line per paragraph. Nothing points back to the source: no asset code, accession, journal convention or figure reference.
-Deprecated items absent: no as-of date, no output file or path, no .md output, no no-web line, no saved artifacts, no mandated headings.
+PRODUCTS: DOES THE PROMPT ELICIT EACH ONE
+Recommendation, first line, own words. Elicited by "Lead with the recommendation on the first line, in your own words: what I tell them to do with this asset." Golden opens with it. PASS.
+The case behind it. Elicited by "build the case behind it out as strongly as their data allows" and reinforced by "All verdicts/calls must be supported by their data." Golden section THE CASE. PASS.
+Next studies with comparators. Elicited by "What do the next studies have to establish, and what does each one have to be compared against?" Golden section THE STUDIES gives six, each with what it establishes, its comparator, and the mounted finding that necessitates it. PASS.
+The return branch. Elicited by "If your read is that the asset should not advance, tell me instead what would have to be shown to bring it back, and what work would show it." The golden takes the advance branch, so this is unexercised there by design; it exists to make the opposite verdict expressible. PASS.
+Per-number provenance. Elicited by "Cite each number to the file it sits in and say how you arrived at it: what you took from the record and what you did to it." Golden gives file and reduction for every figure. PASS.
+What was set aside. Elicited by "Tell me what you looked at and set aside, and why." Golden section WHAT I LOOKED AT AND SET ASIDE. PASS.
 
-DEVIATION FROM THE CHECKLIST, DELIBERATE
-No out-of-scope line. The brief removed it by writer decision and says not to reinstate it, accepting that the studies ask may draw some protocol detail and that this is not penalised. Flagged here because the checklist asks for one.
+ROUTE-NECESSARY LEGS: IS EACH ONE MADE NECESSARY BY AN ASK
+Real vehicle-controlled increase. Necessary to "build the case out as strongly as their data allows": a case for the asset has to start here. ELICITED.
+Effect sits inside between-run variability. Necessary to the same ask, because overstating the effect is the failure the ask's "as strongly as their data allows" bounds, and necessary again to the comparator ask, since study a exists only because of the spread. ELICITED.
+Composition ceiling at 10 hours, and the reclassification that follows. Necessary to the case: any claim resting on the expression data has to survive the 10 against 48 hour mismatch. ELICITED, though indirectly. This is the weakest elicitation in the prompt and is discussed below.
+Compartment not assignable from bulk. Necessary to the case and to study b. ELICITED.
+Per-cell potency unmeasured. Necessary to the case and directly to study d, which exists because no non-asset Treg arm is mounted. ELICITED.
+Effectors do not track identity markers. Necessary to the case. ELICITED.
+Paired analysis, and the headline genes that fail under it. Necessary to "say how you arrived at it: what you took from the record and what you did to it", which makes the estimator explicit and therefore checkable. ELICITED, and this ask is what makes the pooled-estimator mode observable.
+Format and selectivity clean. Necessary to the case and to the recommendation, since it is what keeps advance alive. ELICITED.
+Panel cannot discriminate, no proliferation marker. Necessary to study f and to the limits of the case. ELICITED conditionally, as the brief has it.
+
+CHANGES FROM THE EARLIER DRAFT, AND THEIR EFFECT
+The competitive fact moved into the opening paragraph. No effect on elicitation.
+The allocated toxicology slot was removed. This is the one change with a real consequence and it is set out below.
+The not-all-of-it-is-relevant line was removed. Effect is mixed and small. It cued triage, and removing it makes the set-aside ask harder rather than unfair, since a solver must now decide for itself which records bear on the decision. The room still carries deliberately non-load-bearing content, so the ask still has material to work on.
+"All verdicts/calls must be supported by their data" was added. No conflict with the per-number provenance ask, which survives intact in the fifth paragraph. Grounding language alone would not be a provenance requirement, but the explicit cite-and-derive sentence is still there.
+"forward view" became "next steps" and "should not take the slot" became "should not advance". Neutral.
+
+THE ONE SUBSTANTIVE RISK
+Removing the toxicology slot removes the cost of deferring. The scene no longer contains an event that happens whether or not a recommendation is made, so "we cannot tell from this package, go and run the studies first" is now a fully defensible answer that also satisfies the studies ask without committing to a verdict.
+The pre-registered mode this bears on is the unspecified hedge. That mode is foreclosed by the ask rather than by the scene, because the prompt requires studies with named comparators and a hedge that names none fails it. So the mode survives. What is lost is the second guard, and the risk is a panel that returns analytically strong answers with weak or absent verdicts.
+Against that: the brief states that the verdict carries no credit and all credit is on the pillars, and every pillar is still elicited. A weak verdict costs the task less than it would if the verdict were graded.
+Recommendation: restore a cost to deferral in one line, without naming a specific slot, since naming it was what made the sentence awkward under the client framing. Something that states when the client has to decide and what happens if the answer is late. If the slot stays out, expect hedged verdicts in the panel and treat them as a scene artefact rather than as a failure mode.
 
 PROMPT VS MOUNT
-Four assertions, each checked against the room. TRN-416 is a TNFR2 agonist antibody: companion document section 1 names TNFRSF1B as the target and the dose-response records show agonism. Lead optimisation against type 1 diabetes and related autoimmunity: record 3 is T1D donor material, record 8 draws responders from T1D donors. Nothing outside the files has been validated against their system: a scene fact, not a scientific claim. No approved agonist against this receptor and none known past early development: a business fact the room is silent on, so it cannot contradict the mount.
-The prompt asserts nothing about whether the asset works, in either direction.
+Four assertions, all checked. TRN-416 is a TNFR2 agonist antibody: companion document section 1 names TNFRSF1B. Lead optimisation against type 1 diabetes and related autoimmunity: record TRN416_flow_treg_dose_t1d_donors.xlsx is T1D donor material and the suppression responders are drawn from T1D donors. Nothing outside the files has been validated against their system: a scene fact. No approved agonist against this receptor and none past early development: a business fact the room is silent on and therefore cannot contradict.
+The prompt asserts nothing about whether the asset works, in either direction. PASS.
 
-PROMPT VS PREDICTED MODES, MODE TO ASK
-timepoint conflation, compartment assignment, cross-run comparison: elicited by "build the case behind it out as strongly as their data allows", which requires the solver to decide what the expression data can and cannot support.
-comparator blindness: elicited directly by "what does each one have to be compared against".
-pooled estimator: elicited by "what you took from the record and what you did to it", since the reduction is where pooled against paired lives.
-unspecified hedge: closed by the allocated slot and by the demand for studies with comparators rather than a posture.
-sort-only remedy and FOXP3 gate: elicited by the studies ask.
-P6, mechanism and durability, depends on the studies ask surviving in the prompt. It survives.
-
-PROMPT VS PREDICTED MODES, ASK TO MODE
-Recommendation and case: forced core is that the data do not carry a per-cell functional claim, because every arm of record 8 received asset-expanded cells, and do not carry a superiority claim, because the zero-dose condition spans 2.333x across records.
-Next studies and comparators: forced core is the absent non-asset Treg arm and the absent concurrent run.
-Per-number provenance: forced core is the stated normalization scope, under which the pooled and paired estimates disagree and reverse.
-What was set aside: no single forced core. This is supporting material that makes triage visible, not a product, and is not counted toward coverage.
+CHECKLIST ITEMS STILL CLEAN AFTER THE EDIT
+No personas. No numbered steps, tool names, cautions or hints. No decision rule stated. No enumerated answer set. Load-bearing sources not named. Under 600 words, now 283. Provenance per number present. What was set aside asked for. No as-of date, no output file or path, no .md output, no no-web line, no saved artifacts, no mandated headings.
+Still absent by writer decision: the out-of-scope line.
+One formatting item: line 2 ends with a trailing space. Harmless, but worth stripping before pasting.
