@@ -1,0 +1,35 @@
+PROMPT AUDIT — TRN-416, draft 1. Run against references/prompt-craft.md checklist on 2026-11-13.
+
+PASS
+No personas. No numbered steps, tool names, cautions or hints. No decision rule stated.
+Reads as a terse brief: situation, ask, stop. Scene and ask only. 302 words, well under the 600 ceiling.
+Load-bearing sources not named. Room described generically, with the not-all-of-it-is-relevant line.
+Spoken by the person who owns the deliverable, with a real constraint on deferral: the toxicology slot is allocated at the review and goes elsewhere if not taken.
+Nothing in the prompt does work the data room should do. No reporting conventions stated; they are mounted in the companion document.
+Provenance required per number, explicitly: cite each number to the file it sits in and say what was taken from the record and what was done to it. Not satisfiable by "grounded in our data".
+What was examined and set aside asked for, as a question, not a mandated heading.
+No enumerated answer set. No closed taxonomy. The solver constructs the verdict in its own words; first line asked for, placement not graded.
+Several products that fail independently: the recommendation, the case behind it, the studies with their comparators, per-number provenance, and the set-aside list. No inverse pairs.
+Flat text, one line per paragraph. Nothing points back to the source: no asset code, accession, journal convention or figure reference.
+Deprecated items absent: no as-of date, no output file or path, no .md output, no no-web line, no saved artifacts, no mandated headings.
+
+DEVIATION FROM THE CHECKLIST, DELIBERATE
+No out-of-scope line. The brief removed it by writer decision and says not to reinstate it, accepting that the studies ask may draw some protocol detail and that this is not penalised. Flagged here because the checklist asks for one.
+
+PROMPT VS MOUNT
+Four assertions, each checked against the room. TRN-416 is a TNFR2 agonist antibody: companion document section 1 names TNFRSF1B as the target and the dose-response records show agonism. Lead optimisation against type 1 diabetes and related autoimmunity: record 3 is T1D donor material, record 8 draws responders from T1D donors. Nothing outside the files has been validated against their system: a scene fact, not a scientific claim. No approved agonist against this receptor and none known past early development: a business fact the room is silent on, so it cannot contradict the mount.
+The prompt asserts nothing about whether the asset works, in either direction.
+
+PROMPT VS PREDICTED MODES, MODE TO ASK
+timepoint conflation, compartment assignment, cross-run comparison: elicited by "build the case behind it out as strongly as their data allows", which requires the solver to decide what the expression data can and cannot support.
+comparator blindness: elicited directly by "what does each one have to be compared against".
+pooled estimator: elicited by "what you took from the record and what you did to it", since the reduction is where pooled against paired lives.
+unspecified hedge: closed by the allocated slot and by the demand for studies with comparators rather than a posture.
+sort-only remedy and FOXP3 gate: elicited by the studies ask.
+P6, mechanism and durability, depends on the studies ask surviving in the prompt. It survives.
+
+PROMPT VS PREDICTED MODES, ASK TO MODE
+Recommendation and case: forced core is that the data do not carry a per-cell functional claim, because every arm of record 8 received asset-expanded cells, and do not carry a superiority claim, because the zero-dose condition spans 2.333x across records.
+Next studies and comparators: forced core is the absent non-asset Treg arm and the absent concurrent run.
+Per-number provenance: forced core is the stated normalization scope, under which the pooled and paired estimates disagree and reverse.
+What was set aside: no single forced core. This is supporting material that makes triage visible, not a product, and is not counted toward coverage.
