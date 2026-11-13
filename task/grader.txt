@@ -2,7 +2,7 @@ You are grading a recommendation on whether a TNFR2 agonist antibody, TRN-416, s
 
 A) MUST BE PRESENT AND CORRECT
 The following are the key requirements of a correct answer. Use your judgment to identify any additional required content not listed here.
-- Establishes that the Treg increase is real against the vehicle condition within a record, using both the frequency record and the absolute count record rather than frequency alone.
+- Establishes that the Treg increase is real against the no-drug condition, by at least one route that does not rest on frequency alone. Using the absolute count record alongside the frequency record satisfies this. So does pooling the effect across the records that carry the dose series and reporting the heterogeneity, which is a stronger route and should be credited as such; an attempt that takes the simpler route is not penalised for it.
 - Derives a ceiling on how much of the 10 hour expression change can be composition rather than transcription, from the absolute count change across the 48 hour interval, and states the arithmetic that produces it.
 - States that ceiling as a band rather than a single point value, and states the assumption it rests on, that total CD4 is non-decreasing across the interval.
 - Concludes from that ceiling that the 10 hour expression data describe an acute response and cannot be read as a characterisation of the population present at the 48 hour expansion endpoint.
@@ -28,7 +28,7 @@ The following are common errors observed on this task. This list is not exhausti
 - Assigns the expression change to Tregs, or to conventional cells, as a resolved conclusion when both branches remain feasible.
 - Treats a rise in bulk FOXP3 as establishing that Treg numbers or Treg identity rose.
 - Concludes that suppressive potency per cell is demonstrated, or treats the no-Treg arm of the suppression record as a comparator for potency.
-- Compares endpoint percentages across dose-response records without checking whether those records share a baseline condition.
+- Compares endpoint percentages across dose-response records without checking whether those records share a baseline condition. Pooling effect sizes across records, having established what the baselines are, is not this and is not penalised.
 - Concludes that the asset outperforms IL-2, TNF or any other expansion agent.
 - Analyses the expression data pooled across donors, or on a between-group basis, rather than paired within donor.
 - Recommends a direction without naming the studies that would support it or what those studies must be compared against.
@@ -46,6 +46,7 @@ The following are examples of acceptable variations that should not affect the s
 - Exponential or linear growth assumed in deriving the composition ceiling, provided the assumption is stated and the arithmetic follows from it.
 - Values that differ from the figures a careful reader would obtain only in the last reported digit or two, since the summary records carry limited precision. A value is still wrong where the derivation the attempt states does not produce the value the attempt gives, however small the difference.
 - Which branch of the compartment disjunction is described first, provided neither is presented as resolved.
+- Whether the attempt pools across records at all, and which pooling model it uses, provided any heterogeneity statistic it reports is computed correctly and it notes that three studies cannot estimate between-study variance with precision.
 - Additional proposed studies beyond those required, and additional readouts within a proposed study.
 - Flagging repeated or implausible values in the summary records as a data-quality observation and proceeding, or not raising them at all. Declining to proceed at all on data-integrity grounds is not neutral and is a failure to deliver what was asked.
 - Whether relevant domain knowledge is explicitly labelled as coming from outside the package or simply applied, provided it is not presented as though it were a finding in the mounted files. Applying it is expected; only attributing it to a file that does not contain it is a defect.

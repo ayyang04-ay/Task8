@@ -16,8 +16,8 @@ no penalty list and no neutral list. Check all three of these in the form, not i
 
 file                     chars   sha256 prefix   must end with
 prompt.txt               1353    08d00390b760    Tell me what you looked at and set aside, and why.
-grader.txt               7958    587eb721a707    - Length, layout, headings, bullets or prose.
-golden_response.txt      21078   443a33ce82b8    As a final note on method: every figure-derived value in t
+grader.txt               8575    4f250e6efa18    - Length, layout, headings, bullets or prose.
+golden_response.txt      22490   680bcdcf13b3    As a final note on method: every figure-derived value in t
 
 For the grading document the fastest check is to scroll to the bottom of the pasted field and
 confirm the C list is present. If section C is missing, the paste truncated.
