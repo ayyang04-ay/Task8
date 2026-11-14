@@ -48,7 +48,8 @@ Narrower than v1 proposed, because the golden already handles the count record c
 
 | Location | What changes | Why |
 |---|---|---|
-| The paragraph calling format, selectivity and proximal signalling "all clean" | add one line on the "Rmax observed" column, which is not reachable under the sheet's own kinetics, and on the CLIPS header disagreeing with the listed construct lengths; keep the conclusion | env_linter verified both arithmetically. As written the golden asserts the package is clean without addressing the one thing a run could check, so it gives the grader no basis for penalising a run that did |
+| ~~The paragraph calling format, selectivity and proximal signalling "all clean"~~ | **Done.** The Rmax column is now a fourth flagged-and-not-pursued item in the set-aside section, with the drift, the regression, what it reaches (the rate constants) and what it does not (the KD and the selectivity call). The "all clean" conclusion is kept and now rests on the per-concentration KD stability | `build/validation_runs/audit_golden_vs_room.txt` FINDING 15 had already raised this at build time and the golden was never updated |
+| The CLIPS header, and the epitope spans | **still open.** The header gives linear 15/18-mer and loop 17/22-mer peptides against listed constructs of 16 and 8/12 residues. `build/validation_runs/ceiling_solve.txt` also notes two of the three claimed contact sites extend outside the aa 50-122 fragment | Same shape as the Rmax item. Your call whether the golden absorbs it the same way |
 | No change needed on FC-007 | — | The golden already states the cancellation: the bound "is a ratio of counts within a single record and so cancels any gate bias that is constant across the dose series." That is what makes the Opus mode safe to ship |
 
 ## Held — your call
