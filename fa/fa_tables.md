@@ -88,34 +88,11 @@ not make the claim.
 
 ---
 
-## 4. Saturating-IL-2 pillar rests on three repeated values
+## 4. RETRACTED, saturating-IL-2 pillar
 
-**Runs, flagged then relied on it:** Opus A1, Opus A4, Fable A3, Fable A6, Fable A7.
-**Runs, relied on it without recording the repeats:** Fable A1, Fable A2, Fable A5.
-
-**What they did.** Took the flatness of the IL-2 titration as evidence that 200 U/ml is a saturating
-background, carrying the positive pillar that the asset adds on top of it.
-
-| Run | Flag it recorded | Where | Use it made | Where |
-|---|---|---|---|---|
-| Opus A1 | "identical SEMs at three doses each" | :250 | "a saturating concentration"; keeps FC-005 "only for 'IL-2 alone plateaus at 2 U/ml'" | :145, :334 |
-| Opus A4 | "the plateau is implausibly flat" | :141, :200 | reason 4, "adds to IL-2 that is already saturating" | :45 |
-| Fable A3 | "identical mean and SEM to three decimals" | :65 | scorecard "Adds to IL-2" | :17, :30 |
-| Fable A6 | "response identical from 2 to 5000 U/ml" | :254 | "counts in its favour" | :68 |
-| Fable A7 | "identical to three decimals across a 2,500-fold range … needs source data" | :75 | "already saturated at 2 U/ml" | :58, :88 |
-| Fable A1 | — | — | "the effect sits on top of saturating IL-2" | :21 |
-| Fable A2 | — | — | "More IL-2 does not reproduce it" | :22, :52 |
-| Fable A5 | — | — | "Extra IL-2 would not reproduce it" | :82, :121 |
-
-**The figures.** `TRN416_flow_treg_il2_dose.xlsx` r12:r17. Six non-zero doses, three distinct means
-(7.106 three times, 7.085 twice, 7.064 once) and two distinct SEMs (0.319 three times, 0.298 three times).
-
-**Limit to carry.** The same flatness is sound evidence for the documentation conflict — section 4 puts
-200 U/ml in every culture while this record titrates added IL-2 from zero. The mode is the pharmacological
-inference, not touching the record.
-
-**Exemplars.** Opus A2 :222, rules it out as a measure of IL-2's effect; :62 states the saturation reading
-conditionally. Opus A3 :338, Opus A5 :138, Opus A6 :218, Opus A8 :208 set it aside.
+Not a mode. The record carries three distinct non-zero means, 7.106, 7.085 and 7.064, spanning 0.042 points
+across 2 to 5,000 U/ml, so the titration is flat on the distinct values alone and the saturation reading
+never depended on the repeated rows. Defensible. No attribution table.
 
 ---
 
@@ -143,6 +120,7 @@ Thin. QA calls it a small step outside the brief rather than an exploit.
 | Run | The number or claim it produced | Where |
 |---|---|---|
 | Opus A1 | "One nominal condition appears in four studies"; "a spread of 3.84 points, larger than TRN-416's own effect"; heading "the assay's between-study noise" | :118, :124, :116 |
+| | **the mode is the pooling, not the figure** — four arms differing in donor population, added agent and IL-2 background, read as one condition measured four times | |
 | Opus A3 | "The same 'IL-2 200 U/ml, no test article' condition reads 7.064% in FC-005 and 10.902% in FC-003"; "as large as the TRN-416 effect itself" | :99 |
 | Opus A4 | "no larger than the drift between vehicle wells of different studies (up to 3.8 pp)"; four arms "share nominally the same medium and no test agent" | :17, :63 |
 

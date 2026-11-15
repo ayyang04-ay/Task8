@@ -1,6 +1,9 @@
 # TRN-416 — candidate error-mode ledger (v2)
 
-v2 changes, all from reading the data room and golden on this branch, which the run export did not carry:
+v3: M4 retracted after checking `build/anchors.py`. The saturation claim holds on the three distinct means
+and never needed the repeats. M6 restated as the pooling rather than the figure. Five modes stand.
+
+v2 changes, from reading the data room and golden on this branch, which the run export did not carry:
 - **M1 restated.** FC-007 has no frequency column, so the division six runs performed was necessarily
   cross-record and their caution about donor sets was right. The failure is one step over: they never
   scaled FC-007's own count change to the 10 h timepoint, which needs no second record.
@@ -98,36 +101,22 @@ baselines are 1.96 points apart". `Fable A2 (9e896b79)` does not make the claim.
 
 ---
 
-## M4 — "Adds on top of saturating IL-2" rests on a flatness that is three repeated values
+## M4 — RETRACTED
 
-**Class:** Analytical. **[transcript] + [computed]**
+**Was:** the saturating-IL-2 pillar rests on three repeated values.
 
-Read from the room: `TRN416_flow_treg_il2_dose.xlsx` row 6 gives the added agent as IL-2, and the six
-non-zero doses carry three distinct means and two distinct SEMs — 7.106/0.319 at 2, 10 and 5,000 U/ml,
-7.085/0.298 at 50 and 1,000, 7.064/0.298 at 200. The flatness is those repeats. Runs use it to establish
-that 200 U/ml is 100× a saturating dose, carrying the positive pillar that the asset adds on top of a
-saturated IL-2 signal.
+**Why it does not survive.** The claim does not depend on the repeats. `TRN416_flow_treg_il2_dose.xlsx`
+carries three *distinct* non-zero means, 7.106, 7.085 and 7.064, spanning 0.042 points across 2 to 5,000
+U/ml. Read as three measurements rather than six, the titration is still flat from 2 U/ml upward, so
+"IL-2 is on a plateau well below 200 U/ml" stands either way. The repeated means and SEMs are a real
+data-quality oddity and worth flagging, which several runs did, but the inference built on them is robust
+to it. A careful expert defends the saturation reading.
 
-Flagged the repeats and still relied on the flatness:
+`build/anchors.py` line 27 carries those seven values as the authored anchor set with nothing marking them
+as a planted defect, which fits the rule that source inconsistencies are reproduced verbatim and
+unremarked. So the repeats are most likely digitised source values rather than a trap.
 
-| Run | Flag | Use |
-|---|---|---|
-| Opus A1 (7d49af8b) | L250, identical SEMs and means | L145; L334 keeps FC-005 "only for 'IL-2 alone plateaus at 2 U/ml'" |
-| Opus A4 (592daeaf) | L141 "implausibly flat"; L200 | L45 reason 4, "adds to IL-2 that is already saturating" |
-| Fable A3 (4bd0f2db) | L65 "identical mean and SEM to three decimals" | L17 scorecard "Adds to IL-2"; L30 |
-| Fable A6 (911519d1) | L254 "response identical from 2 to 5000 U/ml" | L68 "counts in its favour" |
-| Fable A7 (a1ac409c) | L75 "identical to three decimals across a 2,500-fold range … needs source data" | L58, L88 |
-
-Relied on it without recording the repeats: `Fable A1` L21, `Fable A2` L22 and L52, `Fable A5` L82 and L121.
-
-**Qualification, and it limits this mode.** The golden uses the same flatness, but for the documentation
-conflict — section 4 says every culture held 200 U/ml while this record titrates added IL-2 from zero, so
-the two cannot describe the same base condition. That use is sound. What does not follow from six wells
-reporting three values is a pharmacological claim that IL-2 was saturated and the asset added on top of it.
-The mode is the inference, not touching the record.
-
-**Exemplars.** `Opus A2` L222 rules it out as a measure of IL-2's effect and states the saturation reading
-conditionally at L62. `Opus A3` L338, `Opus A5` L138, `Opus A6` L218, `Opus A8` L208 set it aside.
+Nothing in the panel's treatment of this record is a mode. Kept as a record of what was tested.
 
 ---
 
@@ -146,7 +135,7 @@ Thin, and QA calls it a small step outside the brief rather than an exploit. You
 
 ---
 
-## M6 — The shared-baseline spread pools arms that differ in donor population and added agent, then serves as an assay-noise yardstick
+## M6 — Zero-dose arms pooled into one variability estimate and read as assay noise
 
 **Class:** Analytical. **[transcript] + [computed]**
 
@@ -160,8 +149,16 @@ Each flow record states its donor material and its added agent in its own first 
 | FC-006 tnf_dose | Nondiabetic, n = 8 | **TNF**, titrated from 0 | 8.660 |
 | FC-004 dose_with_tnf | Nondiabetic, n = 3 | **TNF 20 ng/ml, all wells** | 10.290 |
 
-The 3.84-point figure is 10.902 − 7.064: a T1D arm against an arm inside the IL-2 titration record. Three
-runs call that one condition and use the spread as assay noise against the effect.
+**The mode is pooling four arms into one variability estimate and calling the result assay noise.** The
+golden refuses exactly this: "these are four different conditions, not one condition measured four times",
+and "Pooling the four into a single variability estimate would be the same cross-record move this analysis
+rejects elsewhere, so I do not make it." The arms differ in donor population, in added agent and in IL-2
+background, so the spread carries condition effects and is not an error bar the drug effect can be set
+against.
+
+Two separable points, and only the first carries the mode. First, the pooling. Second, and much smaller,
+the 3.84 figure takes a T1D arm as the same nominal condition as nondiabetic ones; dropping it gives
+3.558, so that is 0.28 points and immaterial to any conclusion. Do not lead on it.
 
 | Run | Where | What it says |
 |---|---|---|
@@ -184,13 +181,15 @@ companion document's prescribed test. That establishes the records do not share 
 point worth making. It does not support a 3.84-point noise estimate, and the wider figure is largely an
 IL-2 dose effect and a donor-population difference.
 
-**Why it is not defensible.** One metadata line per record states the difference, and these runs read those
-records. `Opus A7` lists "T1D vs nondiabetic" among the cross-study comparisons it sets aside, and still
-includes the T1D arm in the spread.
+**Why it is not defensible.** Each record states its donor material and added agent in its own first
+rows. Stating that baselines differ between records, and concluding that cross-record comparisons fail, is
+correct, and the golden does it. Converting that spread into a noise figure and setting the drug effect
+against it is the step the records do not support.
 
-**Note.** The 3.56-point version (FC-002 against FC-005 at 200 U/ml) is ambiguous rather than wrong,
-because whether FC-005's added IL-2 replaces or supplements the stated background is unresolved in the
-package. Runs that state the ambiguity — `Opus A5`, `Fable A4`, `Fable A6` — are fine on that point.
+**Limits to carry.** The 3.56-point pair is a legitimate two-record comparison; the golden makes the same
+one and gets 1.962 points at p = 0.0475 on the nondiabetic pair. Whether FC-005 at 200 U/ml is the same
+condition is genuinely unresolved, and `Fable A6` gives a reasoned answer for its reading. So do not say
+the figure is wrong. Say the spread is not noise.
 
 ---
 
