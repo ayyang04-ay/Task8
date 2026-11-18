@@ -38,3 +38,27 @@ Nothing needs redoing. Two things to pick up:
 2. Mode 3's second tier (Opus A1, A2, A7, A8, Fable A3 — caveated where used) was still your call.
 
 Both are in `fa/fa_outline.md`.
+
+## Relabelling was considered and rejected (2026-11-18)
+
+Asked whether the brief could present the asset as a small molecule, or as a small peptide, with the data
+essentially unchanged. It cannot. The modality is encoded in the measurements.
+
+The decisive figure, so this does not need re-deriving: the package's concentrations yield the stated
+nanomolar values only at about 147,000 g/mol. Back-solved from two independent cells, 152,632 and 147,059
+against the recorded 146,786. "Potency matches affinity", the strongest positive evidence in the package,
+requires the asset to weigh what an IgG weighs. At 500 g/mol the EC50 well reads 580 nM against a recorded
+KD of 1.2 nM; at a 30-mer, 88 nM; at a 100-mer, which is no longer small, still 26 nM.
+
+Also unreconcilable without rebuilding the records: the F(ab')2 fragment arm and the anti-rodent IgG
+cross-linker (FC-012A, FC-012B); anti-mouse and anti-rodent detection secondaries (CLIPS, ELISA
+counter-screen); protein A purification and the BALB/c hybridoma provenance in PDF section 1; a three-region
+contact footprint spanning residues 44 to 123; and the humanisation pillar, which is a grader A-item with no
+analogue in either alternative modality.
+
+A relabel would also plant, at the centre of the asset, the same defect this version was penalised for at
+its edges: records contradicting themselves, with runs that notice scoring worst.
+
+**Pause stands.** If a compliant version is wanted, the route is new data against the same pillar
+architecture. The five modes are modality-independent and already written, so they carry across as
+pre-registration.
